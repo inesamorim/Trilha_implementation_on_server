@@ -1,0 +1,4 @@
+[] game.html
+[] página inicial - Inês
+[] configurações.html - BOB
+[] regras.html - João
