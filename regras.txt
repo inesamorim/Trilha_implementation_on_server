@@ -1,0 +1,25 @@
+JOGO: TRILHA
+
+- 2 players
+- 3 quadrados concêntricos ligados entre si pelos cantos e meio
+- 9 peças por player
+- 8 casas por quadrado (as casinhas são circunferências)
+
+**Num tabuleiro com n quadrados, cada jogador tem 3 * n peças**
+
+Objetivo: remover peças do inimigo
+
+Regras:
+- para poder remover um peça inimiga, tens que ter uma linha horizontal ou vertical com três das tuas própias peças (moinho)
+- inicialmente, o tabuleiro está vazio
+- só podemos começar a mover peças após todas estarem colocadas (3*n turnos)
+- Uma peça só pode ser movida para uma casa contígua (ligadas por uma linha horizontal ou vertical)
+- depois de termos um moinho, podemos remover QUALQUER peça inimiga
+
+Exceção:
+- quando um jogador tem apenas 3 peças, esse jogador passa a poder jogar em qualquer casa livre, sem restrições
+
+Fim do jogo:
+- perde quem tiver 2 peças (ou n-1)
+- empate se não houver jogada possível
+- empate se ambos tiverem 3 peças e em 10 jogadas não houver vencedor
