@@ -349,3 +349,80 @@
     z-index: 1; /* Garante que as peças fiquem acima do tabuleiro */
     background-color: rgb(243, 5, 144);
   }
+
+
+
+
+/* Dani 
+
+  div.row::after{
+    content: "";
+    display: table;
+    clear: both;
+}
+*/
+
+
+/* Center the table horizontally */
+ body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+/* Container to allow absolute positioning */
+.container {
+    position: relative;
+    width: 100%; /* Full width of the window */
+    height: 100px; /* Set a height to avoid collapsing */
+}
+
+table {
+    width: 100%; /* Full width of the window */
+    border-collapse: collapse;
+}
+
+/* Left-side positioning for Grid size and P1 */
+.left-section {
+    position: absolute;
+    left: 9%; /* Attach to the left side */
+    width: 25%; /* Adjust this width if needed */
+    padding: 20px;
+}
+
+/* Center positioning for Start player and P2 */
+.center-section {
+    position: absolute;
+    left: 0; /* Attach around 50% */
+     /*transform: translateX(-100%); Center align */
+    width: 25%; /* Adjust the width */
+    padding: 20px;
+}
+
+label{
+    font-family: cursive;
+    /*font-size:1.8vw;*/
+    color: rgb(217, 237, 237);
+}
+
+td {
+    padding: 20px 10px; /* 20px 10px Vertical padding of 20px, horizontal padding of 10px */
+}
+
+select {
+    width: 100px;
+}
+
+hr {
+    margin-bottom: 20px; /* Add some space below the horizontal rule */
+}
+
+.canto {
+    position: fixed;
+    bottom: 5%;
+    right: 0;
+    width: 100px;
+    }
+
+option {
+    font-family: cursive;
+    color: rgb(230, 169, 179);
