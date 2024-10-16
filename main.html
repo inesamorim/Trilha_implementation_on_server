@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt">
     <head>
         <link rel="stylesheet" href="style.css">
         <title>
@@ -7,20 +7,95 @@
         </title>
     </head>
     <body>
+        <!-- Título -->
         <div class="column_title">
             <h1>
                 No Trilho da <em>Trilha</em>
             </h1>
         </div>
+        <!-- Botão de Login -->
         <div class="column_login">
-            <figure>
-                <img class="kurby" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.shoplightspeed.com%2Fshops%2F637034%2Ffiles%2F53133023%2Faranyani-sticker-aranyani-8cm-kirby-with-a-knife-m.jpg&f=1&nofb=1&ipt=895babf057bbd0ff9e75740968e4e7d0e0bd6b6766dcd9e99de4c43ac590b1f9&ipo=images" alt="duck">
-                <figcaption>
-                    Log-in 
-                </figcaption>
+            <figure class="kurby">
+                <img class="kurby" src="https://i.postimg.cc/B6rtKHGg/kirby-with-a-knife-meme-1185-340189513.png" alt="duck">
+                <figcaption class="kurby">Log-in</figcaption>
             </figure>
         </div>
-        <div class="row::after">
+
+        <div class="row">
         </div>
+
+        <div class="container">
+            <div class="board">
+                <!-- Quadrados concêntricos -->
+                <div class="square outer"></div>
+                <div class="square middle"></div>
+                <div class="square inner"></div>
+            
+                <!-- Linhas no meio -->
+                <div class="line horizontal"></div>
+                <div class="line vertical"></div>
+    
+                <!-- Linhas diagonais -->
+                <div class="line diagonal diagonal1"></div>
+                <div class="line diagonal diagonal2"></div>
+    
+                <!-- Pontos de interseção (locais onde as peças serão colocadas) -->
+                <div class="point top-left"></div>
+                <div class="point top-left-2"></div>
+                <div class="point top-left-3"></div>
+                <div class="point top-middle"></div>
+                <div class="point top-middle-2"></div>
+                <div class="point top-middle-3"></div>
+                <div class="point top-right"></div>
+                <div class="point top-right-2"></div>
+                <div class="point top-right-3"></div>
+                <div class="point middle-left"></div>
+                <div class="point middle-left-2"></div>
+                <div class="point middle-left-3"></div>
+                <div class="point center"></div>
+                <div class="point middle-right"></div>
+                <div class="point middle-right-2"></div>
+                <div class="point middle-right-3"></div>
+                <div class="point bottom-left"></div>
+                <div class="point bottom-left-2"></div>
+                <div class="point bottom-left-3"></div>
+                <div class="point bottom-middle"></div>
+                <div class="point bottom-middle-2"></div>
+                <div class="point bottom-middle-3"></div>
+                <div class="point bottom-right"></div>
+                <div class="point bottom-right-2"></div>
+                <div class="point bottom-right-3"></div>
+                
+            </div>
+            <!-- Peças do Jogador 1 (superior esquerdo) -->
+            <div class="pieces player1">
+                <h3>Jogador 1</h3>
+                <div class="piece_player1"></div>
+                <div class="piece_player1"></div>
+                <div class="piece_player1"></div>
+                <div class="piece_player1"></div>
+                <div class="piece_player1"></div>
+                <div class="piece_player1"></div>
+                <div class="piece_player1"></div>
+                <div class="piece_player1"></div>
+                <div class="piece_player1"></div>
+            </div>
+
+            <!-- Peças do Jogador 2 (inferior direito) -->
+            <div class="pieces player2">
+                <h3>Jogador 2</h3>
+                <div class="piece_player2"></div>
+                <div class="piece_player2"></div>
+                <div class="piece_player2"></div>
+                <div class="piece_player2"></div>
+                <div class="piece_player2"></div>
+                <div class="piece_player2"></div>
+                <div class="piece_player2"></div>
+                <div class="piece_player2"></div>
+                <div class="piece_player2"></div>
+            </div>
+        </div>
+        
+
     </body>
 </html>
