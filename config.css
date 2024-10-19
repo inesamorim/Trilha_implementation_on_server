@@ -1,0 +1,131 @@
+/* Dani 
+
+  div.row::after{
+    content: "";
+    display: table;
+    clear: both;
+}
+*/
+
+
+/* Center the table horizontally */
+body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+/* Container to allow absolute positioning */
+.container {
+    position: relative;
+    width: 100%; /* Full width of the window */
+    height: 100px; /* Set a height to avoid collapsing */
+}
+
+table {
+    width: 100%; /* Full width of the window */
+    border-collapse: collapse;
+}
+
+/* Left-side positioning for Grid size and P1 */
+.left-section {
+    position: absolute;
+    left: 9%; /* Attach to the left side */
+    width: 25%; /* Adjust this width if needed */
+    padding: 20px;
+}
+
+/* Center positioning for Start player and P2 */
+.center-section {
+    position: absolute;
+    left: 0; /* Attach around 50% */
+     /*transform: translateX(-100%); Center align */
+    width: 25%; /* Adjust the width */
+    padding: 20px;
+}
+
+label{
+    font-family: cursive;
+    font-size:1.8vw;/**/
+    color: rgb(217, 237, 237);
+}
+
+td {
+    padding: 20px 10px; /* 20px 10px Vertical padding of 20px, horizontal padding of 10px */
+}
+
+hr {
+    margin-bottom: 20px; /* Add some space below the horizontal rule */
+}
+
+.canto {
+    position: fixed;
+    bottom: 5%;
+    right: 0;
+    width: 100px;
+    }
+
+option {
+    font-family: cursive;
+    font-size:1.5vw;/**/
+    color: rgb(230, 169, 179);
+}
+
+
+/* -------------------------------------------------------- */
+
+/* Style the select box */
+select {
+    width: 200px; /* Adjust width */
+    padding: 10px; /* Add some padding */
+    border: 2px solid rgb(255, 192, 203); /* Add border and color */
+    border-radius: 10px; /* Make the edges rounded */
+    background-color: #f1f1f1; /* Light background color */
+    font-family: Arial, sans-serif; /* Customize font */
+    font-size: 16px; /* Adjust font size */
+    color: #333; /* Change text color */
+    cursor: pointer; /* Add pointer cursor */
+    appearance: none; /* Remove default arrow for styling */
+}
+
+/* For certain browsers, remove the scrollbar */
+select::-ms-expand {
+    display: none; /* Remove dropdown arrow in Internet Explorer/Edge */
+}
+
+select {
+    /* Forcing browsers to remove the scrollbar */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Style the dropdown arrow 
+select::after {
+    content: '▼'; 
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+*/
+
+
+/* Change background and border on hover */
+select:hover {
+    background-color: #e2e6ea; /* Slight hover effect */
+    border-color: #df848c;
+}
+
+/* Change background and border on focus */
+select:focus {
+    outline: none;
+    border-color: #8fdef7;
+    box-shadow: 0 0 5px rgba(120, 219, 228, 0.84); /* Add shadow on focus */
+}
+
+/* Make sure the select options have proper padding */
+option {
+    padding: 10px;
+    background-color: #fff;
+}
