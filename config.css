@@ -23,25 +23,42 @@ body {
 
 table {
     width: 100%; /* Full width of the window */
+    margin-left: -5%;
+    margin-right: 15%;
+    margin-bottom: 39px;
     border-collapse: collapse;
+    align-self: center;
+    
+
+    /* Left-side positioning for Grid size and P1
+    9% Attach to the left side
+    / Adjust this width if needed /
+    .left-section {
+        position: absolute;
+        left: 15%;   
+        width: 25%; 
+        padding: 20px;
+    }
+    */
+    
+
+    /*
+    .center-section {
+        position: absolute;
+        right: 50%; / Attach around 50% /
+        /transform: translateX(-100%); Center align /
+        width: 25%; / Adjust the width /
+        padding: 20px;
+    }
+    */
+    
+
+    /* Center positioning for Start player and P2 */
+    
+
 }
 
-/* Left-side positioning for Grid size and P1 */
-.left-section {
-    position: absolute;
-    left: 9%; /* 9% Attach to the left side */
-    width: 25%; /* Adjust this width if needed */
-    padding: 20px;
-}
 
-/* Center positioning for Start player and P2 */
-.center-section {
-    position: absolute;
-    left: 0; /* Attach around 50% */
-     /*transform: translateX(-100%); Center align */
-    width: 25%; /* Adjust the width */
-    padding: 20px;
-}
 
 label{
     font-family: cursive;
@@ -51,6 +68,7 @@ label{
 
 td {
     padding: 20px 10px; /* 20px 10px Vertical padding of 20px, horizontal padding of 10px */
+    text-align: center;/**/
 }
 
 hr {
@@ -89,6 +107,7 @@ select {
     appearance: none; /* Remove default arrow for styling */
     overflow: hidden; /*the only one that does something*/
     text-shadow: 0 1px 0 rgba(150, 77, 117, 0.84) /*makes it look 3D */
+    
 }
 
 
@@ -114,6 +133,13 @@ select {
     -moz-appearance: none;
     appearance: none; 
 }
+    
+@media (max-with: 52em) {
+    h1 {
+        width: 50em;
+        height: 25em;
+    }
+}
 */
 
 
@@ -135,11 +161,14 @@ select:focus {
 option {
     padding: 10px;
     background-color: #f1f1f1;
+    text-align: center;
 }
 
 option:active {
     background-color: #e2e6ea;
 }
+
+
 
 option:checked {
     color: #8352e4;
@@ -147,11 +176,22 @@ option:checked {
 
 
 
+/*######################################COPIADO###############################*/
 
-
-@media (max-with: 52em) {
-    h1 {
-        width: 50em;
-        height: 25em;
-    }
+button{
+    background-color: rgb(153, 30, 81);
+    border-radius: 16px;
+    border-width: 4px 4px 4px;
+    border-color: rgb(153, 30, 81);
+    color: #FFFFFF;
+    cursor: pointer;
+    padding: 13px 16px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 20px;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 10px;
 }
+
