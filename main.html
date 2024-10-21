@@ -125,11 +125,30 @@
         <div class="buttons">
             <button class="menu">Jogar</button>
             <button class="menu">Configurações</button>
-            <button class="menu">Classificações</button>
+            <button id="rankingBtn" class="menu">Classificações</button>
             <button class="menu">Regras</button>
         </div>
+
+        <!-- Tabela Classificativa -->
+         <div id="ranking_page" class="modal">
+            <span class="close_ranking">&times;</span>
+            <h2 class="ranking_title">Tabela Classificativa</h2>
+            <div class="center">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Posição</th>
+                            <th>Jogador</th>
+                            <th>Pontuação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ranking_table">
+                    </tbody>
+                </table>
+            </div>
+         </div>
         
         <script src="game.js"></script>
-        <script src="login-box.js"></script>
+        <script src="scripts/mudar_menu.js"></script>
     </body>
 </html>

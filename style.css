@@ -398,27 +398,28 @@
   float: left;
   display: flex; /* Habilita o flexbox para o player1 */
   flex-wrap: wrap; /* Permite que as peças se movam para uma nova linha quando necessário */
-  width: 150px;
+  width: 20%;
   max-width: 500px;
   position: absolute; /* Permite o posicionamento das peças em relação ao tabuleiro */
   margin-top: 25px;
-  left: 10%; /* Ajusta para a parte esquerda */
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-  color: rgb(153, 30, 81);
-  font-size: large;
+  left: 9%; /* Ajusta para a parte esquerda */
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #a856af;
+  font-size: 20px;
 }
 
 .player2 {
   float: right;
   display: flex; /*Habilita o flexbox para o player2 */
   flex-wrap: wrap; /*Permite que as peças se movam para uma nova linha quando necessário */
-  width: 150px; 
+  width: 20%; 
   position: absolute; /* Permite o posicionamento das peças em relação ao tabuleiro */
-  margin-top: 325px;
-  right: 8%; /* Ajusta para a parte direita */
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-  color: rgb(243, 5, 144);
-  font-size: large;
+  margin-top: 330px;
+  right: 5%; /* Ajusta para a parte direita */
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #6e9887;
+  font-size: 20px;
+  justify-content: left;
 }
 
 .piece_player1 {
@@ -429,7 +430,7 @@
   margin: 5px; /* Espaço entre as peças */
   border-radius: 50%; /* Torna as peças circulares */
   z-index: 1; /* Garante que as peças fiquem acima do tabuleiro */
-  background-color: rgb(153, 30, 81);
+  background-color: #a856af;
 }
 
 .piece_player2 {
@@ -440,13 +441,13 @@
   margin: 5px; /* Espaço entre as peças */
   border-radius: 50%; /* Torna as peças circulares */
   z-index: 1; /* Garante que as peças fiquem acima do tabuleiro */
-  background-color: rgb(243, 5, 144);
+  background-color: #6e9887;
 }
 
-/*----------------------------------------------------------------------------------------*/
+/*---------------------------------- Menu ------------------------------------------------------*/
 
 button.menu{
-  
+  position: relative;
   background-color: rgb(153, 30, 81);
   border-radius: 16px;
   border-width: 4px 4px 4px;
@@ -459,13 +460,85 @@ button.menu{
   letter-spacing: 1px;
   line-height: 20px;
   width: 450px;
-  margin-left: 35%;
-  margin-right: 30%;
   margin-top: 10px;
+  left: 20px;
 }
 
-.buttons {
-  margin-left: 40;
+div.buttons {
+  top: 10px;
+  border-bottom: 20px;
+  position: relative;
+  width: 500px; /* Ajuste a largura do contêiner conforme necessário */
+  height: 500px; /* Altura do contêiner */
+  margin: 0 auto; /* Centraliza o contêiner horizontalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center;     /* Centraliza verticalmente */
+  background:none;
+  stroke: transparent;
 }
 
+/*---------------------------- Tabela Classificativa -------------------------*/
+.ranking_title {
+  text-align: center;
+  color: lightcyan;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 50px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.modal-content {
+  background-color: pink;
+  color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid pink;
+  width: 50%;
+  border-radius: 8px;
+}
+
+.close_ranking {
+  color: pink;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: pink;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.center {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+table {
+  border-collapse: collapse;
+  width: 35%;
+}
+
+table th, table td {
+  color: lightcyan;
+  font-size: 30px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid pink;
+  justify-content: center;
+}
 
