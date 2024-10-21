@@ -3,7 +3,7 @@
       text-align:center;
       color: white;
       font-family:cursive;
-      font-size: 90px; /* 4 em*/
+      font-size: 6vw; /* 4 em*/
       padding-left: 10%;
   }
 
@@ -16,10 +16,13 @@
       width: 100px;
       margin-left: 20px;
       margin-top: 35px;
+      cursor: pointer;
   }
   figcaption.kurby {
       text-align: center;
       margin-top: 5px;
+      margin-right: 20px;
+      font-size: large ;
       font-family: Arial, Helvetica, sans-serif;
       color: white;
   } 
@@ -30,6 +33,7 @@
   div.column_title {
       float: left;
       width: 90%;
+      height: 150px;
       position: relative;
       margin: 0;
   }
@@ -60,6 +64,8 @@
   }
 
   .box_content {
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(153, 30, 81);
     background-color: white;
     margin: 15% auto;
     padding: 20px;
@@ -90,7 +96,7 @@
   }
 
   form button {
-    background-color: lightblue;
+    background-color: pink;
     color: white;
     padding: 10px;
     border: none;
@@ -100,7 +106,7 @@
   }
 
   form button:hover {
-    background-color: lightseagreen;
+    background-color: rgb(153, 30, 81);
   }
   /*-----------------------------Board--------------------------------------*/
 
@@ -108,11 +114,11 @@
     display: flex;
     justify-content: center;
     align-items: flex-start; /* Alinha o tabuleiro e as peças no topo */
-    margin: 20px; /* Espaçamento em volta do container */
+    margin: 50px; /* Espaçamento em volta do container */
   }
 
   div.board {
-    top: 50px;
+    top: 30px;
     border-bottom: 20px;
     position: relative;
     width: 500px; /* Ajuste a largura do contêiner conforme necessário */
@@ -161,20 +167,36 @@
   }
 
   /* Linha horizontal no meio */
-  .line.horizontal {
+  .line.horizontal_left {
     top: 50%;
     left: 25px;
-    width: 450px;
+    width: 30%;
+    height: 4px;
+    transform: translateY(-50%);
+  }
+
+  .line.horizontal_right {
+    top: 50%;
+    right: 25px;
+    width: 30%;
     height: 4px;
     transform: translateY(-50%);
   }
 
   /* Linha vertical no meio */
-  .line.vertical {
+  .line.vertical_up {
     left: 50%;
     top: 25px;
     width: 4px;
-    height: 450px;
+    height: 30%;
+    transform: translateX(-50%);
+  }
+
+  .line.vertical_down {
+    left: 50%;
+    bottom: 25px;
+    width: 4px;
+    height: 30%;
     transform: translateX(-50%);
   }
 
@@ -363,48 +385,63 @@
   /*--------------------------Peças------------------------------*/
 
   /* Estilos para as peças */
-  .pieces {
-    position: relative; /* Para que as peças sejam posicionadas de acordo com seu contêiner */
-  }
+.pieces {
+  display: flex; /* Habilita o flexbox para o contêiner */
+  flex-wrap: wrap; /* Permite que as peças se movam para uma nova linha quando necessário */
+  max-width: 100%; /* Limita a largura do contêiner se necessário */
+  position: relative; /* Para que as peças sejam posicionadas de acordo com seu contêiner */
+  height: 100px;
+  margin-top: 10px;
+}
 
-  .player1 {
-    position: absolute; /* Permite o posicionamento das peças em relação ao tabuleiro */
-    top: 300px; /* Ajusta para a parte superior */
-    left: 100px; /* Ajusta para a parte esquerda */
-    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-    color: rgb(153, 30, 81);
-    font-size: large;
-  }
+.player1 {
+  float: left;
+  display: flex; /* Habilita o flexbox para o player1 */
+  flex-wrap: wrap; /* Permite que as peças se movam para uma nova linha quando necessário */
+  width: 150px;
+  max-width: 500px;
+  position: absolute; /* Permite o posicionamento das peças em relação ao tabuleiro */
+  margin-top: 25px;
+  left: 10%; /* Ajusta para a parte esquerda */
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  color: rgb(153, 30, 81);
+  font-size: large;
+}
 
-  .player2 {
-    position: absolute; /* Permite o posicionamento das peças em relação ao tabuleiro */
-    bottom: 50px; /* Ajusta para a parte inferior */
-    right: 100px; /* Ajusta para a parte direita */
-    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-    color: rgb(243, 5, 144);
-    font-size: large;
-  }
+.player2 {
+  float: right;
+  display: flex; /*Habilita o flexbox para o player2 */
+  flex-wrap: wrap; /*Permite que as peças se movam para uma nova linha quando necessário */
+  width: 150px; 
+  position: absolute; /* Permite o posicionamento das peças em relação ao tabuleiro */
+  margin-top: 325px;
+  right: 8%; /* Ajusta para a parte direita */
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  color: rgb(243, 5, 144);
+  font-size: large;
+}
 
-  .piece_player1 {
-    width: 30px; /* Tamanho da peça */
-    height: 30px; /* Tamanho da peça */
-    margin: 5px; /* Espaço entre as peças */
-    border-radius: 50%; /* Torna as peças circulares */
-    display: inline-block; /* Para que as peças fiquem lado a lado */
-    z-index: 1; /* Garante que as peças fiquem acima do tabuleiro */
-    background-color: rgb(153, 30, 81);
-    
-  }
+.piece_player1 {
+  display: flex;
+  flex-wrap: wrap;
+  width: 30px; /* Tamanho da peça */
+  height: 30px; /* Tamanho da peça */
+  margin: 5px; /* Espaço entre as peças */
+  border-radius: 50%; /* Torna as peças circulares */
+  z-index: 1; /* Garante que as peças fiquem acima do tabuleiro */
+  background-color: rgb(153, 30, 81);
+}
 
-  .piece_player2 {
-    width: 30px; /* Tamanho da peça */
-    height: 30px; /* Tamanho da peça */
-    margin: 5px; /* Espaço entre as peças */
-    border-radius: 50%; /* Torna as peças circulares */
-    display: inline-block; /* Para que as peças fiquem lado a lado */
-    z-index: 1; /* Garante que as peças fiquem acima do tabuleiro */
-    background-color: rgb(243, 5, 144);
-  }
+.piece_player2 {
+  display: flex;
+  flex-wrap: wrap;
+  width: 30px; /* Tamanho da peça */
+  height: 30px; /* Tamanho da peça */
+  margin: 5px; /* Espaço entre as peças */
+  border-radius: 50%; /* Torna as peças circulares */
+  z-index: 1; /* Garante que as peças fiquem acima do tabuleiro */
+  background-color: rgb(243, 5, 144);
+}
 
 
 

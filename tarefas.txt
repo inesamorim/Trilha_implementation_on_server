@@ -1,4 +1,9 @@
-[] game.html
-[] página inicial - Inês
-[] configurações.html - BOB
-[] regras.html - João
+[x] página inicial - Inês
+[x] configurações.html - BOB
+[x] regras.html - João
+
+[] comandos
+[] tabuleiro - modos
+[] classificações
+[] mensagens
+[] AI
