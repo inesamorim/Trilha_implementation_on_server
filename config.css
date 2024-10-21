@@ -29,7 +29,7 @@ table {
 /* Left-side positioning for Grid size and P1 */
 .left-section {
     position: absolute;
-    left: 9%; /* Attach to the left side */
+    left: 9%; /* 9% Attach to the left side */
     width: 25%; /* Adjust this width if needed */
     padding: 20px;
 }
@@ -45,7 +45,7 @@ table {
 
 label{
     font-family: cursive;
-    font-size:1.8vw;/**/
+    font-size:2.1vmax;/**/
     color: rgb(217, 237, 237);
 }
 
@@ -64,40 +64,35 @@ hr {
     width: 100px;
     }
 
+
+/*
 option {
     font-family: cursive;
-    font-size:1.5vw;/**/
+    font-size:1.7vmax;
     color: rgb(230, 169, 179);
 }
-
+*/
 
 /* -------------------------------------------------------- */
 
 /* Style the select box */
 select {
-    width: 200px; /* Adjust width */
+    width: 19vw;/*  200px Adjust width */
     padding: 10px; /* Add some padding */
     border: 2px solid rgb(255, 192, 203); /* Add border and color */
     border-radius: 10px; /* Make the edges rounded */
     background-color: #f1f1f1; /* Light background color */
-    font-family: Arial, sans-serif; /* Customize font */
-    font-size: 16px; /* Adjust font size */
-    color: #333; /* Change text color */
+    font-family: cursive; /*Arial, sans-serif Customize font */
+    font-size: 1.7vmax; /* 16px Adjust font size */
+    color: rgb(230, 169, 179); /*  Change text color */
     cursor: pointer; /* Add pointer cursor */
     appearance: none; /* Remove default arrow for styling */
+    overflow: hidden; /*the only one that does something*/
+    text-shadow: 0 1px 0 rgba(150, 77, 117, 0.84) /*makes it look 3D */
 }
 
-/* For certain browsers, remove the scrollbar */
-select::-ms-expand {
-    display: none; /* Remove dropdown arrow in Internet Explorer/Edge */
-}
 
-select {
-    /* Forcing browsers to remove the scrollbar */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-}
+
 
 /* Style the dropdown arrow 
 select::after {
@@ -108,13 +103,24 @@ select::after {
     transform: translateY(-50%);
     pointer-events: none;
 }
+
+For certain browsers, remove the scrollbar 
+select::-ms-expand {
+    display: none; 
+}
+select {
+    Forcing browsers to remove the scrollbar 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none; 
+}
 */
 
 
 /* Change background and border on hover */
 select:hover {
     background-color: #e2e6ea; /* Slight hover effect */
-    border-color: #df848c;
+    border-color: #df848c; 
 }
 
 /* Change background and border on focus */
@@ -125,7 +131,27 @@ select:focus {
 }
 
 /* Make sure the select options have proper padding */
+/**/
 option {
     padding: 10px;
-    background-color: #fff;
+    background-color: #f1f1f1;
+}
+
+option:active {
+    background-color: #e2e6ea;
+}
+
+option:checked {
+    color: #8352e4;
+}
+
+
+
+
+
+@media (max-with: 52em) {
+    h1 {
+        width: 50em;
+        height: 25em;
+    }
 }
