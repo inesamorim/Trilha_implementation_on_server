@@ -13,12 +13,31 @@
                 No Trilho da <em>Trilha</em>
             </h1>
         </div>
+
         <!-- Botão de Login -->
         <div class="column_login">
             <figure class="kurby">
-                <img class="kurby" src="https://i.postimg.cc/B6rtKHGg/kirby-with-a-knife-meme-1185-340189513.png" alt="duck">
+                <img class="kurby" id="loginButton" src="https://i.postimg.cc/B6rtKHGg/kirby-with-a-knife-meme-1185-340189513.png" alt="duck">
                 <figcaption class="kurby">Log-in</figcaption>
             </figure>
+        </div>
+
+        <!-- Caixa de Login -->
+        <div id="login" class="login_box">
+            <div class="box_content">
+                <!-- Botão para fechar a caixa -->
+                <span class="close">&times;</span>
+                <h2>Login</h2>
+                <form>
+                    <label for="username">Username: </label>
+                    <input type="text" id="username" name="username" required>
+                    <br><br>
+                    <label for="password">Password: </label>
+                    <input type="password" id="password" name="password" required>
+                    <br><br>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
         </div>
 
         <div class="row">
@@ -96,6 +115,7 @@
             </div>
         </div>
         
-
+        <script src="game.js"></script>
+        <script src="login-box.js"></script>
     </body>
 </html>
