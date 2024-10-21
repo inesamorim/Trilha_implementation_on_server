@@ -1,5 +1,5 @@
 
-  h1 {
+  h1.trilha {
       text-align:center;
       color: white;
       font-family:cursive;
@@ -9,6 +9,7 @@
 
   body {
       background-color: pink;
+      background-image: url(https://images6.alphacoders.com/115/1153825.jpg);
   }
 
 /*-----------------------------Login and title--------------------------------------*/
@@ -75,6 +76,7 @@
   }
 
   .close {
+    cursor: pointer;
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -96,7 +98,7 @@
   }
 
   form button {
-    background-color: pink;
+    background-color: rgb(153, 30, 81);
     color: white;
     padding: 10px;
     border: none;
@@ -106,7 +108,7 @@
   }
 
   form button:hover {
-    background-color: rgb(153, 30, 81);
+    background-color: pink;
   }
   /*-----------------------------Board--------------------------------------*/
 
@@ -417,7 +419,7 @@
   margin-top: 330px;
   right: 5%; /* Ajusta para a parte direita */
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  color: #6e9887;
+  color: rgba(83, 22, 153);
   font-size: 20px;
   justify-content: left;
 }
@@ -441,7 +443,7 @@
   margin: 5px; /* Espaço entre as peças */
   border-radius: 50%; /* Torna as peças circulares */
   z-index: 1; /* Garante que as peças fiquem acima do tabuleiro */
-  background-color: #6e9887;
+  background-color: rgb(83, 22, 153);
 }
 
 /*---------------------------------- Menu ------------------------------------------------------*/
@@ -513,8 +515,8 @@ div.buttons {
   font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.close_ranking:hover,
+.close_ranking:focus {
   color: pink;
   text-decoration: none;
   cursor: pointer;
