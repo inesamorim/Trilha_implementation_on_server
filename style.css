@@ -1,8 +1,9 @@
+
   h1 {
       text-align:center;
       color: white;
       font-family:cursive;
-      font-size:90px;
+      font-size: 90px; /* 4 em*/
       padding-left: 10%;
   }
 
@@ -404,3 +405,7 @@
     z-index: 1; /* Garante que as peças fiquem acima do tabuleiro */
     background-color: rgb(243, 5, 144);
   }
+
+
+
+

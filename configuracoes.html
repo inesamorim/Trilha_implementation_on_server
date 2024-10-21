@@ -4,48 +4,66 @@
     <head>
         <title> TRILHO </title>
         <link rel = "stylesheet" href = "style.css">
+        <link rel = "stylesheet" href = "config.css">
     </head>
     <body>
         <h1 style="text-align: left;">CONFIGURAÇÕES</h1>
 
+
+        <!-- #############################################  -->
         <hr>
-        <ol>
-            <ul>
-                <li>
-                    grid size(number of squares) 
-                </li>
-                <select size=3 name="size">
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-
-                <li>start player</li>
-                <select size = 3 name="size">
-                    <option>P1</option>
-                    <option>P2</option>
-                    <option>random</option>
-                </select>
-
-                <li>P1</li>
-                <select size = 3 name="size">
-                    <option>player</option>
-                    <option>random</option>
-                    <option>AI</option>
-                </select>
-
-                <li>P2</li>
-                <select size = 3 name="size">
-                    <option>player</option>
-                    <option>random</option>
-                    <option>AI</option>
-                </select>   
-            </ul>
-        </ol>
-
+        <table>
+            <tr>
+                <td>
+                    <label for="size">Grid size (number of squares)</label>
+                    <br>
+                    
+                    <select size="3" name="size">
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </td>
+                <td>
+                    <label for="start">Start player</label>
+                    <br>
+                    <select size="3" name="start">
+                        <option>P1</option>
+                        <option>P2</option>
+                        <option>random</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="p1">P1</label>
+                    <br>
+                    <select size="3" name="p1">
+                        <option>player</option>
+                        <option>random</option>
+                        <option>AI</option>
+                    </select>
+                </td>
+                <td>
+                    <label for="p2">P2</label>
+                    <br>
+                    <select size="3" name="p2">
+                        <option>player</option>
+                        <option>random</option>
+                        <option>AI</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        
+        
+        <!-- #############################################  -->
+        <!--
+        -->
+        
         
          <a href = "main.html">
-         <li>BACK</li>   
+         <li class="canto">BACK</li>   
          </a>
 
     </body>
