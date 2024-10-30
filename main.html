@@ -7,127 +7,131 @@
         </title>
     </head>
     <body>
-        <!-- Título -->
-        <div class="column_title">
-            <h1 class="trilha">
-                No Trilho da <em>Trilha</em>
-            </h1>
-        </div>
-
-        <!-- Botão de Login -->
-        <div class="column_login">
-            <figure class="kurby">
-                <img class="kurby" id="loginButton" src="https://i.postimg.cc/B6rtKHGg/kirby-with-a-knife-meme-1185-340189513.png" alt="duck">
-                <figcaption class="kurby">Log-in</figcaption>
-            </figure>
-        </div>
-
-        <!-- Caixa de Login -->
-        <div id="login" class="login_box">
-            <div class="box_content">
-                <!-- Botão para fechar a caixa -->
-                <span class="close">&times;</span>
-                <h2>Login</h2>
-                <form>
-                    <label for="username">Username: </label>
-                    <input type="text" id="username" name="username" required>
-                    <br><br>
-                    <label for="password">Password: </label>
-                    <input type="password" id="password" name="password" required>
-                    <br><br>
-                    <button type="submit">Login</button>
-                </form>
+        <div id="inicial">
+                <!-- Título -->
+            <div class="column_title">
+                <h1 class="trilha">
+                    No Trilho da <em>Trilha</em>
+                </h1>
             </div>
-        </div>
 
-        <div class="row">
-        </div>
-
-        <div class="container">
-            <div class="board">
-                <!-- Quadrados concêntricos -->
-                <div class="square outer"></div>
-                <div class="square middle"></div>
-                <div class="square inner"></div>
-            
-                <!-- Linhas no meio -->
-                <div class="line horizontal_left"></div>
-                <div class="line horizontal_right"></div>
-                <div class="line vertical_up"></div>
-                <div class="line vertical_down"></div>
-    
-                <!-- Linhas diagonais -->
-                <!--<div class="line diagonal diagonal1"></div>
-                <div class="line diagonal diagonal2"></div>-->
-    
-                <!-- Pontos de interseção (locais onde as peças serão colocadas) -->
-                <div class="point top-left"></div>
-                <div class="point top-left-2"></div>
-                <div class="point top-left-3"></div>
-                <div class="point top-middle"></div>
-                <div class="point top-middle-2"></div>
-                <div class="point top-middle-3"></div>
-                <div class="point top-right"></div>
-                <div class="point top-right-2"></div>
-                <div class="point top-right-3"></div>
-                <div class="point middle-left"></div>
-                <div class="point middle-left-2"></div>
-                <div class="point middle-left-3"></div>
-                <div class="point middle-right"></div>
-                <div class="point middle-right-2"></div>
-                <div class="point middle-right-3"></div>
-                <div class="point bottom-left"></div>
-                <div class="point bottom-left-2"></div>
-                <div class="point bottom-left-3"></div>
-                <div class="point bottom-middle"></div>
-                <div class="point bottom-middle-2"></div>
-                <div class="point bottom-middle-3"></div>
-                <div class="point bottom-right"></div>
-                <div class="point bottom-right-2"></div>
-                <div class="point bottom-right-3"></div>
-                
+            <!-- Botão de Login -->
+            <div class="column_login">
+                <figure class="kurby">
+                    <img class="kurby" id="loginButton" src="https://i.postimg.cc/B6rtKHGg/kirby-with-a-knife-meme-1185-340189513.png" alt="duck">
+                    <figcaption class="kurby">Log-in</figcaption>
+                </figure>
             </div>
-            <!-- Peças do Jogador 1 (superior esquerdo) -->
-            <div class="player1">
-                <h3>Jogador 1</h3>
-                <div class="pieces">
-                    <div class="piece_player1"></div>
-                    <div class="piece_player1"></div>
-                    <div class="piece_player1"></div>
-                    <div class="piece_player1"></div>
-                    <div class="piece_player1"></div>
-                    <div class="piece_player1"></div>
-                    <div class="piece_player1"></div>
-                    <div class="piece_player1"></div>
-                    <div class="piece_player1"></div>
+
+            <!-- Caixa de Login -->
+            <div id="login" class="login_box">
+                <div class="box_content">
+                    <!-- Botão para fechar a caixa -->
+                    <span class="close">&times;</span>
+                    <h2>Login</h2>
+                    <form>
+                        <label for="username">Username: </label>
+                        <input type="text" id="username" name="username" required>
+                        <br><br>
+                        <label for="password">Password: </label>
+                        <input type="password" id="password" name="password" required>
+                        <br><br>
+                        <button type="submit">Login</button>
+                    </form>
                 </div>
-                
             </div>
 
-            <!-- Peças do Jogador 2 (inferior direito) -->
-            <div class="player2">
-                <h3>Jogador 2</h3>
-                <div class="pieces">
-                    <div class="piece_player2"></div>
-                    <div class="piece_player2"></div>
-                    <div class="piece_player2"></div>
-                    <div class="piece_player2"></div>
-                    <div class="piece_player2"></div>
-                    <div class="piece_player2"></div>
-                    <div class="piece_player2"></div>
-                    <div class="piece_player2"></div>
-                    <div class="piece_player2"></div>
+            <div class="row">
+            </div>
+
+            <!-- Tabuleiro -->
+            <div class="container">
+                <div class="board">
+                    <!-- Quadrados concêntricos -->
+                    <div class="square outer"></div>
+                    <div class="square middle"></div>
+                    <div class="square inner"></div>
+                
+                    <!-- Linhas no meio -->
+                    <div class="line horizontal_left"></div>
+                    <div class="line horizontal_right"></div>
+                    <div class="line vertical_up"></div>
+                    <div class="line vertical_down"></div>
+        
+                    <!-- Linhas diagonais -->
+                    <!--<div class="line diagonal diagonal1"></div>
+                    <div class="line diagonal diagonal2"></div>-->
+        
+                    <!-- Pontos de interseção (locais onde as peças serão colocadas) -->
+                    <div class="point top-left"></div>
+                    <div class="point top-left-2"></div>
+                    <div class="point top-left-3"></div>
+                    <div class="point top-middle"></div>
+                    <div class="point top-middle-2"></div>
+                    <div class="point top-middle-3"></div>
+                    <div class="point top-right"></div>
+                    <div class="point top-right-2"></div>
+                    <div class="point top-right-3"></div>
+                    <div class="point middle-left"></div>
+                    <div class="point middle-left-2"></div>
+                    <div class="point middle-left-3"></div>
+                    <div class="point middle-right"></div>
+                    <div class="point middle-right-2"></div>
+                    <div class="point middle-right-3"></div>
+                    <div class="point bottom-left"></div>
+                    <div class="point bottom-left-2"></div>
+                    <div class="point bottom-left-3"></div>
+                    <div class="point bottom-middle"></div>
+                    <div class="point bottom-middle-2"></div>
+                    <div class="point bottom-middle-3"></div>
+                    <div class="point bottom-right"></div>
+                    <div class="point bottom-right-2"></div>
+                    <div class="point bottom-right-3"></div>
+                    
                 </div>
-                
+                <!-- Peças do Jogador 1 (superior esquerdo) -->
+                <div class="player1">
+                    <h3>Jogador 1</h3>
+                    <div class="pieces">
+                        <div class="piece_player1"></div>
+                        <div class="piece_player1"></div>
+                        <div class="piece_player1"></div>
+                        <div class="piece_player1"></div>
+                        <div class="piece_player1"></div>
+                        <div class="piece_player1"></div>
+                        <div class="piece_player1"></div>
+                        <div class="piece_player1"></div>
+                        <div class="piece_player1"></div>
+                    </div>
+                    
+                </div>
+
+                <!-- Peças do Jogador 2 (inferior direito) -->
+                <div class="player2">
+                    <h3>Jogador 2</h3>
+                    <div class="pieces">
+                        <div class="piece_player2"></div>
+                        <div class="piece_player2"></div>
+                        <div class="piece_player2"></div>
+                        <div class="piece_player2"></div>
+                        <div class="piece_player2"></div>
+                        <div class="piece_player2"></div>
+                        <div class="piece_player2"></div>
+                        <div class="piece_player2"></div>
+                        <div class="piece_player2"></div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button class="menu">Jogar</button>
+                <button id="configBtn" class="menu">Configurações</button>
+                <button id="rankingBtn" class="menu">Classificações</button>
+                <button id="regrasBtn" class="menu">Regras</button>
             </div>
         </div>
-
-        <div class="buttons">
-            <button class="menu">Jogar</button>
-            <button class="menu">Configurações</button>
-            <button id="rankingBtn" class="menu">Classificações</button>
-            <button class="menu">Regras</button>
-        </div>
+        
 
         <!-- Tabela Classificativa -->
          <div id="ranking_page" class="modal">
@@ -147,6 +151,146 @@
                 </table>
             </div>
          </div>
+
+         <!-- Regras -->
+         <div class="regras" id="regras">
+            <header>
+                <h1 class="titulo">Regras e Informações</h1>
+            </header>
+            <div class="content">
+                <div class="regras_esq">
+                    <h2>Básico</h2>
+                    <p>A trilha é um jogo de tabuleiro para dois jogadores</p>
+                    <p>O tabuleiro é composto por quadrados, o número de quadrados pode variar, cada quadrado tem sempre 8 casas</p>
+                    <p>O número de peças que cada jogador começa varia consoante o número de quadrados: (3 x número de quadrados) é o total de peças para cada jogador</p>
+    
+                    <h2>Objetivo</h2>
+                    <p>O objetivo é fazer 'moinhos' que consiste numa sequência de 3 peças da mesma cor na vertial ou horizontal</p>
+                    <p>Ao fazer um 'moinho' podemos eliminar uma peça do adversário e quando ele tiver menos peças do que quadrados no tabuleiro ganhamos</p>
+                    
+                    <h2>Como jogar</h2>
+                    <p>Comece por definir qual o modo de jogo: PVP | PVE | Online</p>
+                    <p>Deve definir a dimensão do tabuleiro e caso seja PVE a dificuldade</p>
+                    <p><span><b>Durante o jogo:</b></span></p>
+                    <p>Na fase I deve selecionar a casa onde vai colocar a peça</p>
+                    <p>Nas outras fases deve selecionar a peça que deseja mover e depois selecionar a casa desejada</p>
+    
+                </div>
+                
+                <div class="regras_mid">
+                    <h2>Tabuleiro</h2>
+                    <div>
+                        <img class="board" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Nine_Men%27s_Morris.svg/330px-Nine_Men%27s_Morris.svg.png" alt="trilha board">
+                    </div>
+    
+                    <button class="go_menu_inicial">MENU INICIAL</button>
+                    <button class="go_configuracoes">CONFIGURAÇÕES</button>
+                </div>
+    
+                <div class="regras_dir">
+                    <div class="fases">    
+                        <h2>Fases do jogo</h2>
+                        
+                        <h3>Fase I - <span>Colocar peças</span> </h3>
+                        <p>Os jogadores põem alternadamente as peças numa casa livre </p>
+                        <p>A fase acaba quando todas as peças estão colocadas</p>
+    
+                        <h3>Fase II - <span>Mover peças</span> </h3>
+                        <p>Os jogadores movem alternadamente as peças para uma casa contígua</p>
+                        <p>As casas têm de estar ligadas por uma linha vertical ou horizontal</p>
+                                            
+                        <h3>Fase III - <span>Movimento Livre</span> </h3>
+                        <p>Um jogador entra nesta fase quando tem apenas 3 peças</p>
+                        <p>Nesta fase ele pode mover a peça para qualquer casa livre no tabuleiro</p>
+                    </div>
+    
+                    <div class="fim_jogo">
+                        <h2>Fim do jogo</h2>
+    
+                        <p>O jogo termina quando: </p>
+                        <ul>
+                            <li>Um jogar ganha quando o adversário ficar com menos peças do que o número de quadrados</li>
+                            <li>Empate caso não haja jogadas possíveis</li>
+                            <li>Empate caso ambos os jogadores tenham tantas peças como números de quadrados e em 10 jogadas não houver um vencedor</li>
+                        </ul>
+    
+                    </div>
+                </div>
+            </div> 
+        </div>
+
+        <div class="config" id="config">
+            <h1 class="titulo">Configurações</h1>
+            <!-- #############################################  -->
+            <hr>
+            <table>
+                <tr>
+                    <td>
+                        <label for="size">Grid size (number of squares)</label>
+                        <br>
+                        
+                        <select size="3" name="size">
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </td>
+                    <td>
+                        <label for="start">Start player</label>
+                        <br>
+                        <select size="3" name="start">
+                            <option>P1</option>
+                            <option>P2</option>
+                            <option>random</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="p1">P1</label>
+                        <br>
+                        <select size="3" name="p1">
+                            <option>player</option>
+                            <option>random</option>
+                            <option>AI</option>
+                        </select>
+                    </td>
+                    <td>
+                        <label for="p2">P2</label>
+                        <br>
+                        <select size="3" name="p2">
+                            <option>player</option>
+                            <option>random</option>
+                            <option>AI</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            
+            
+            <!-- #############################################  -->
+            <!--
+            <a href = "main.html">
+            <li class="canto">BACK</li>   
+            </a>
+            -->
+            <!-- NOTAS 
+            GRID SIZE   START PLAYER
+            P1          P2
+                        
+                                BACK
+
+
+                alterar os quadrados de opção para ficrem bonitos
+                alterar a fonte em geral
+                trocar as bolinhas com outra coisa(nipes de cartas?)
+                arrangar forma dos conteudos da página serem proporcionais ao tamanho da msm
+            -->
+            
+            
+            
+            <button class="go_menu_inicial">MENU INICIAL</button>
+        </div>
         
         <script src="game.js"></script>
         <script src="scripts/mudar_menu.js"></script>

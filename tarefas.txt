@@ -2,8 +2,37 @@
 [x] configurações.html - BOB
 [x] regras.html - João
 
-[] comandos
+[] comandos - começar jogo, desistir
 [] tabuleiro - modos
+
+Clicar sobre uma casa do tabuleiro deverá ter varias consequências consoante o momento do jogo.
+
+Por exemplo, na fase de pôr as peças, clicar sobre uma casa deve lá colocar um peça do jogador, se for a sua vez e estiver vazia.
+
+Na fase de mover é um pouco mais complexo: primeiro é selecionada a peça a mover, depois, para onde é movida, e, se formar uma linha, é selecionada a peça a remover.
+
+Para implementar estes modos podem ser usadas variáveis de estado que são alteradas consoante a fase e passo no movimento das peças, e que controlam a interação.
+
+O utilizador deve saber sempre qual o modo atual, o que pode ser indicado com cursores e/ou mensagens 
+
 [] classificações
+
+Na primeira entrega, esta informação será apenas relativa aos jogos realizados contra o computador usado IA.
+
 [] mensagens
+
+Esta área destina-se a apresentar a mensagens durante o decorrer do jogo. Exemplos de situações do jogo irão requerer mensagens são:
+
+    É a vez do jogador de pôr ou mover uma peça
+    Foi feita uma linha e deve capturar uma peça do adversário
+    A jogada não é possível (é a vez do adversário)
+    O jogo terminou com vitória de um dos jogadores
+    O jogador desistiu (e perdeu)
+
 [] AI
+
+Na primeira entrega os jogadores podem apenas jogar contra o computador. As jogadas do computador são determinadas localmente, no cliente. Há várias abordagens para gerar as jogadas, que podem ser usadas em alternativa ou combinadas.
+
+A forma mais simples de gerar jogadas é determinar quais são as válidas e escolher uma destas aleatóriamente. Uma forma um pouco mais sofisticada será dar preferência a jogadas que conduzam a capturas. Para implementar vários graus de dificuldade pode-se usar uma combinação de ambos os métodos, escolhendo aleatoriamente a cada jogada qual usar.
+
+Opcionalmente, podem implementar o algoritmo Minimax para jogar de forma mais inteligente. O nível de dificuldade pode mapear na profundidade.

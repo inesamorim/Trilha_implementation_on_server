@@ -76,6 +76,7 @@ window.onclick = function(event) {
 
 // Função para carregar a classificação (simulação de dados nesta fase)
 function loadRanking() {
+    //teste
     var rankingData = [
         { posicao: 1, jogador: "Jogador A", pontuacao: 1500 },
         { posicao: 2, jogador: "Jogador B", pontuacao: 1200 },
@@ -92,3 +93,24 @@ function loadRanking() {
         tableBody.appendChild(row);
     });
 }
+
+
+//
+var regrasPage = document.getElementById("regras");
+var initialPage = document.getElementById("inicial");
+var openRegrasBtn = document.getElementById("regrasBtn");
+
+openRegrasBtn.onclick = function() {
+    initialPage.style.display = "none";
+    regrasPage.style.display = "flex";
+}
+
+//
+var configPage = document.getElementById("config");
+var openConfigBtn = document.getElementById("configBtn");
+openConfigBtn.onclick = function() {
+    initialPage.style.display = "none";
+    configPage.style.display = "flex";
+}
+
+
