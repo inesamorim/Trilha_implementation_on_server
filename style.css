@@ -633,33 +633,30 @@ h1.titulo {
 .config{
   display: none;
   flex-direction: column;
-  .content{
+  .content_config{
       display: flex;
       flex-direction: row;
       font-family: Arial, Helvetica, sans-serif;
 
-            /* Dani 
-
-        div.row::after{
-          content: "";
-          display: table;
-          clear: both;
-      }
-      */
       /* Container to allow absolute positioning */
       .container {
         position: relative;
         width: 100%; /* Full width of the window */
         height: 100px; /* Set a height to avoid collapsing */
+        margin: 0;
+        padding: 0;
       }
-
+      .table {
+        margin: 0;
+        width: 100%;
+      }
       table {
-        width: 100%; /* Full width of the window */
-        margin-left: -5%;
-        margin-right: 15%;
+        display: flex;
+        width: 100%;
         margin-bottom: 39px;
         border-collapse: collapse;
         align-self: center;
+        justify-content: center;
         
 
         /* Left-side positioning for Grid size and P1
@@ -690,6 +687,7 @@ h1.titulo {
 
       }
 
+
       label{
         font-family: cursive;
         font-size:2.1vmax;/**/
@@ -703,6 +701,8 @@ h1.titulo {
 
       hr {
         margin-bottom: 20px; /* Add some space below the horizontal rule */
+        width: 100px;
+        height: 5px;
       }
 
       .canto {
@@ -808,24 +808,35 @@ h1.titulo {
 
       /*######################################COPIADO###############################*/
 
-      button{
-        background-color: rgb(153, 30, 81);
-        border-radius: 16px;
-        border-width: 4px 4px 4px;
-        border-color: rgb(153, 30, 81);
-        color: #FFFFFF;
-        cursor: pointer;
-        padding: 13px 16px;
-        font-size: 15px;
-        font-weight: 700;
-        letter-spacing: 1px;
-        line-height: 20px;
-        width: 80%;
-        margin-left: 10%;
-        margin-top: 10px;
-      }
+      
 
 
+  }
+
+  .buttons_config {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    align-self: center;
+    justify-content: center;
+  }
+
+  button{
+    background-color: rgb(153, 30, 81);
+    border-radius: 16px;
+    border-width: 4px 4px 4px;
+    border-color: rgb(153, 30, 81);
+    color: #FFFFFF;
+    cursor: pointer;
+    padding: 13px 16px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 20px;
+    width: 100%;
+    justify-content:center ;
+    display: flex;
+    flex-direction: row;
   }
 }
 

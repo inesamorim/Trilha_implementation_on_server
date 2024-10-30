@@ -220,77 +220,86 @@
         </div>
 
         <div class="config" id="config">
-            <h1 class="titulo">Configurações</h1>
-            <!-- #############################################  -->
-            <hr>
-            <table>
-                <tr>
-                    <td>
-                        <label for="size">Grid size (number of squares)</label>
-                        <br>
-                        
-                        <select size="3" name="size">
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </td>
-                    <td>
-                        <label for="start">Start player</label>
-                        <br>
-                        <select size="3" name="start">
-                            <option>P1</option>
-                            <option>P2</option>
-                            <option>random</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="p1">P1</label>
-                        <br>
-                        <select size="3" name="p1">
-                            <option>player</option>
-                            <option>random</option>
-                            <option>AI</option>
-                        </select>
-                    </td>
-                    <td>
-                        <label for="p2">P2</label>
-                        <br>
-                        <select size="3" name="p2">
-                            <option>player</option>
-                            <option>random</option>
-                            <option>AI</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
+            <header>
+                <h1 class="titulo">Configurações</h1>
+            </header>
             
-            
-            <!-- #############################################  -->
-            <!--
-            <a href = "main.html">
-            <li class="canto">BACK</li>   
-            </a>
-            -->
-            <!-- NOTAS 
-            GRID SIZE   START PLAYER
-            P1          P2
-                        
-                                BACK
+            <div class="content_config">
+                <div class="table">
+                    <table>
+                        <tr>
+                            <td>
+                                <label for="size">Grid size (number of squares)</label>
+                                <br>
+                                
+                                <select size="3" name="size">
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </td>
+                            <td>
+                                <label for="start">Start player</label>
+                                <br>
+                                <select size="3" name="start">
+                                    <option>P1</option>
+                                    <option>P2</option>
+                                    <option>random</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="p1">P1</label>
+                                <br>
+                                <select size="3" name="p1">
+                                    <option>player</option>
+                                    <option>random</option>
+                                    <option>AI</option>
+                                </select>
+                            </td>
+                            <td>
+                                <label for="p2">P2</label>
+                                <br>
+                                <select size="3" name="p2">
+                                    <option>player</option>
+                                    <option>random</option>
+                                    <option>AI</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                
+                    
+                    
+                    <!-- #############################################  -->
+                    <!--
+                    <a href = "main.html">
+                    <li class="canto">BACK</li>   
+                    </a>
+                    -->
+                    <!-- NOTAS 
+                    GRID SIZE   START PLAYER
+                    P1          P2
+                                
+                                        BACK
 
 
-                alterar os quadrados de opção para ficrem bonitos
-                alterar a fonte em geral
-                trocar as bolinhas com outra coisa(nipes de cartas?)
-                arrangar forma dos conteudos da página serem proporcionais ao tamanho da msm
-            -->
-            
-            
-            
-            <button class="go_menu_inicial">MENU INICIAL</button>
+                        alterar os quadrados de opção para ficrem bonitos
+                        alterar a fonte em geral
+                        trocar as bolinhas com outra coisa(nipes de cartas?)
+                        arrangar forma dos conteudos da página serem proporcionais ao tamanho da msm
+                    -->
+                    
+                    
+                
+            </div>
+            <div class="buttons_config">
+                <button class="go_menu_inicial">MENU INICIAL</button>
+            </div>
         </div>
+            
         
         <script src="game.js"></script>
         <script src="scripts/mudar_menu.js"></script>
