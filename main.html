@@ -7,7 +7,7 @@
         </title>
     </head>
     <body>
-        <div id="inicial">
+        <div class="menu_inicial"  id="inicial">
                 <!-- Título -->
             <div class="column_title">
                 <h1 class="trilha">
@@ -126,9 +126,9 @@
 
             <div class="buttons">
                 <button class="menu">Jogar</button>
-                <button id="configBtn" class="menu">Configurações</button>
-                <button id="rankingBtn" class="menu">Classificações</button>
-                <button id="regrasBtn" class="menu">Regras</button>
+                <button class="go_configuracoes" id="configBtn">Configurações</button>
+                <button id="rankingBtn">Classificações</button>
+                <button class="go_regras" id="regrasBtn">Regras</button>
             </div>
         </div>
         
@@ -165,7 +165,7 @@
                     <p>O número de peças que cada jogador começa varia consoante o número de quadrados: (3 x número de quadrados) é o total de peças para cada jogador</p>
     
                     <h2>Objetivo</h2>
-                    <p>O objetivo é fazer 'moinhos' que consiste numa sequência de 3 peças da mesma cor na vertial ou horizontal</p>
+                    <p>O objetivo é fazer 'moinhos' que consiste numa sequência de 3 peças da mesma cor na vertical ou horizontal</p>
                     <p>Ao fazer um 'moinho' podemos eliminar uma peça do adversário e quando ele tiver menos peças do que quadrados no tabuleiro ganhamos</p>
                     
                     <h2>Como jogar</h2>
@@ -183,8 +183,8 @@
                         <img class="board" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Nine_Men%27s_Morris.svg/330px-Nine_Men%27s_Morris.svg.png" alt="trilha board">
                     </div>
     
-                    <button class="go_menu_inicial">MENU INICIAL</button>
-                    <button class="go_configuracoes">CONFIGURAÇÕES</button>
+                    <button class="go_menu_inicial">Menu Inicial</button>
+                    <button class="go_configuracoes">Configurações</button>
                 </div>
     
                 <div class="regras_dir">
@@ -219,7 +219,7 @@
             </div> 
         </div>
 
-        <div class="config" id="config">
+        <div class="configuracoes" id="config">
             <header>
                 <h1 class="titulo">Configurações</h1>
             </header>
@@ -296,7 +296,8 @@
                 
             </div>
             <div class="buttons_config">
-                <button class="go_menu_inicial">MENU INICIAL</button>
+                <button class="go_menu_inicial" id="initialBtn">Menu Inicial</button>
+                <button class="go_regras" id="regrasBtn">Regras</button>
             </div>
         </div>
             

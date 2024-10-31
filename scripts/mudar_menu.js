@@ -19,7 +19,7 @@ button_2.forEach(button => {
     button.addEventListener('click', function() { // mostrar menu de config
     menu_inicial.style.display = 'none';
     menu_regras.style.display = 'none';
-    menu_config.style.display = 'block';
+    menu_config.style.display = 'flex';
 })});
 
 button_3.forEach(button => {
@@ -96,21 +96,28 @@ function loadRanking() {
 
 
 //
-var regrasPage = document.getElementById("regras");
-var initialPage = document.getElementById("inicial");
-var openRegrasBtn = document.getElementById("regrasBtn");
+//var regrasPage = document.getElementById("regras");
+//var initialPage = document.getElementById("inicial");//
+// openInitialBtn = document.getElementById("initialBtn")
+//var openRegrasBtn = document.getElementById("regrasBtn");
+//var configPage = document.getElementById("config");
+//var openConfigBtn = document.getElementById("configBtn");
 
-openRegrasBtn.onclick = function() {
+/*openRegrasBtn.onclick = function() {
     initialPage.style.display = "none";
     regrasPage.style.display = "flex";
 }
 
-//
-var configPage = document.getElementById("config");
-var openConfigBtn = document.getElementById("configBtn");
 openConfigBtn.onclick = function() {
     initialPage.style.display = "none";
     configPage.style.display = "flex";
 }
+
+openInitialBtn.onclick = function() {
+    configPage.style.display = "none";
+    regrasPage.style.display = "none";
+    initialPage.style.display = "block";
+}
+    */
 
 

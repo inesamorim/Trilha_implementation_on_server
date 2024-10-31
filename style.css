@@ -448,7 +448,7 @@
 
 /*---------------------------------- Menu ------------------------------------------------------*/
 
-button.menu{
+button{
   position: relative;
   background-color: rgb(153, 30, 81);
   border-radius: 16px;
@@ -577,15 +577,20 @@ table th, table td {
             p{
                 margin-left: 10%;
                 width: 80%;
+                color: white;
             }
         }
         
         .regras_mid{
             .board{
-                max-width: 100%;
+                /*max-width: 100%;*/
                 border-style: inset;
                 border-color: rgb(153, 30, 81);
+                display: flex;
+                justify-content: center;
+                align-self: center;
             }
+
             button{
                 background-color: rgb(153, 30, 81);
                 border-radius: 16px;
@@ -593,14 +598,14 @@ table th, table td {
                 border-color: rgb(153, 30, 81);
                 color: #FFFFFF;
                 cursor: pointer;
-                padding: 13px 16px;
-                font-size: 15px;
+                padding: 0;
+                font-size: 30px;
                 font-weight: 700;
                 letter-spacing: 1px;
                 line-height: 20px;
+                padding: 13px 16px;
                 width: 80%;
-                margin-left: 10%;
-                margin-top: 10px;
+                margin-top: 5px;
             }
         }
         
@@ -610,11 +615,16 @@ table th, table td {
             margin-left: 10px;
             p{
                 margin-left: 5%;
-                text-indent: 5%;}
+                text-indent: 5%;
+                color: white;
+              }
             h3{text-indent: 9%;}
     
             .fases{margin-left: 2%;}
-            .fim_jogo{margin-left: 2%;}
+            .fim_jogo{
+              margin-left: 2%;
+              color: white;
+            }
 
         }
     }   
@@ -630,7 +640,7 @@ h1.titulo {
 /*---------------------------------------------------- Configurações -----------------------------------------------------------------*/
 
 
-.config{
+.configuracoes{
   display: none;
   flex-direction: column;
   .content_config{
@@ -829,7 +839,7 @@ h1.titulo {
     color: #FFFFFF;
     cursor: pointer;
     padding: 13px 16px;
-    font-size: 15px;
+    font-size: 30px;
     font-weight: 700;
     letter-spacing: 1px;
     line-height: 20px;
@@ -837,6 +847,7 @@ h1.titulo {
     justify-content:center ;
     display: flex;
     flex-direction: row;
+    margin-bottom: 5px;
   }
 }
 
