@@ -9,7 +9,6 @@
         <script defer src="scripts/login.js"></script>
         <script defer src="scripts/game.js"></script>
         <script defer src="scripts/jogo.js"></script>
-        
     </head>
 
     <body>
@@ -161,7 +160,7 @@
                     <br>
                     
                     <select size="3" name="size">
-                        <option>3</option>
+                        <option selected>3</option>
                         <option>4</option>
                         <option>5</option>
                     </select>
@@ -172,7 +171,7 @@
                     <select size="3" name="start">
                         <option>P1</option>
                         <option>P2</option>
-                        <option>random</option>
+                        <option selected>random</option>
                     </select>
                 </td>
             </tr>
@@ -181,7 +180,7 @@
                     <label for="p1">P1</label>
                     <br>
                     <select size="3" name="p1">
-                        <option>player</option>
+                        <option selected>player</option>
                         <option>random</option>
                         <option>AI</option>
                     </select>
@@ -190,7 +189,7 @@
                     <label for="p2">P2</label>
                     <br>
                     <select size="3" name="p2">
-                        <option>player</option>
+                        <option selected>player</option>
                         <option>random</option>
                         <option>AI</option>
                     </select>
@@ -201,7 +200,7 @@
                 
         <div class="buttons">
             <button class="go_menu_inicial">MENU INICIAL</button>
-            <button class="comecar_jogo">START</button>
+            <button id="inicar_jogo" class="comecar_jogo">START</button>
         </div>
         </div>
 
@@ -277,8 +276,9 @@
             
             <div class="info">
                 <h3> Informação</h3>
-                <p> <span>Turn</span>: player 1</p>
-                <p> <span>Fase</span>: colocar peças</p>
+                <span class="inf_topic">Turn:</span> <span class="player_turn"></span>
+                <br>
+                 <span class="inf_topic">Fase:</span> <span class="game_fase"></span>
 
                 <div class="buttons">
                     <button class="go_menu_inicial">MENU INICIAL</button>
@@ -306,17 +306,11 @@
                     
 
             <div class="play">
-                <div class="player1">
-                    p1
-                </div>
-                <div id ="tabu" class="tabuleiro">
+                <div class="player_1_pieces"></div>
                     
-                </div>
-                <div class="player2">
-                    p2
-                </div>
+                <div id ="tabu" class="tabuleiro"></div>
 
-
+                <div class="player_2_pieces"></div>
             </div>
 
         </div>
