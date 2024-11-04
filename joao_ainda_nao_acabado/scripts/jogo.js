@@ -7,11 +7,52 @@ class trilha{
         this.turn = player_inicial == 'P1' ? 0 : 1;
         //this.pieces = Array.from({ length: 2 }, () => Array(size_board*3).fill("to_place")); // decidir melhor qual terminação usar
         this.pieces = [size_board*3,size_board*3]; // ? provavelmente podemos retirar
-        this.fase = 1; // 1-> colocar pecas | 2-> mover
+        this.fase = 0; // 0 -> colocar pecas | 1 -> mover
+        this.remove_peca = false;
     }
 
     colocar_peca(sq,pos){
         this.board[sq][pos] = this.turn == 0 ? 'piece_1' : 'piece_2';
+    }
+
+    remover_peca(sq,pos){
+        if( this.board[sq][pos] == 'piece_1' && this.turn == 1 // garantir que e valido eliminar
+            || this.board[sq][pos] == 'piece_2' && this.turn == 0
+        ){
+            this.board[sq][pos] = 'empty';
+        }
+    }
+
+    jogadas_possiveis(){ // 3 possibilidade colocar | mover | mover sem restricoes
+        let possiveis = [];  let n = 0;
+        let prox_a_jogar = this.turn == 0 ? 'piece_1' : 'piece_2';
+        
+        if( !this.fase ){ // colocar peca
+            for (let i=0; i<this.board.length;i++){
+                for(let j=0;j<this.board[i].length;j++){
+                    if ( this.board[i][j] == "empty" ){
+                        possiveis[n++] = [i,j];
+                        continue;
+                    }
+                }
+            }
+        } else if ( this.pieces[this.turn] > 3 ){ // colocar em posicao adjacente
+            for (let i=0; i<this.board.length;i++){
+                for(let j=0;j<this.board[i].length;j++){
+
+
+                }
+            }
+        }else{ // mover para qualquer pos
+            for (let i=0; i<this.board.length;i++){
+                for(let j=0;j<this.board[i].length;j++){ // [ [pos das nossas pecas],  [pos de celulas vazias]  ]
+
+
+                }
+            }
+        }
+
+        return possiveis
     }
 
     check_moinho(sq,pos){
@@ -157,7 +198,7 @@ function setupBoardEvents(game){
             const [square, position] = event.target.getAttribute('data-index').split(',').map(Number); // obter a posicao da celula escolhida
             
             // dividir em 2 fases, colocar e mover as pecas
-            if(game.fase == 1){ //colocar 
+            if( !game.fase ){ //colocar 
 
                 if(game.board[square][position] != 'empty') return; // ignorar caso seja escolhido uma celula com peca
 
@@ -178,13 +219,13 @@ function setupBoardEvents(game){
             // analizar se é para trocar de fase
             if (document.querySelector('.player_1_pieces > .pecas_por_colocar').childElementCount == 0 
             && document.querySelector('.player_2_pieces > .pecas_por_colocar').childElementCount == 0){
-                    game.fase = 2;
+                    game.fase = 1;
                     document.querySelector('.game_fase').textContent = 'Mover peças';
                 }
                 
             // analizar se criou moinho na jogada
             if (game.check_moinho(square,position)){
-
+                
             }
                 
                 
@@ -197,8 +238,8 @@ function setupBoardEvents(game){
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
             document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
 
-
-
+            
+            console.log(game.board);
             // Example action: show an alert
             //alert(`Action triggered for square ${square} and position ${position}`);
         });
