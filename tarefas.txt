@@ -36,3 +36,11 @@ Na primeira entrega os jogadores podem apenas jogar contra o computador. As joga
 A forma mais simples de gerar jogadas é determinar quais são as válidas e escolher uma destas aleatóriamente. Uma forma um pouco mais sofisticada será dar preferência a jogadas que conduzam a capturas. Para implementar vários graus de dificuldade pode-se usar uma combinação de ambos os métodos, escolhendo aleatoriamente a cada jogada qual usar.
 
 Opcionalmente, podem implementar o algoritmo Minimax para jogar de forma mais inteligente. O nível de dificuldade pode mapear na profundidade.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[] Minimax - Inês
+[] Random
+[] 2ºfase do jogo - João
+[] guardar dados para leaderboard - Dani (dica: tenta guardar o histórico numa dataframe?)

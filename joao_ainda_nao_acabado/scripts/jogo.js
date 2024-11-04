@@ -12,6 +12,8 @@ class trilha{
 
     colocar_peca(sq,pos){
         this.board[sq][pos] = this.turn == 0 ? 'piece_1' : 'piece_2';
+        game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
+        document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
     }
 
     check_moinho(sq,pos){
@@ -194,8 +196,7 @@ function setupBoardEvents(game){
                 
                 
                 
-            game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+            
 
 
 
