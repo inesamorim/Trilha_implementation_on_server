@@ -429,6 +429,9 @@ function setupBoardEvents(game){
                 let cell_peca = document.createElement('div');
                 cell_peca.classList.add("peca");
                 cell_pecas.appendChild(cell_peca);
+                // retirar do html a peca na board
+                let celula_remover = document.querySelector(`[data-index="${square},${position}"]`);
+                celula_remover.classList.remove(celula_remover.classList[1]);
 
                 game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
                 document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
