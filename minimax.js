@@ -7,9 +7,16 @@ class State {
   
     // Executes an action and updates the history
     execute(move) {
-      const state = structuredClone(state.history[state.history.length -1].board);
+      //move é um elemento das jogadas possíveis
+      const new_state = structuredClone(this.history[this.history.length -1].board);
+
+      //fase 1 - colocar peças
+      if (!new_state.fase) {
+        new_state.colocar_peca(move[0],move[1]);
+        new_state.board[move[0]][move[1]];
+      }
       //state deve ser uma copia, para n dar merda
-      this.history.push(state); // game
+      this.history.push(new_state); // game
       // action.execute(this.board);
     }
   
@@ -22,21 +29,26 @@ class State {
   }
   
   function executeMinimaxMove(evaluateFunc, depth) {
-    return function executeMinimaxMoveAux(state) {
+    return function executeMinimaxMoveAux(trilha) {
       /**
        * Updates the game state to the best possible move (uses minimax to determine it)
        */
       let bestMoves = [];
       let bestEval = -Infinity;
+
+      const state_copy = structuredClone(trilha) // cópia do state dado
+      const state = State()
+      state.history.push(state_copy) 
+
       const actions = state.history[state.history.length -1].jogadas_possiveis(); //ultimo elemento do histórico; o retorno depende da fase
       const fase = state.history[state.history.length -1].fase; 
+      const player = state.history[state.history.length-1].turn;
   
       if (actions.length === 1) {
         // There isn't much to do and this can take a long time
         return actions[0];
       }
   
-      const player = state.history[state.history.length-1].turn;
       for (const move of actions) {
         state.execute(move);
         const newStateEval = minimax(

@@ -576,12 +576,12 @@ body {
   .titulo {
     text-align:center;
     color: white;
-    font-family:cursive;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 2em; 
   }
   
   label{
-    font-family: cursive;
+    font-family: Arial, Helvetica, sans-serif;
     font-size:2vmax;/**/
     color: rgb(217, 237, 237);
   }
@@ -597,7 +597,7 @@ body {
     border: 2px solid rgb(255, 192, 203); /* Add border and color */
     border-radius: 10px; /* Make the edges rounded */
     background-color: #f1f1f1; /* Light background color */
-    font-family: cursive; /*Arial, sans-serif Customize font */
+    font-family: Arial, Helvetica, sans-serif; /*Arial, sans-serif Customize font */
     font-size: 1.5vmax; /* 16px Adjust font size */
     color: rgb(230, 169, 179); /*  Change text color */
     cursor: pointer; /* Add pointer cursor */
@@ -772,8 +772,9 @@ body {
    border-radius: 20px;
    border-width: 5px;
    border-style: solid;
-   border-color: black;
-   background-color: rgba(0, 0, 0, 0.35);
+   border-color: rgb(153, 30, 81);
+   background-color: rgb(153, 30, 81, 0.35);
+   font-family: Arial, Helvetica, sans-serif;
    
    .inf_topic{
      color: pink;
@@ -874,9 +875,11 @@ body {
     align-items: end;
     width: 15%;
     text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
     
     .peca{
       background-color: var(--color_p1);
+      border-color: var(--color_p1);
     }
   }
 
@@ -886,9 +889,11 @@ body {
     align-items: baseline;
     text-align: center;
     width: 15%;
+    font-family: Arial, Helvetica, sans-serif;
 
     .peca{
       background-color: var(--color_p2);
+      border-color: var(--color_p2);;
     }
   }
 
@@ -908,7 +913,7 @@ body {
     border-width: 3px;
     border-style: solid;
     border-radius: 50%; /* Makes it a circle */
-    border-color: black;
+    /*border-color: pink;*/
     margin-right: 2px;
     margin-bottom: 2px;
   }   
@@ -924,13 +929,13 @@ body {
 
       .cell {
         text-align: center; /* delete */
-        color: black; /* delete */
+        color: white; /* delete */
         width: 30px;
         height: 30px;
         border-width: 3px;
         border-style: solid;
         border-radius: 50%; /* Makes it a circle */
-        border-color: black;
+        border-color: pink;
         background: white;
       }
 
@@ -945,7 +950,7 @@ body {
       .hrule {
         width: 100%; /* Full width */
         height: 5px; /* Height of the horizontal line */
-        background: black; /* Line color */
+        background: white; /* Line color */
         margin-top: 15px;
         margin-bottom: 15px;
         margin-left: 4px;
@@ -954,7 +959,7 @@ body {
       .vrule {
         width: 5px; /* Width of the vertical line */
         height: 100%; /* Full height */
-        background: black; /* Line color */
+        background: white; /* Line color */
         margin-left: 15px;
         margin-right: 15px;
         margin-top: 4px;
