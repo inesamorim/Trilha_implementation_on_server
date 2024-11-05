@@ -194,38 +194,65 @@ class trilha{
     }
 
     check_moinho(sq,pos){
-        const n = this.size_board; //numero de peças seguidas necessário para fazer moinho
-        // check vertical
-        let counter = 0; // número de peças consecutivas
-        //go up
-        let i = 0;
-        while(this.board[sq+i][pos].is_valid_pos() && this.board[sq+i][pos] == this.turn){
-            i -= 1;
-            counter += 1;
+        let piece = "";
+        if(this.turn == 0){
+            piece = "piece_2";
         }
-        //go down
+        else{
+            piece = "piece_1";
+        }
+
+        const n = this.size_board; //numero de peças seguidas necessário para fazer moinho
+
+        if (this.board[sq][pos] != piece) return false; 
+
+        // check vertical - same square
+        if(pos == 0  && this.board[sq][pos+3] == piece && this.board[sq][pos+5] == piece) return true;
+        else if(pos == 2  && this.board[sq][pos+2] == piece && this.board[sq][pos+5] == piece) return true;
+        else if(pos == 3  && this.board[sq][pos+2] == piece && this.board[sq][pos-3] == piece) return true;
+        else if(pos == 4  && this.board[sq][pos+3] == piece && this.board[sq][pos+2] == piece) return true;
+        else if(pos == 5  && this.board[sq][pos-2] == piece && this.board[sq][pos-5] == piece) return true;
+        else if(pos == 7  && this.board[sq][pos-3] == piece && this.board[sq][pos-5] == piece) return true;
+
+        //check horizontal - same square
+        let counter = 0; // número de peças consecutivas
+        let i = 0;
+        while(this.is_valid_pos(sq, pos+i)){
+            if(this.board[sq][pos+i] == piece){
+                i -= 1;
+                counter += 1;
+            }
+            else {break;}
+        }
         i = 1;
-        while(this.board[sq+i][pos].is_valid_pos() && this.board[sq+i][pos] == this.turn){
-            i += 1;
-            counter += 1;
+        while(this.is_valid_pos(sq, pos+i)){
+            if(this.board[sq][pos+i] == piece){
+                i += 1;
+                counter += 1;
+            }
+            else {break;}
         }
         if(counter >= n){
             return true;
         }
 
-        //check horizontal
+        //check horizontal e vertical - different squares
         counter = 0;
         i = 0;
-        //go left
-        while(this.board[sq][pos+i].is_valid_pos() && this.board[sq][pos+i] == this.turn){
-            i -= 1;
-            counter += 1;
+        while(this.is_valid_pos(sq+i, pos)){
+            if(this.board[sq+i][pos] == piece){
+                i -= 1;
+                counter += 1;
+            }
+            else {break;}
         }
-        //go right
         i = 1;
-        while(this.board[sq][pos+i].is_valid_pos() && this.board[sq][pos+i] == this.turn){
-            i -= 1;
-            counter += 1;
+        while(this.is_valid_pos(sq+1, pos)){
+            if(this.board[sq+1][pos] == piece){
+                i += 1;
+                counter += 1;
+            }
+            else {break;}
         }
         if(counter >= n){
             return true;
@@ -243,7 +270,7 @@ class trilha{
 
     is_valid_pos(sq,pos) {
         if (sq < 0 || pos < 0) return false;
-        else if (sq >= this.size_board || pos >= 8) return false;
+        else if (sq > this.size_board-1 || pos > 7) return false;
         return true;
     }
 
