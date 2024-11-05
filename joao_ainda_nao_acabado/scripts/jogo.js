@@ -217,49 +217,29 @@ class trilha{
         if(pos == 0  && this.board[sq][pos+3] == piece && this.board[sq][pos+5] == piece) return true;
         else if(pos == 2  && this.board[sq][pos+2] == piece && this.board[sq][pos+5] == piece) return true;
         else if(pos == 3  && this.board[sq][pos+2] == piece && this.board[sq][pos-3] == piece) return true;
-        else if(pos == 4  && this.board[sq][pos+3] == piece && this.board[sq][pos+2] == piece) return true;
+        else if(pos == 4  && this.board[sq][pos+3] == piece && this.board[sq][pos-2] == piece) return true;
         else if(pos == 5  && this.board[sq][pos-2] == piece && this.board[sq][pos-5] == piece) return true;
         else if(pos == 7  && this.board[sq][pos-3] == piece && this.board[sq][pos-5] == piece) return true;
 
         //check horizontal - same square
-        let counter = 0; // número de peças consecutivas
-        let i = 0;
-        while(this.is_valid_pos(sq, pos+i)){
-            if(this.board[sq][pos+i] == piece){
-                i -= 1;
-                counter += 1;
-            }
-            else {break;}
-        }
-        i = 1;
-        while(this.is_valid_pos(sq, pos+i)){
-            if(this.board[sq][pos+i] == piece){
-                i += 1;
-                counter += 1;
-            }
-            else {break;}
-        }
-        if(counter >= n){
-            return true;
-        }
+        else if((pos == 0 || pos == 5) && this.board[sq][pos+1] == piece && this.board[sq][pos+2] == piece) return true;
+        else if((pos == 1 || pos == 6) && this.board[sq][pos+1] == piece && this.board[sq][pos-1] == piece) return true;
+        else if((pos == 2 || pos == 7) && this.board[sq][pos-1] == piece && this.board[sq][pos-2] == piece) return true;
 
         //check horizontal e vertical - different squares
-        counter = 0;
-        i = 0;
-        while(this.is_valid_pos(sq+i, pos)){
-            if(this.board[sq+i][pos] == piece){
-                i -= 1;
-                counter += 1;
+        let i = 0;
+        let counter = 1;
+        for(i = 1; i<3; i++){
+            if(this.is_valid_pos(sq-i,pos)){
+                if(this.board[sq-i][pos] == piece) counter+=1;
             }
-            else {break;}
+            else break;
         }
-        i = 1;
-        while(this.is_valid_pos(sq+1, pos)){
-            if(this.board[sq+1][pos] == piece){
-                i += 1;
-                counter += 1;
+        for(i = 1; i<3; i++){
+            if(this.is_valid_pos(sq+i,pos)){
+                if(this.board[sq+i][pos] == piece) counter+=1;
             }
-            else {break;}
+            else break;
         }
         if(counter >= n){
             return true;
@@ -451,7 +431,9 @@ function setupBoardEvents(game){
                 const container = game.turn == 0 ? document.querySelector('.player_1_pieces > .pecas_por_colocar') : document.querySelector('.player_2_pieces > .pecas_por_colocar');
                 container.removeChild(container.lastChild);
 
+                //console.time("Tempo");
                 let check = game.check_moinho(square,position);
+                //console.timeEnd("Tempo");
                 console.log(check)
                 if (check){
                     eliminar_peca = true;
