@@ -6,23 +6,31 @@ class State {
     }
   
     // Executes an action and updates the history
-    execute(move) {
+    execute(move, start_pos = [0,0]) {
       //move é um elemento das jogadas possíveis
-      const new_state = structuredClone(this.history[this.history.length -1].board);
+      const new_state = _.cloneDeep(this.history[this.history.length-1]);
+      //const new_state = structuredClone(this.history[this.history.length -1].board);
 
       //fase 1 - colocar peças
       if (!new_state.fase) {
         new_state.colocar_peca(move[0],move[1]);
-        new_state.board[move[0]][move[1]];
+        //new_state.board[move[0]][move[1]];
+        if(new_state.pieces_por_colocar === 0) {
+          new_state.fase = 1;
+        }
       }
-      //state deve ser uma copia, para n dar merda
+
+      //fase 2 - mover peças
+      else if(new_state.pieces[new_state.turn] > 3) {
+        new_state.remover_peca(start_pos[0], start_pos[1]);
+        new_state.colocar_peca(move[0], move[1]);
+      }
+
       this.history.push(new_state); // game
-      // action.execute(this.board);
     }
   
     // Undoes the last action and updates history
     undo() {  
-      this.cur_hist -= 1;
       const state = this.history.pop(); //apaga tudo depois do cur_hist
       return state;
     }
@@ -36,9 +44,10 @@ class State {
       let bestMoves = [];
       let bestEval = -Infinity;
 
-      const state_copy = structuredClone(trilha) // cópia do state dado
-      const state = State()
-      state.history.push(state_copy) 
+      const state_copy = _.cloneDeep(trilha);
+      //const state_copy = structuredClone(trilha); // cópia do state dado
+      const state = new State();
+      state.history.push(state_copy);
 
       const actions = state.history[state.history.length -1].jogadas_possiveis(); //ultimo elemento do histórico; o retorno depende da fase
       const fase = state.history[state.history.length -1].fase; 
@@ -49,8 +58,21 @@ class State {
         return actions[0];
       }
   
-      for (const move of actions) {
-        state.execute(move);
+      for (let move of actions) {
+        //fase 1
+        if(Number.isInteger(move[0])) {
+          state.execute(move);
+        }
+
+        //fase 2
+        else {
+          const start_pos = move[0];
+          move = move.slice(1);
+          for(const i of move) {
+            state.execute(i, start_pos);
+          }
+        }
+        
         const newStateEval = minimax(
           state,
           depth - 1,
@@ -80,14 +102,27 @@ class State {
   }
   
   function minimax(state, depth, alpha, beta, maximizing, player, evaluateFunc) {
-    if (depth === 0 || state.board.isTerminal() !== 0) {
+    if (depth === 0 || state.history[state.history.length -1].is_terminal_move() !== -1) {
       return evaluateFunc(state) * (player === 1 ? 1 : -1);
     }
   
     if (maximizing) {
       let maxEval = -Infinity;
-      for (const move of state.history[state.history.length -1].jogadas_possiveis()()) {
-        state.execute(move);
+      const actions = state.history[state.history.length -1].jogadas_possiveis();
+      for (let move of actions) {
+        //fase 1
+        if(Number.isInteger(move[0])) {
+          state.execute(move);
+        }
+
+        //fase 2
+        else {
+          const start_pos = move[0];
+          move = move.slice(1);
+          for(const i of move) {
+            state.execute(i, start_pos);
+          }
+        }
         const eval = minimax(
           state,
           depth - 1,
@@ -107,8 +142,21 @@ class State {
       return maxEval;
     } else {
       let minEval = Infinity;
-      for (const move of state.history[state.history.length -1].jogadas_possiveis()()) {
-        state.execute(move);
+      const actions = state.history[state.history.length -1].jogadas_possiveis();
+      for (let move of actions) {
+        //fase 1
+        if(Number.isInteger(move[0])) {
+          state.execute(move);
+        }
+
+        //fase 2
+        else {
+          const start_pos = move[0];
+          move = move.slice(1);
+          for(const i of move) {
+            state.execute(i, start_pos);
+          }
+        }
         const eval = minimax(
           state,
           depth - 1,

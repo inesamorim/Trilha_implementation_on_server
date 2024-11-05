@@ -9,11 +9,13 @@ class trilha{
         this.pieces = [size_board*3,size_board*3]; // ? provavelmente podemos retirar
         this.fase = 0; // 0 -> colocar pecas | 1 -> mover
         this.remove_peca = false;
+        this.size_board = size_board;
     }
 
     colocar_peca(sq,pos){
         this.board[sq][pos] = this.turn == 0 ? 'piece_1' : 'piece_2';
         this.pieces_por_colocar[this.turn]--;
+        
     }
 
     remover_peca(sq,pos){
@@ -45,7 +47,9 @@ class trilha{
                     }
                 }
             }
-        } else if ( this.pieces[this.turn] > 3 ){ // colocar em posicao adjacente
+        } 
+        
+        else if ( this.pieces[this.turn] > 3 ){ // colocar em posicao adjacente
             let n = 0, m = 0;
             possiveis = []; // [ [ [pos_peca_escolhida], [pos_valida_1],[pos_valida_2] ], [ [pos_peca_escolhida], [pos_valida_1],[pos_valida_2] ], ... ]
             for (let i=0; i<this.board.length;i++){
@@ -116,7 +120,7 @@ class trilha{
                         possiveis[0][m++] = [i,j];
                         continue;
                     }
-                    if ( this.board[i][j] == "empty" ){ // pos validas
+                    if (this.board[i][j] == "empty" ){ // pos validas
                         possiveis[1][n++] = [i,j];
                         continue;
                     }
@@ -128,18 +132,63 @@ class trilha{
     }
 
     check_moinho(sq,pos){
+        const n = this.size_board; //numero de peças seguidas necessário para fazer moinho
         // check vertical
-
+        let counter = 0; // número de peças consecutivas
+        //go up
+        let i = 0;
+        while(this.board[sq+i][pos].is_valid_pos() && this.board[sq+i][pos] == this.turn){
+            i -= 1;
+            counter += 1;
+        }
+        //go down
+        i = 1;
+        while(this.board[sq+i][pos].is_valid_pos() && this.board[sq+i][pos] == this.turn){
+            i += 1;
+            counter += 1;
+        }
+        if(counter >= n){
+            return true;
+        }
 
         //check horizontal
+        counter = 0;
+        i = 0;
+        //go left
+        while(this.board[sq][pos+i].is_valid_pos() && this.board[sq][pos+i] == this.turn){
+            i -= 1;
+            counter += 1;
+        }
+        //go right
+        i = 1;
+        while(this.board[sq][pos+i].is_valid_pos() && this.board[sq][pos+i] == this.turn){
+            i -= 1;
+            counter += 1;
+        }
+        if(counter >= n){
+            return true;
+        }
 
         return false;
+    }
+
+    is_terminal_move() {
+        if (this.pieces[0] <= this.size_board - 1 || this.pieces[1] <= this.size_board - 1){
+            return 0;
+        }
+        return -1;
+    }
+
+    is_valid_pos(sq,pos) {
+        if (sq < 0 || pos < 0) return false;
+        else if (sq >= this.size_board || pos >= 8) return false;
+        return true;
     }
 
 }
 
 
-
+var jogo = null;
 function main(){ // usado para criar o jogo e apresentar no html
     
     const BoardSize = document.querySelector('select[name="size"]').value;
@@ -156,7 +205,7 @@ function main(){ // usado para criar o jogo e apresentar no html
     document.querySelector('.player_turn').textContent = startPlayer; //alterar
     document.querySelector('.game_fase').textContent = "Colocar peças";
     
-    var jogo = new trilha(BoardSize,startPlayer);
+    jogo = new trilha(BoardSize,startPlayer);
 
     gerar_board(BoardSize,board_structurs[BoardSize-3]);
     gerar_player_info(BoardSize);
