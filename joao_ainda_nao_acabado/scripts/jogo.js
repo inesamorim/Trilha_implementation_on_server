@@ -203,10 +203,10 @@ class trilha{
     check_moinho(sq,pos){
         let piece = "";
         if(this.turn == 0){
-            piece = "piece_2";
+            piece = "piece_1";
         }
         else{
-            piece = "piece_1";
+            piece = "piece_2";
         }
 
         const n = this.size_board; //numero de peças seguidas necessário para fazer moinho
@@ -448,7 +448,9 @@ function setupBoardEvents(game){
                 const container = game.turn == 0 ? document.querySelector('.player_1_pieces > .pecas_por_colocar') : document.querySelector('.player_2_pieces > .pecas_por_colocar');
                 container.removeChild(container.lastChild);
 
-                if (game.check_moinho(square,position)){
+                let check = game.check_moinho(square,position);
+                console.log(check)
+                if (check){
                     eliminar_peca = true;
                     // talvez adicionar algo no ecra para indicar que e para eliminar uma peca
                 }else{   
@@ -499,7 +501,9 @@ function setupBoardEvents(game){
                     
                     mover_peca = false;
 
-                    if (game.check_moinho(square,position)){
+                    let check = game.check_moinho(square,position);
+                    console.log(check);
+                    if (check){
                         eliminar_peca = true;
                         // talvez adicionar algo no ecra para indicar que e para eliminar uma peca
                     }else{   
