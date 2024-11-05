@@ -5,7 +5,7 @@ class trilha{
     constructor(size_board,player_inicial){
         this.board = Array.from({ length: size_board }, () => Array(8).fill("empty")); // inicia a board cada array com 8 entradas a "empty"
         this.turn = player_inicial == 'P1' ? 0 : 1;
-        //this.pieces = Array.from({ length: 2 }, () => Array(size_board*3).fill("to_place")); // decidir melhor qual terminação usar
+        this.pieces_por_colocar = [size_board*3,size_board*3];
         this.pieces = [size_board*3,size_board*3]; // ? provavelmente podemos retirar
         this.fase = 0; // 0 -> colocar pecas | 1 -> mover
         this.remove_peca = false;
@@ -13,6 +13,7 @@ class trilha{
 
     colocar_peca(sq,pos){
         this.board[sq][pos] = this.turn == 0 ? 'piece_1' : 'piece_2';
+        this.pieces_por_colocar[this.turn]--;
     }
 
     remover_peca(sq,pos){
@@ -24,10 +25,18 @@ class trilha{
     }
 
     jogadas_possiveis(){ // 3 possibilidade colocar | mover | mover sem restricoes
-        let possiveis = [];  let n = 0;
-        let prox_a_jogar = this.turn == 0 ? 'piece_1' : 'piece_2';
+        /* 
+        chamar esta funcao esta para usar antes de jogarmos, 
+        quando turn = 0 retorna as posicoes para jogador 1
+        quando turn = 1 retorna as posicoes para jogador 2
+        */
+
+        let prox_a_jogar = this.turn == 0 ? 'piece_1' : 'piece_2'; // se estiver a retornar alterado apenas troccar 'piece_1' : 'piece_2' para 'piece_2' : 'piece_1'
+        var possiveis;
         
-        if( !this.fase ){ // colocar peca
+        if( !this.fase ){ // colocar peca -done-
+            possiveis = [];
+            let n = 0;
             for (let i=0; i<this.board.length;i++){
                 for(let j=0;j<this.board[i].length;j++){
                     if ( this.board[i][j] == "empty" ){
@@ -37,22 +46,85 @@ class trilha{
                 }
             }
         } else if ( this.pieces[this.turn] > 3 ){ // colocar em posicao adjacente
+            let n = 0, m = 0;
+            possiveis = []; // [ [ [pos_peca_escolhida], [pos_valida_1],[pos_valida_2] ], [ [pos_peca_escolhida], [pos_valida_1],[pos_valida_2] ], ... ]
             for (let i=0; i<this.board.length;i++){
                 for(let j=0;j<this.board[i].length;j++){
+                    let pos_valida = [];
+                    if ( this.board[i][j] == prox_a_jogar ){ // verificar se e a peca correta do player
+                        pos_valida[m++]=[i,j];
 
+                        if (j == 1 || j == 6){
+                            if(this.board[i][j+1]=='empty'){
+                                pos_valida[m++]=[i,j+1];
+                            }
+                            if(this.board[i][j-1]=='empty'){
+                                pos_valida[m++]=[i,j-1];
+                            }
+                            if(this.board[Math.max(i-1,0)][j]=='empty'){
+                                pos_valida[m++]=[Math.max(i-1,0), j];
+                            }
+                            if(this.board[Math.min(i+1,this.board.length-1)][j]=='empty'){
+                                pos_valida[m++]=[Math.min(i+1,this.board.length-1), j];
+                            }
+                        }else if(j == 3 || j == 4){
+                            let calc = j%2==0 ? [2,3]:[3,2]; // pq é diferente quando j=3 ou j=4, 
 
+                            if(this.board[i][j-calc[0]]=='empty'){
+                                pos_valida[m++]=[i,j-calc[0]];
+                            }
+                            if(this.board[i][j+calc[1]]=='empty'){
+                                pos_valida[m++]=[i,j+calc[1]];
+                            }
+                            if(this.board[Math.max(i-1,0)][j]=='empty'){
+                                pos_valida[m++]=[Math.max(i-1,0), j];
+                            }
+                            if(this.board[Math.min(i+1,this.board.length-1)][j]=='empty'){
+                                pos_valida[m++]=[Math.min(i+1,this.board.length-1), j];
+                            }
+                        }else if(j==0 || j==7){
+                            let calc = j%2==0 ? [1,3]:[-1,-3]; // pq é diferente quando j=0 ou j=7, 
+
+                            if(this.board[i][j+calc[0]]=='empty'){
+                                pos_valida[m++]=[i,j+calc[0]];
+                            }
+                            if(this.board[i][j+calc[1]]=='empty'){
+                                pos_valida[m++]=[i,j+calc[1]];
+                            }
+                        }else if(j==2 || j==5){
+                            let calc = j%2==0 ? [-1,2]:[1,-2]; // pq é diferente quando j=2 ou j=5, 
+
+                            if(this.board[i][j+calc[0]]=='empty'){
+                                pos_valida[m++]=[i,j+calc[0]];
+                            }
+                            if(this.board[i][j+calc[1]]=='empty'){
+                                pos_valida[m++]=[i,j+calc[1]];
+                            }
+                        }
+                    }
+                    if ( pos_valida.length > 1 ){ // se for == 1 entao nao tem movimentos adjacentes possiveis pelo que ignoramos
+                        possiveis[n++] = pos_valida;
+                    }
                 }
             }
-        }else{ // mover para qualquer pos
+        }else{ // mover para qualquer pos -done-
+            let n = 0, m = 0;
+            possiveis = [[],[]]; // [ [pos das nossas pecas], [pos de celulas vazias] ]
             for (let i=0; i<this.board.length;i++){
-                for(let j=0;j<this.board[i].length;j++){ // [ [pos das nossas pecas],  [pos de celulas vazias]  ]
-
-
+                for(let j=0;j<this.board[i].length;j++){ 
+                    if ( this.board[i][j] == prox_a_jogar ){ // pos das nossas pecas
+                        possiveis[0][m++] = [i,j];
+                        continue;
+                    }
+                    if ( this.board[i][j] == "empty" ){ // pos validas
+                        possiveis[1][n++] = [i,j];
+                        continue;
+                    }
                 }
             }
         }
 
-        return possiveis
+        return possiveis;
     }
 
     check_moinho(sq,pos){
