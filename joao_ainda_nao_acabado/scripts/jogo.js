@@ -5,7 +5,7 @@ class trilha{
     constructor(size_board,player_inicial){
         this.board = Array.from({ length: size_board }, () => Array(8).fill("empty")); // inicia a board cada array com 8 entradas a "empty"
         this.turn = player_inicial == 'P1' ? 0 : 1;
-        //this.pieces = Array.from({ length: 2 }, () => Array(size_board*3).fill("to_place")); // decidir melhor qual terminação usar
+        this.pieces_por_colocar = [size_board*3,size_board*3];
         this.pieces = [size_board*3,size_board*3]; // ? provavelmente podemos retirar
         this.fase = 0; // 0 -> colocar pecas | 1 -> mover
         this.remove_peca = false;
@@ -13,6 +13,7 @@ class trilha{
 
     colocar_peca(sq,pos){
         this.board[sq][pos] = this.turn == 0 ? 'piece_1' : 'piece_2';
+        this.pieces_por_colocar[this.turn]--;
     }
 
     remover_peca(sq,pos){
