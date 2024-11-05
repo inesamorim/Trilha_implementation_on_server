@@ -6,7 +6,7 @@ class trilha{
         this.board = Array.from({ length: size_board }, () => Array(8).fill("empty")); // inicia a board cada array com 8 entradas a "empty"
         this.turn = player_inicial == 'P1' ? 0 : 1;
         this.pieces_por_colocar = [size_board*3,size_board*3];
-        this.pieces = [size_board*3,size_board*3]; // ? provavelmente podemos retirar
+        this.pieces = [size_board*3,size_board*3];
         this.fase = 0; // 0 -> colocar pecas | 1 -> mover
         this.remove_peca = false;
         this.size_board = size_board;
@@ -20,9 +20,9 @@ class trilha{
 
     remover_peca(sq,pos){
         if( this.board[sq][pos] == 'piece_1' && this.turn == 1 // garantir que e valido eliminar
-            || this.board[sq][pos] == 'piece_2' && this.turn == 0
-        ){
+            || this.board[sq][pos] == 'piece_2' && this.turn == 0){
             this.board[sq][pos] = 'empty';
+            this.pieces[this.turn]--;
         }
     }
 
@@ -43,7 +43,6 @@ class trilha{
                 for(let j=0;j<this.board[i].length;j++){
                     if ( this.board[i][j] == "empty" ){
                         possiveis[n++] = [i,j];
-                        continue;
                     }
                 }
             }
@@ -129,6 +128,69 @@ class trilha{
         }
 
         return possiveis;
+    }
+
+    jogadas_possiveis_dada_peca(sq,pos){ //apenas chamar quando estamos na segunda fase
+        var jogadas=[]; let m = 0;
+
+        if ( this.pieces[this.turn] > 3 ){ //mover com restricoes
+            if (pos == 1 || pos == 6){
+                if(this.board[sq][pos+1]=='empty'){
+                    jogadas[m++]=[sq,pos+1];
+                }
+                if(this.board[sq][pos-1]=='empty'){
+                    jogadas[m++]=[sq,pos-1];
+                }
+                if(this.board[Math.max(sq-1,0)][pos]=='empty'){
+                    jogadas[m++]=[Math.max(sq-1,0), pos];
+                }
+                if(this.board[Math.min(sq+1,this.board.length-1)][pos]=='empty'){
+                    jogadas[m++]=[Math.min(sq+1,this.board.length-1), pos];
+                }
+            }else if(pos == 3 || pos == 4){
+                let calc = pos%2==0 ? [2,3]:[3,2]; // pq é diferente quando pos=3 ou pos=4, 
+
+                if(this.board[sq][pos-calc[0]]=='empty'){
+                    jogadas[m++]=[sq,pos-calc[0]];
+                }
+                if(this.board[sq][pos+calc[1]]=='empty'){
+                    jogadas[m++]=[sq,pos+calc[1]];
+                }
+                if(this.board[Math.max(sq-1,0)][pos]=='empty'){
+                    jogadas[m++]=[Math.max(sq-1,0), pos];
+                }
+                if(this.board[Math.min(sq+1,this.board.length-1)][pos]=='empty'){
+                    jogadas[m++]=[Math.min(sq+1,this.board.length-1), pos];
+                }
+            }else if(pos==0 || pos==7){
+                let calc = pos%2==0 ? [1,3]:[-1,-3]; // pq é diferente quando j=0 ou j=7, 
+
+                if(this.board[sq][pos+calc[0]]=='empty'){
+                    jogadas[m++]=[sq,pos+calc[0]];
+                }
+                if(this.board[sq][pos+calc[1]]=='empty'){
+                    jogadas[m++]=[sq,pos+calc[1]];
+                }
+            }else if(pos==2 || pos==5){
+                let calc = pos%2==0 ? [-1,2]:[1,-2]; // pq é diferente quando j=2 ou j=5, 
+
+                if(this.board[sq][pos+calc[0]]=='empty'){
+                    jogadas[m++]=[sq,pos+calc[0]];
+                }
+                if(this.board[sq][pos+calc[1]]=='empty'){
+                    jogadas[m++]=[sq,pos+calc[1]];
+                }
+            }
+        }else{
+            for (let i=0; i<this.board.length;i++){
+                for(let j=0;j<this.board[i].length;j++){
+                    if ( this.board[i][j] == "empty" ){
+                        jogadas[m++] = [i,j];
+                    }
+                }
+            }
+        }
+        return jogadas;
     }
 
     check_moinho(sq,pos){
