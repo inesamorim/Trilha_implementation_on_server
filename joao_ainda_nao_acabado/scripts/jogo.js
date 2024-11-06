@@ -2,7 +2,7 @@
 class trilha{
     // 0 corresponde ao P1 | 1 corresponde ao P2
 
-    constructor(size_board,player_inicial){
+    constructor(size_board,player_inicial, player_1=null, player_2=null){
         this.board = Array.from({ length: size_board }, () => Array(8).fill("empty")); // inicia a board cada array com 8 entradas a "empty"
         this.turn = player_inicial == 'P1' ? 0 : 1;
         this.pieces_por_colocar = [size_board*3,size_board*3];
@@ -12,6 +12,8 @@ class trilha{
         this.size_board = size_board;
         this.peca_para_mover;
         this.pos_validas;
+        //this.player_1 = player_1;
+        //this.player_2 = player_2;
     }
 
     colocar_peca(sq,pos){
@@ -229,23 +231,25 @@ class trilha{
         //check horizontal e vertical - different squares
         let i = 0;
         let counter = 1;
-        for(i = 1; i<3; i++){
-            if(this.is_valid_pos(sq-i,pos)){
-                if(this.board[sq-i][pos] == piece) counter+=1;
+        if(pos == 1 || pos == 3 || pos == 4 || pos == 6){            for(i = 1; i<3; i++){
+                if(this.is_valid_pos(sq-i,pos)){
+                    if(this.board[sq-i][pos] == piece) counter+=1;
+                }
+                else break;
             }
-            else break;
-        }
-        for(i = 1; i<3; i++){
-            if(this.is_valid_pos(sq+i,pos)){
-                if(this.board[sq+i][pos] == piece) counter+=1;
+            for(i = 1; i<3; i++){
+                if(this.is_valid_pos(sq+i,pos)){
+                    if(this.board[sq+i][pos] == piece) counter+=1;
+                }
+                else break;
             }
-            else break;
-        }
-        if(counter >= n){
-            return true;
-        }
+            if(counter >= n){
+                return true;
+            }
 
+        }
         return false;
+        
     }
 
     is_terminal_move() {
