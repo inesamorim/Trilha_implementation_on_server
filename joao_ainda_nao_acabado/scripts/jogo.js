@@ -23,7 +23,7 @@ class trilha{
         if( this.board[sq][pos] == 'piece_1' && this.turn == 1 // garantir que e valido eliminar
             || this.board[sq][pos] == 'piece_2' && this.turn == 0){
             this.board[sq][pos] = 'empty';
-            this.pieces[this.turn]--;
+            this.pieces[Math.abs(this.turn-1)]--;
         }
     }
 
