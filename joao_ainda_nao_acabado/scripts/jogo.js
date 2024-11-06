@@ -253,7 +253,7 @@ class trilha{
     }
 
     is_terminal_move() {
-        if (this.pieces[0] < this.size_board || this.pieces[1] < this.size_board){
+        if (this.pieces[0] < 3 || this.pieces[1] < 3){
             return true;
         }
         return false;
