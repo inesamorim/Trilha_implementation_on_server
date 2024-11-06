@@ -47,6 +47,43 @@
         <div id="ranking_page" class="modal">
             <span class="close_ranking">&times;</span>
             <h2 class="ranking_title">Tabela Classificativa</h2>
+            <div class="slideshow-container">
+                <div class="mySlides fade">
+                    <div class="center">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Posição</th>
+                                    <th>Jogador</th>
+                                    <th>Pontuação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ranking_table">
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+                <div class="mySlides fade">
+                    <div class="center">
+                        <table>
+                            <tbody id="table_scores">
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+                
+                <!-- Next and Previous buttons-->
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>            
+            </div>
+            <!-- The dots/circles -->
+            <div style="text-align:center">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+            </div>
+            <!--
             <div class="center">
                 <table>
                     <thead>
@@ -60,6 +97,7 @@
                     </tbody>
                 </table>
             </div>
+            -->
         </div>
 
 
@@ -302,6 +340,43 @@
                             </tbody>
                         </table>
                     </div>
+                    <!--
+                    
+
+
+                    <div class="slideshow-container">
+                        <div class="mySlides fade">
+                            <div class="center">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Posição</th>
+                                            <th>Jogador</th>
+                                            <th>Pontuação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ranking_table">
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                        <div class="mySlides fade">
+                            <div class="center">
+                                <table>
+                                    <tbody id="table_scores">
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+
+                        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                        <a class="next" onclick="plusSlides(1)">&#10095;</a>            
+                    </div>               
+                    
+                    -->
+                    
                  </div>
             </div>
                     

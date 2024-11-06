@@ -44,24 +44,123 @@ function loadRanking() {
 
 
 //start with 0 points
-localStorage.setItem("Player", 0);
 
- 
-function getScore(){
-    return localStorage.getItem("Player");
+
+
+//to create data
+if(!localStorage.getItem("SinglePlayer")){
+    localStorage.setItem("nGames", 0);
+    localStorage.setItem("GamesWon", 0);
+    localStorage.setItem("SingleScore", 0);
 }
 
-function increaseScore(value){
-    let scor = getScore();
-    scor += value;
-    //using same key overwrites previous value
-    localStorage.setItem("Player", scor);
+function updatenGames(){
+    let nG = parseInt(localStorage.getItem("nGames"))||0;
+    nG +=1;
+    localStorage.setItem("nGames", nG);
 }
 
-function decreaseScore(value){
-    //usar valores negativos?  assumir q não
-    //método de dívidas
-    let scor = getScore();
-    scor = Math.max(scor-value, 0);
-    localStorage.setItem("Player", scor);
+//PROXIMAS 2 SÓ CHAMADAs SE VITÓRIA
+function updateGamesWon(){
+    let W = parseInt(localStorage.getItem("GamesWon")) || 0;
+    W += 1;
+    localStorage.setItem("GamesWon", W);
 }
+
+function updateScore(addScore){
+    let score = parseInt(localStorage.getItem("SingleSocre"))||0;
+    score +=addScore;
+    localStorage.setItem("SingleScore", score);
+}
+
+
+//RESET IF WANTED
+function reSetStats(){
+    localStorage.setItem("nGames", 0);
+    localStorage.setItem("GamesWon", 0);
+    localStorage.setItem("SingleScore", 0);
+}
+
+  
+function showSingleStats(){
+    var nGames = (localStorage.getItem("nGames") || 0);  
+    var GamesWon = (localStorage.getItem("GamesWon") || 0);
+    var SingleScore = (localStorage.getItem("SingleScore") || 0);
+
+    console.log("Games Played:", nGames); 
+    console.log("Games Won:", GamesWon);
+    console.log("Overall Score:", SingleScore);
+
+
+    var rankingScores = [
+        { T: "nº of matches", G: nGames},
+        { T: "nº of victories" , G: GamesWon},
+        { T: "total points" , G: SingleScore}
+    ];
+
+    var tableBodyScore = document.getElementById("table_scores");
+    tableBodyScore.innerHTML = "";  // Limpa a tabela antes de carregar os dados
+
+    // Itera pelos dados de ranking e insere na tabela
+    rankingScores.forEach(function(entry) {
+        var row = document.createElement("tr");
+        row.innerHTML = `<td>${entry.T}</td><td>${entry.G}</td>`;
+        tableBodyScore.appendChild(row);
+    });
+
+}
+
+
+
+
+// Call displayStats when the page loads
+window.onload = function() {
+    showSingleStats();
+};
+
+// Function to display the specified slide
+function showSlide(index) {
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    
+    // Wrap the index to stay within bounds
+    if (index >= slides.length) currentSlideIndex = 0;
+    if (index < 0) currentSlideIndex = slides.length - 1;
+
+    // Hide all slides and remove active class from dots
+    slides.forEach(slide => slide.classList.remove('active-slide'));
+    dots.forEach(dot => dot.classList.remove('active-dot'));
+
+    // Show the selected slide and highlight the corresponding dot
+    slides[currentSlideIndex].classList.add('active-slide');
+    dots[currentSlideIndex].classList.add('active-dot');
+}
+
+//arranjar outro file?
+let slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " active";
+}
+

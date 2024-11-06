@@ -102,8 +102,8 @@ function showSingleStats(){
 
     ///////////////////////////////////////////////////////////////
     var rankingScores = [
-        { T: "no of matches", G: nGames},
-        { T: "no of victories" , G: GamesWon},
+        { T: "nº of matches", G: nGames},
+        { T: "nº of victories" , G: GamesWon},
         { T: "total points" , G: SingleScore}
     ];
 
