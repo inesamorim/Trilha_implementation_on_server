@@ -398,7 +398,7 @@ function setupBoardEvents(game){
             
 
             if (eliminar_peca){
-                let peca_a_eliminar = game.turn == 0 ? 'P2': 'P1';
+                let peca_a_eliminar = game.turn == 0 ? 'piece_1' : 'piece_2';;
                 if (game.board[square][position] == 'empty' || game.board[square][position] == peca_a_eliminar) return; // true se nao escolher nenhuma peca ou estiver ocupado com uma peca propria
                 
                 game.remover_peca(square,position);
