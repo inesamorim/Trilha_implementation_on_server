@@ -1,3 +1,4 @@
+import { executeMinimaxMove } from './minimax.js';
 
 class trilha{
     // 0 corresponde ao P1 | 1 corresponde ao P2
@@ -12,8 +13,8 @@ class trilha{
         this.size_board = size_board;
         this.peca_para_mover;
         this.pos_validas;
-        //this.player_1 = player_1;
-        //this.player_2 = player_2;
+        this.player_1 = player_1;
+        this.player_2 = player_2;
     }
 
     colocar_peca(sq,pos){
@@ -393,6 +394,13 @@ function gerar_board(n,structure) {
 
 function setupBoardEvents(game){
 
+    if((game.turn == 0 && game.player_1 == 'AI') || (game.turn == 0 && game.player_1 == 'AI')){
+        const [square,position] = executeMinimaxMove(1, 2)(game.board);
+    }
+
+    else {
+        //lógica para humano
+    }
     let eliminar_peca = false, mover_peca = false; // flags para a logica
 
     document.querySelectorAll('div[data-index]').forEach((div) => {
