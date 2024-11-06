@@ -1,96 +1,135 @@
+// Call displayStats when the page loads
+window.onload = function() {
+    showSingleStats();
+};
 
-class Player{
-    constructor(id, color){ //n_pieces
-        this.id = id;
-        this.pieces = 9; /*number of pices */
-        this.color = color;
-        this.placePiece = 0; //quando chegar a n_pieces começar 2ºfase
-        this.piecesOnBoard = [];
+// Function to display the specified slide
+function showSlide(index) {
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    
+    // Wrap the index to stay within bounds
+    if (index >= slides.length) currentSlideIndex = 0;
+    if (index < 0) currentSlideIndex = slides.length - 1;
 
-    }
+    // Hide all slides and remove active class from dots
+    slides.forEach(slide => slide.classList.remove('active-slide'));
+    dots.forEach(dot => dot.classList.remove('active-dot'));
 
-    nPieces(){ //to see nº of pieces on board
-        return this.piecesOnBoard.length;
-    }
-
-    getPieceAt(x, y){  //boolean true if found else false
-        return this.piecesOnBoard.find(p => p.x === x && p.y === y);
-        //why ===
-    }
-
-    placePiece(position){
-        if (this.placePiece<this.pieces && !this.getPieceAt(position.x, position.y)){
-            //this.pieces--; pk?
-            this.placePiece++;
-            this.piecesOnBoard.push({x: position.x, y: position.y});
-            return true;
-        }
-
-        return false;
-    }
-
-    movePiece(piece, new_x, new_y) {
-        piece.x = new_x;
-        piece.y = new_y;
-    }
-
-    removePieceAt(x, y) {
-        this.piecesOnBoard = this.piecesOnBoard.filter(p => !(p.x === x && p.y === y));
-    }
-
-    ////ver como fazer com as existentes~
-    /*
-    criar tabela que guarda poss de pieces antes de colocadas e depois quando
-    uma peça é colocada remove-se o último elemento da lista
-    */
-
-
-    //ver para usar class piece já existente de css
-    drawPieces(context, cellSize) {  //argumentos vindos da class jogo
-        this.piecesOnBoard.forEach(piece => {
-            context.fillStyle = this.color;
-            context.beginPath();
-            context.arc(
-                piece.x * cellSize + cellSize /2,
-                piece.y * cellSize + cellSize /2,
-                cellSize / 4,
-                0, 
-                Math.PI * 2
-            );
-            context.fill();
-        });
-    }
-
-
-    /*
-
-    Placing phase -> colocar peças
-    Moving phase -> jogo em si
-
-    ->nº de peças atuais ativado quando é removida peça
-    ->ver possíveis posiçoes
-    ->mover peça
-    ?->escolher peça
-    ->ver moinho
-    ->comer peça
-
-    */
+    // Show the selected slide and highlight the corresponding dot
+    slides[currentSlideIndex].classList.add('active-slide');
+    dots[currentSlideIndex].classList.add('active-dot');
 }
 
-class Game{
+
+let slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " active";
+}
+
+//to create data
+if(!localStorage.getItem("SinglePlayer")){
+    localStorage.setItem("nGames", 0);
+    localStorage.setItem("GamesWon", 0);
+    localStorage.setItem("SingleScore", 0);
+}
+
+function updatenGames(){
+    let nG = parseInt(localStorage.getItem("nGames"))||0;
+    nG +=1;
+    localStorage.setItem("nGames", nG);
+}
+
+//PROXIMAS 2 SÓ CHAMADAs SE VITÓRIA
+function updateGamesWon(){
+    let W = parseInt(localStorage.getItem("GamesWon")) || 0;
+    W += 1;
+    localStorage.setItem("GamesWon", W);
+}
+
+function updateScore(addScore){
+    let score = parseInt(localStorage.getItem("SingleSocre"))||0;
+    score +=addScore;
+    localStorage.setItem("SingleScore", score);
+}
+
+
+//RESET IF WANTED
+function reSetStats(){
+    localStorage.setItem("nGames", 0);
+    localStorage.setItem("GamesWon", 0);
+    localStorage.setItem("SingleScore", 0);
+}
+
+//HELLP   
+function showSingleStats(){
+    var nGames = (localStorage.getItem("nGames") || 0);  //meaning of const
+    var GamesWon = (localStorage.getItem("GamesWon") || 0);
+    var SingleScore = (localStorage.getItem("SingleScore") || 0);
+
+    console.log("Games Played:", nGames); 
+    console.log("Games Won:", GamesWon);
+    console.log("Overall Score:", SingleScore);
+
+    /* 
+    // You can also update HTML elements if you're displaying stats on the page
+    document.getElementById("nGames").innerText = nGames;
+    document.getElementById("GamesWon").innerText = GamesWon;
+    document.getElementById("SingleScore").innerText = SingleScore;
+    */
+
+    ///////////////////////////////////////////////////////////////
+    var rankingScores = [
+        { T: "no of matches", G: nGames},
+        { T: "no of victories" , G: GamesWon},
+        { T: "total points" , G: SingleScore}
+    ];
+
+    var tableBodyScore = document.getElementById("table_scores");
+    tableBodyScore.innerHTML = "";  // Limpa a tabela antes de carregar os dados
+
+    // Itera pelos dados de ranking e insere na tabela
+    rankingScores.forEach(function(entry) {
+        var row = document.createElement("tr");
+        row.innerHTML = `<td>${entry.T}</td><td>${entry.G}</td>`;
+        tableBodyScore.appendChild(row);
+    });
 
 }
+
 
 /--------------------------------------TESTE---------------------------------------------/
 // ran AIdiff(num of moves it can see?)  (4, 6, 8, 10, 12)
-// 1, 10, 20, 30, 40, 50   
+// 10, 20, 30, 40, 50   
 
 // numa faze inicial é apenas necessário salvar um scor
 //start with 0 points
-localStorage.setItem("Player", 0);
+//localStorage.setItem("Player", 0);
 
- 
-function getScore(){
+ /*
+ function getScore(){
     return localStorage.getItem("Player");
 }
 
@@ -108,10 +147,19 @@ function decreaseScore(value){
     scor = Math.max(scor-value, 0);
     localStorage.setItem("Player", scor);
 }
+ */
+
 
 
 //-------------------------DEPOIS------------------------------//usar servido
+//P1 -> Player 
+//P2 -> Oponent
+
+
 // Save score to the server
+
+/*
+
 function saveScore(playerName, score) {
     fetch("https://yourserver.com/api/saveScore", {
         method: "POST",
@@ -156,3 +204,4 @@ function getScore(playerName) {
         })
         .catch(error => console.error("Error getting score:", error));
 }
+*/
