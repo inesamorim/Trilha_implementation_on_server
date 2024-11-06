@@ -41,3 +41,27 @@ function loadRanking() {
         tableBody.appendChild(row);
     });
 }
+
+
+//start with 0 points
+localStorage.setItem("Player", 0);
+
+ 
+function getScore(){
+    return localStorage.getItem("Player");
+}
+
+function increaseScore(value){
+    let scor = getScore();
+    scor += value;
+    //using same key overwrites previous value
+    localStorage.setItem("Player", scor);
+}
+
+function decreaseScore(value){
+    //usar valores negativos?  assumir q não
+    //método de dívidas
+    let scor = getScore();
+    scor = Math.max(scor-value, 0);
+    localStorage.setItem("Player", scor);
+}
