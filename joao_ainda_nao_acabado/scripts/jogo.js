@@ -7,7 +7,7 @@ class trilha{
         this.turn = player_inicial == 'P1' ? 0 : 1;
         this.pieces_por_colocar = [size_board*3,size_board*3];
         this.pieces = [size_board*3,size_board*3];
-        this.fase = 0; // 0 -> colocar pecas | 1 -> mover
+        this.fase = 0; // 0 -> colocar pecas | 1 -> mover | 2 -> terminado
         this.remove_peca = false;
         this.size_board = size_board;
         this.peca_para_mover;
@@ -249,10 +249,10 @@ class trilha{
     }
 
     is_terminal_move() {
-        if (this.pieces[0] <= this.size_board - 1 || this.pieces[1] <= this.size_board - 1){
-            return 0;
+        if (this.pieces[0] < this.size_board || this.pieces[1] < this.size_board){
+            return true;
         }
-        return -1;
+        return false;
     }
 
     is_valid_pos(sq,pos) {
@@ -413,14 +413,16 @@ function setupBoardEvents(game){
                 let celula_remover = document.querySelector(`[data-index="${square},${position}"]`);
                 celula_remover.classList.remove(celula_remover.classList[1]);
 
-                game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-                document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
-                if (game.fase){
-                    document.querySelector('.game_fase').textContent = 'Mover peças';
+                if (game.is_terminal_move()){
+                    game.fase = 2;
+                    document.querySelector('.player_turn').textContent = "";
+                    document.querySelector('.game_fase').textContent = "player_name ganhou";
                 }else{
-                    document.querySelector('.game_fase').textContent = 'Colocar Peças';
+                    game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
+                    document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+                    document.querySelector('.game_fase').textContent = game.fase ? 'Mover peças': 'Colocar Peças';
+                    return;
                 }
-                return;
             }
 
             // dividir em 2 fases, colocar e mover as pecas
@@ -456,7 +458,7 @@ function setupBoardEvents(game){
                     document.querySelector('.game_fase').textContent = 'Mover peças';
                 }
             }
-            else{ // mover a peca
+            else if(game.fase == 1){ // mover a peca
                 // escolher
                 let peca_valida_escolher = game.turn == 0 ? 'piece_1' : 'piece_2';
                 if(!mover_peca){ // escolher a peca para mover
@@ -510,8 +512,10 @@ function setupBoardEvents(game){
                     }
                 }
             }
+            else{ // jogo terminou
+
+            }
             
-            // falta adicionar para quando o jogo termina
 
             console.log("board do jogo ",game.board);
             // Example action: show an alert
