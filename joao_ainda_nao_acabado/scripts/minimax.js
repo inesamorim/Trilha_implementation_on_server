@@ -11,8 +11,14 @@ class State {
       const new_state = _.cloneDeep(this.history[this.history.length-1]);
       //const new_state = structuredClone(this.history[this.history.length -1].board);
 
+      //moinho
+      if(new_state.remove_peca){
+        new_state.remover_peca(start_pos[0], start_pos[1]);
+        new_state.remove_peca = false;
+      }
+
       //fase 1 - colocar peças
-      if (!new_state.fase) {
+      else if (!new_state.fase) {
         new_state.colocar_peca(move[0],move[1]);
         //new_state.board[move[0]][move[1]];
         if(new_state.pieces_por_colocar === 0) {
@@ -95,6 +101,8 @@ class State {
       if (bestMoves.length === 0) {
         throw new Error(`Board has no valid actions ${state.history[state.history.length -1].board}`);
       }
+      console.log(bestEval);
+      console.log(bestMoves);
   
       const randomMove = bestMoves[Math.floor(Math.random() * bestMoves.length)];
       return randomMove;
@@ -102,8 +110,10 @@ class State {
   }
   
   function minimax(state, depth, alpha, beta, maximizing, player, evaluateFunc) {
-    if (depth === 0 || state.history[state.history.length -1].is_terminal_move() !== -1) {
-      return evaluateFunc(state) * (player === 1 ? 1 : -1);
+    if (depth === 0 || state.history[state.history.length -1].is_terminal_move()) {
+      const eval = evaluateFunc(state.history[state.history.length -1]);
+      //console.log(eval);
+      return eval// * (player === 1 ? 1 : -1);
     }
   
     if (maximizing) {
