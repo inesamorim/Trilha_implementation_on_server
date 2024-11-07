@@ -546,6 +546,118 @@ function player_move(game,peca_div,flags){
 }
 
 
+function CPU_move(game,CPU){ // CPU toma a string random ou IA (minimax)
+    let remover_peca_cpu = false;
+    console.log(CPU);
+
+    if( !game.fase ){ //colocar
+        
+        let square, position;
+        if(CPU == 'IA'){ //minimax
+            const celulas_validas = executeMinimaxMove(1, 2)(game.board); // receber a posicao para colocar
+            square = celulas_validas[0];
+            position = celulas_validas[1];
+        }else{ //random
+            const celulas_validas = game.jogadas_possiveis();
+            const index_celulas_validas = Math.floor(Math.random() * celulas_validas.length);
+            square = celulas_validas[index_celulas_validas][0];
+            position = celulas_validas[index_celulas_validas][1];
+        }
+
+        game.colocar_peca(square,position);
+        let div_peca_escolhida = document.querySelector(`[data-index="${square},${position}"]`);
+        div_peca_escolhida.classList.add(game.board[square][position]);
+        const container = game.turn == 0 ? document.querySelector('.player_1_pieces > .pecas_por_colocar') : document.querySelector('.player_2_pieces > .pecas_por_colocar');
+        container.removeChild(container.lastChild);
+
+         // analizar se é para trocar de fase
+        if (document.querySelector('.player_1_pieces > .pecas_por_colocar').childElementCount == 0 
+        && document.querySelector('.player_2_pieces > .pecas_por_colocar').childElementCount == 0){
+            game.fase = 1;
+            document.querySelector('.game_fase').textContent = 'Mover peças';
+        }
+
+        let check = game.check_moinho(square,position);
+        console.log(check)
+        if (check){
+            remover_peca_cpu = true;
+            document.querySelector('.game_fase').textContent = 'Eliminar Peça';
+        }else{   
+            game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
+            document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+        }
+    }
+    else if(game.fase == 1){ // mover a peca
+        
+        // * minimax * qual o comando para obter a posicao da peca a mover e a posicao para onde mover
+        const [antiga,nova] = null; // antiga=[sq,pos] e nova=[sq,pos]
+        if(CPU == 'IA'){ //minimax
+            //codigo para minimax
+
+        }else{ //random
+            // codigo para random
+
+        }
+
+  
+        let div_peca_escolhida = document.querySelector(`[data-index="${antiga[0]},${antiga[1]}"]`);
+        let nome_peca_escolhida = div_peca_escolhida.classList[1];
+        let div_nova_posicao = document.querySelector(`[data-index="${nova[0]},${nova[1]}"]`);
+
+        div_peca_escolhida.classList.remove(nome_peca_escolhida); //eliminar no html do local atual
+        div_nova_posicao.classList.add(nome_peca_escolhida); // mover no html para o novo local
+        game.mover_peca(square,position); // mover no objeto 
+        
+
+        let check = game.check_moinho(square,position);
+        console.log(check);
+        if (check){
+            remover_peca_cpu = true;
+            document.querySelector('.game_fase').textContent = 'Eliminar Peça';
+        }else{   
+            game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
+            document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+        }
+        
+    }
+
+    if (remover_peca_cpu){
+        
+        // obter a posicao da peca a eliminar
+        let square, position;
+        if(CPU == 'IA'){ //minimax
+            //codigo para minimax
+
+        }else{ //random
+            // codigo para random
+            
+        }
+
+
+        game.remover_peca(square,position);
+        remover_peca_cpu = false;
+
+        // adicina no html na div de pecas eliminadas uma nova peca
+        let cell_pecas = game.turn == 0 ? document.querySelector('.player_2_pieces > .pecas_eliminadas') : document.querySelector('.player_1_pieces > .pecas_eliminadas');
+        let cell_peca = document.createElement('div');
+        cell_peca.classList.add("peca");
+        cell_pecas.appendChild(cell_peca);
+        // retirar do html a peca na board
+        let celula_remover = document.querySelector(`[data-index="${square},${position}"]`);
+        celula_remover.classList.remove(celula_remover.classList[1]);
+
+        if (game.is_terminal_move()){
+            game.fase = 2;
+            document.querySelector('.player_turn').textContent = "";
+            document.querySelector('.game_fase').textContent = `${CPU} ganhou`;
+        }else{
+            game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
+            document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+            document.querySelector('.game_fase').textContent = game.fase ? 'Mover peças': 'Colocar Peças';
+            return;
+        }
+
+    }
 }
 
 
