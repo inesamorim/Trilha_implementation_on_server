@@ -606,7 +606,7 @@ function player_move(game,peca_div,flags){
 }
 
 
-async function CPU_move(game,CPU){ // CPU toma a string random ou IA (minimax)
+async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
     let remover_peca_cpu = false;
 
     await new Promise((r)=>setTimeout(r, 750));
