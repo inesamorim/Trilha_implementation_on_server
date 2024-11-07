@@ -217,6 +217,53 @@ class trilha{
         return possiveis;
     }
 
+    check_almost_moinho(sq, pos){
+        let piece = "";
+        if(this.turn == 0){
+            piece = "piece_1";
+        }
+        else{
+            piece = "piece_2";
+        }
+
+        if (this.board[sq][pos] != piece) return false; 
+
+        // check vertical - same square
+        if(pos == 0  && (this.board[sq][pos+3] == piece || this.board[sq][pos+5] == piece)) return true;
+        else if(pos == 2  && (this.board[sq][pos+2] == piece || this.board[sq][pos+5] == piece)) return true;
+        else if(pos == 3  && (this.board[sq][pos+2] == piece || this.board[sq][pos-3] == piece)) return true;
+        else if(pos == 4  && (this.board[sq][pos+3] == piece || this.board[sq][pos-2] == piece)) return true;
+        else if(pos == 5  && (this.board[sq][pos-2] == piece || this.board[sq][pos-5] == piece)) return true;
+        else if(pos == 7  && (this.board[sq][pos-3] == piece || this.board[sq][pos-5] == piece)) return true;
+
+        //check horizontal - same square
+        else if((pos == 0 || pos == 5) && (this.board[sq][pos+1] == piece || this.board[sq][pos+2] == piece)) return true;
+        else if((pos == 1 || pos == 6) && (this.board[sq][pos+1] == piece || this.board[sq][pos-1] == piece)) return true;
+        else if((pos == 2 || pos == 7) && (this.board[sq][pos-1] == piece || this.board[sq][pos-2] == piece)) return true;
+
+        //check horizontal e vertical - different squares
+        let i = 0;
+        let counter = 1;
+        if(pos == 1 || pos == 3 || pos == 4 || pos == 6){            for(i = 1; i<3; i++){
+                if(this.is_valid_pos(sq-i,pos)){
+                    if(this.board[sq-i][pos] == piece) counter+=1;
+                }
+                else break;
+            }
+            for(i = 1; i<3; i++){
+                if(this.is_valid_pos(sq+i,pos)){
+                    if(this.board[sq+i][pos] == piece) counter+=1;
+                }
+                else break;
+            }
+            if(counter >= 2){
+                return true;
+            }
+
+        }
+        return false;
+    }
+
     check_moinho(sq,pos){
         let piece = "";
         if(this.turn == 0){
@@ -226,7 +273,7 @@ class trilha{
             piece = "piece_2";
         }
 
-        const n = this.size_board; //numero de peças seguidas necessário para fazer moinho
+        const n = 3; //numero de peças seguidas necessário para fazer moinho
 
         if (this.board[sq][pos] != piece) return false; 
 
@@ -268,8 +315,10 @@ class trilha{
     }
 
     is_terminal_move() {
-        if (this.pieces[0] < 3 || this.pieces[1] < 3){
-            return true;
+        if(this.fase != 0){
+            if (this.pieces[0] < 3 || this.pieces[1] < 3){
+                return true;
+            }
         }
         return false;
     }
@@ -284,7 +333,7 @@ class trilha{
 
 
 var jogo = null;
-function main(){ // usado para criar o jogo e apresentar no html
+async function main(){ // usado para criar o jogo e apresentar no html
     
     const BoardSize = document.querySelector('select[name="size"]').value;
     const P1 = document.querySelector('select[name="p1"]').value;
@@ -307,7 +356,7 @@ function main(){ // usado para criar o jogo e apresentar no html
     gerar_board(BoardSize,board_structurs[BoardSize-3]);
     gerar_player_info(BoardSize);
     
-    start_game(jogo);
+    await start_game(jogo);
 }
 
 
@@ -408,7 +457,7 @@ function gerar_board(n,structure) {
 }
 
 
-function start_game(game){
+async function start_game(game){
 
     if (game.player_info[game.turn] != 'player'){ // caso seja o CPU a comecar
         CPU_move(game,game.player_info[game.turn]);
@@ -420,14 +469,14 @@ function start_game(game){
       };
 
     document.querySelectorAll('div[data-index]').forEach((div) => {
-        div.addEventListener('click', (event) => {
+        div.addEventListener('click', async (event) => {
 
             if (game.player_info[game.turn] == 'player'){ // player a jogar
                 player_move(game,div,flags);
             }
 
             if (game.player_info[game.turn] != 'player'){ // tem de ser um if novo pois caso o player tenha de escolher uma peca para mover ou eliminar o cpu ainda nao pode jogar
-                CPU_move(game,game.player_info[game.turn]);
+                await CPU_move(game,game.player_info[game.turn]);
             }
 
             // verificar se o jogo acabou if(game.fase == 2)
@@ -557,14 +606,16 @@ function player_move(game,peca_div,flags){
 }
 
 
-function CPU_move(game,CPU){ // CPU toma a string random ou IA (minimax)
+async function CPU_move(game,CPU){ // CPU toma a string random ou IA (minimax)
     let remover_peca_cpu = false;
+
+    await new Promise((r)=>setTimeout(r, 750));
 
     if( !game.fase ){ //colocar
         
         let square, position;
-        if(CPU == 'IA'){ //minimax
-            const celulas_validas = executeMinimaxMove(1, 2)(game.board); // receber a posicao para colocar
+        if(CPU == 'AI'){ //minimax
+            const celulas_validas = executeMinimaxMove(evaluateBoard, 1)(game); // receber a posicao para colocar
             square = celulas_validas[0];
             position = celulas_validas[1];
         }else{ //random
@@ -599,7 +650,9 @@ function CPU_move(game,CPU){ // CPU toma a string random ou IA (minimax)
         
         let antiga =[], nova=[]; // antiga=[sq,pos] e nova=[sq,pos]
         if(CPU == 'IA'){ //minimax
-            //codigo para minimax
+            const celulas_validas = executeMinimaxMove(evaluateBoard, 3)(game); // receber a posicao para colocar
+            square = celulas_validas[0];
+            position = celulas_validas[1];
 
         }else{ //random
             const celulas_validas = game.jogadas_possiveis();
@@ -647,7 +700,9 @@ function CPU_move(game,CPU){ // CPU toma a string random ou IA (minimax)
         // obter a posicao da peca a eliminar
         let square, position;
         if(CPU == 'IA'){ //minimax
-            //codigo para minimax
+            const celulas_validas = executeMinimaxMove(evaluateBoard, 3)(game); // receber a posicao para colocar
+            square = celulas_validas[0];
+            position = celulas_validas[1];
 
         }else{ //random
             const celulas_validas = game.jogadas_remover();
@@ -689,14 +744,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const menu_config = document.querySelector('.configuracoes');
     const menu_jogo = document.querySelector('.jogo');
 
-    start.onclick = function(){
+    start.onclick = async function(){
         // se P1 for nao for player entao P2 tambem nao pode ser
         if (document.querySelector('select[name="p1"]').value != 'player' && document.querySelector('select[name="p2"]').value == 'player'){
             alert('Formato inválido\nNão pode escolher CPU VS Player');
         }else{ // trocar para o menu do tabuleiro e iniciar jogo
             menu_config.style.display = 'none';
             menu_jogo.style.display = 'flex';
-            main();
+            await main();
         }
     }
 });
