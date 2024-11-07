@@ -115,6 +115,7 @@ body {
     float: right;
     font-size: 28px;
     font-weight: bold;
+    margin-right: 20%;
   }
   .close_ranking:hover, .close_ranking:focus {
     color: pink;
