@@ -563,7 +563,7 @@ function CPU_move(game,CPU){ // CPU toma a string random ou IA (minimax)
     if( !game.fase ){ //colocar
         
         let square, position;
-        if(CPU == 'IA'){ //minimax
+        if(CPU == 'AI'){ //minimax
             const celulas_validas = executeMinimaxMove(1, 2)(game.board); // receber a posicao para colocar
             square = celulas_validas[0];
             position = celulas_validas[1];
@@ -598,7 +598,7 @@ function CPU_move(game,CPU){ // CPU toma a string random ou IA (minimax)
     else if(game.fase == 1){ // mover a peca
         
         let antiga =[], nova=[]; // antiga=[sq,pos] e nova=[sq,pos]
-        if(CPU == 'IA'){ //minimax
+        if(CPU == 'AI'){ //minimax
             //codigo para minimax
 
         }else{ //random
@@ -646,7 +646,7 @@ function CPU_move(game,CPU){ // CPU toma a string random ou IA (minimax)
         
         // obter a posicao da peca a eliminar
         let square, position;
-        if(CPU == 'IA'){ //minimax
+        if(CPU == 'AI'){ //minimax
             //codigo para minimax
 
         }else{ //random
