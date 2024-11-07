@@ -58,11 +58,12 @@ class trilha{
         } 
         
         else if ( this.pieces[this.turn] > 3 ){ // colocar em posicao adjacente
-            let n = 0, m = 0;
+            let n = 0;
             possiveis = []; // [ [ [pos_peca_escolhida], [pos_valida_1],[pos_valida_2] ], [ [pos_peca_escolhida], [pos_valida_1],[pos_valida_2] ], ... ]
             for (let i=0; i<this.board.length;i++){
                 for(let j=0;j<this.board[i].length;j++){
                     let pos_valida = [];
+                    let m = 0;
                     if ( this.board[i][j] == prox_a_jogar ){ // verificar se e a peca correta do player
                         pos_valida[m++]=[i,j];
 
@@ -200,6 +201,20 @@ class trilha{
             }
         }
         return jogadas;
+    }
+
+    jogadas_remover(){
+        let possiveis = []; let n = 0;
+        let peca_eliminar = this.turn==0 ? 'piece_2' : 'piece_1';
+
+        for (let i=0; i<this.board.length;i++){
+            for(let j=0;j<this.board[i].length;j++){
+                if ( this.board[i][j] == peca_eliminar ){
+                    possiveis[n++] = [i,j];
+                }
+            }
+        }
+        return possiveis;
     }
 
     check_moinho(sq,pos){
@@ -467,9 +482,7 @@ function player_move(game,peca_div,flags){
         container.removeChild(container.lastChild);
 
 
-        let check = game.check_moinho(square,position);
-        console.log(check)
-        if (check){
+        if (game.check_moinho(square,position)){
             flags.eliminar_peca = true;
             document.querySelector('.game_fase').textContent = 'Eliminar Peça';
             // talvez adicionar algo no ecra para indicar que e para eliminar uma peca
@@ -528,9 +541,7 @@ function player_move(game,peca_div,flags){
             
             flags.mover_peca = false;
 
-            let check = game.check_moinho(square,position);
-            console.log(check);
-            if (check){
+            if (game.check_moinho(square,position)){
                 flags.eliminar_peca = true;
                 document.querySelector('.game_fase').textContent = 'Eliminar Peça';
                 // talvez adicionar algo no ecra para indicar que e para eliminar uma peca
@@ -548,7 +559,6 @@ function player_move(game,peca_div,flags){
 
 function CPU_move(game,CPU){ // CPU toma a string random ou IA (minimax)
     let remover_peca_cpu = false;
-    console.log(CPU);
 
     if( !game.fase ){ //colocar
         
@@ -577,9 +587,7 @@ function CPU_move(game,CPU){ // CPU toma a string random ou IA (minimax)
             document.querySelector('.game_fase').textContent = 'Mover peças';
         }
 
-        let check = game.check_moinho(square,position);
-        console.log(check)
-        if (check){
+        if (game.check_moinho(square,position)){
             remover_peca_cpu = true;
             document.querySelector('.game_fase').textContent = 'Eliminar Peça';
         }else{   
@@ -589,14 +597,30 @@ function CPU_move(game,CPU){ // CPU toma a string random ou IA (minimax)
     }
     else if(game.fase == 1){ // mover a peca
         
-        // * minimax * qual o comando para obter a posicao da peca a mover e a posicao para onde mover
-        const [antiga,nova] = null; // antiga=[sq,pos] e nova=[sq,pos]
+        let antiga =[], nova=[]; // antiga=[sq,pos] e nova=[sq,pos]
         if(CPU == 'IA'){ //minimax
             //codigo para minimax
 
         }else{ //random
-            // codigo para random
+            const celulas_validas = game.jogadas_possiveis();
+            if(game.pieces[game.turn] > 3){ // [ [ [pos_peca_escolhida], [pos_valida_1],[pos_valida_2] ], [ [pos_peca_escolhida], [pos_valida_1],[pos_valida_2] ], ... ]
 
+                const index_celulas_validas = Math.floor(Math.random() * celulas_validas.length);
+                antiga[0]=celulas_validas[index_celulas_validas][0][0];
+                antiga[1]=celulas_validas[index_celulas_validas][0][1]; 
+                const index_nova_cell = Math.floor(Math.random() * ((celulas_validas[index_celulas_validas].length-1)))+1;
+                nova[0]=celulas_validas[index_celulas_validas][index_nova_cell][0];
+                nova[1]=celulas_validas[index_celulas_validas][index_nova_cell][1]; 
+            }else{              // [ [pos das nossas pecas], [pos de celulas vazias] ]
+                const index_peca = Math.floor(Math.random() * celulas_validas[0].length);
+                const index_celula = Math.floor(Math.random() * celulas_validas[1].length);
+                antiga[0]=celulas_validas[0][index_peca][0];
+                antiga[1]=celulas_validas[0][index_peca][1]; 
+                nova[0]=celulas_validas[1][index_celula][0];
+                nova[1]=celulas_validas[1][index_celula][1]; 
+            }
+
+            game.peca_para_mover = [antiga[0],antiga[1]];
         }
 
   
@@ -606,19 +630,16 @@ function CPU_move(game,CPU){ // CPU toma a string random ou IA (minimax)
 
         div_peca_escolhida.classList.remove(nome_peca_escolhida); //eliminar no html do local atual
         div_nova_posicao.classList.add(nome_peca_escolhida); // mover no html para o novo local
-        game.mover_peca(square,position); // mover no objeto 
+        game.mover_peca(nova[0],nova[1]); // mover no objeto 
         
 
-        let check = game.check_moinho(square,position);
-        console.log(check);
-        if (check){
+        if (game.check_moinho(nova[0],nova[1])){
             remover_peca_cpu = true;
             document.querySelector('.game_fase').textContent = 'Eliminar Peça';
         }else{   
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
             document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
         }
-        
     }
 
     if (remover_peca_cpu){
@@ -629,8 +650,10 @@ function CPU_move(game,CPU){ // CPU toma a string random ou IA (minimax)
             //codigo para minimax
 
         }else{ //random
-            // codigo para random
-            
+            const celulas_validas = game.jogadas_remover();
+            const index_celulas_validas = Math.floor(Math.random() * celulas_validas.length);
+            square = celulas_validas[index_celulas_validas][0];
+            position = celulas_validas[index_celulas_validas][1];
         }
 
 
