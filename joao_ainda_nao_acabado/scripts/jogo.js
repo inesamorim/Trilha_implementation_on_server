@@ -1,4 +1,4 @@
-import { executeMinimaxMove } from './minimax.js';
+//import { executeMinimaxMove } from './minimax.js';
 
 class trilha{
     // 0 corresponde ao P1 | 1 corresponde ao P2
