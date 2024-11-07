@@ -760,9 +760,21 @@ h1.titulo {
         margin: 0;
         padding: 0;
       }
+      .card {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+      }
       .table {
         margin: 0;
         width: 100%;
+        
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
       }
       table {
         display: flex;
@@ -771,60 +783,94 @@ h1.titulo {
         border-collapse: collapse;
         align-self: center;
         justify-content: center;
-        
-
-        /* Left-side positioning for Grid size and P1
-        9% Attach to the left side
-        / Adjust this width if needed /
-        .left-section {
-            position: absolute;
-            left: 15%;   
-            width: 25%; 
-            padding: 20px;
-        }
-        */
-        
-
-        /*
-        .center-section {
-            position: absolute;
-            right: 50%; / Attach around 50% /
-            /transform: translateX(-100%); Center align /
-            width: 25%; / Adjust the width /
-            padding: 20px;
-        }
-        */
-        
-
-        /* Center positioning for Start player and P2 */
-        
-
       }
 
-
+      /*
       label{
         font-family: cursive;
-        font-size:2.1vmax;/**/
+        font-size:2.1vmax;/*
         color: rgb(217, 237, 237);
       }
 
       td {
-        padding: 20px 10px; /* 20px 10px Vertical padding of 20px, horizontal padding of 10px */
-        text-align: center;/**/
+        padding: 20px 10px; 
+        text-align: center;
       }
 
       hr {
-        margin-bottom: 20px; /* Add some space below the horizontal rule */
+        margin-bottom: 20px;
         width: 100px;
         height: 5px;
       }
+      */
 
       .canto {
         position: fixed;
         bottom: 5%;
         right: 0;
         width: 100px;
-        }
+      }
+
+      .hidden {
+        display: none;
+      }
+
+
+      .containerdiv {
+          display: flex;
+          width: 100%;
+           /*height: 200px; Set height as needed */
+      }
+
+
+      /* Zone 1 and Zone 4 - each occupy 30% of the width */
+      .zoneOUT {
+          width: 28%;
+          flex-direction: column; /* Stack children vertically */
+          align-items: flex-start; /* Align items to the start */
+          padding: 10px; /* Add some padding */
+          /*margin-bottom: 15px;*/
+      }
+
+      .zoneOUT select{
+        margin-bottom: 25 px;
+      }
+
+      /* Zone 2 and Zone 3 - each occupy 20% of the width */
+      .INNERzoneL {
+          width: 15%;
+          flex-direction: column; /* Stack children vertically */
+          padding: 10px; /* Add some padding */
+          align-items: left;
+          
+      }
+      /* Zone 2 and Zone 3 - each occupy 20% of the width */
+      .INNERzoneR {
+        width: 15%;
+        flex-direction: column; /* Stack children vertically */
+        align-items: right;
+      }
+
+      .borderzone {
+        width:7%;
+      }
+
+      /* Styling for each zone (optional styling for demonstration) */
+      .zone {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          color: white;
+          font-size: 20px;
+      }
+
+
+      .row {
+        display: flex;
+        align-items: center; /* Aligns elements within row vertically */
+        gap: 10px; /* Space between P1 and diff level */
+      }
 
 
       /*
@@ -871,19 +917,6 @@ h1.titulo {
       select::-ms-expand {
         display: none; 
       }
-      select {
-        Forcing browsers to remove the scrollbar 
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none; 
-      }
-        
-      @media (max-with: 52em) {
-        h1 {
-            width: 50em;
-            height: 25em;
-        }
-      }
       */
 
 
@@ -911,8 +944,6 @@ h1.titulo {
       option:active {
         background-color: #e2e6ea;
       }
-
-
 
       option:checked {
         color: #8352e4;
