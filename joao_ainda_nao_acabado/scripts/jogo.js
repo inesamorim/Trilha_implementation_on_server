@@ -477,7 +477,7 @@ function gerar_board(n,structure) {
 
 async function start_game(game){
 
-    if (game.player_info[game.turn] != 'player'){ // caso seja o CPU a comecar
+    if (game.player_info[game.turn] == 'AI' || game.player_info[game.turn] == 'random'){ // caso seja o CPU a comecar
         CPU_move(game,game.player_info[game.turn]);
     }
 
@@ -488,12 +488,12 @@ async function start_game(game){
 
     document.querySelectorAll('div[data-index]').forEach((div) => {
         div.addEventListener('click', async (event) => {
-
-            if (game.player_info[game.turn] == 'player'){ // player a jogar
+            
+            if (game.player_info[game.turn] != 'AI' || game.player_info[game.turn] != 'random'){ // player a jogar
                 player_move(game,div,flags);
             }
 
-            if (game.player_info[game.turn] != 'player'){ // tem de ser um if novo pois caso o player tenha de escolher uma peca para mover ou eliminar o cpu ainda nao pode jogar
+            if (game.player_info[game.turn] == 'AI' || game.player_info[game.turn] == 'random'){ // tem de ser um if novo pois caso o player tenha de escolher uma peca para mover ou eliminar o cpu ainda nao pode jogar
                 await CPU_move(game,game.player_info[game.turn]);
             }
 
@@ -525,11 +525,11 @@ function player_move(game,peca_div,flags){
 
         if (game.is_terminal_move()){
             game.fase = 2;
-            document.querySelector('.player_turn').textContent = "";
-            document.querySelector('.game_fase').textContent = "player_name ganhou";
+            document.querySelector('.player_turn').textContent = "Jogo terminado";
+            document.querySelector('.game_fase').textContent = `${game.player_info[game.turn]} ganhou`;
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+            document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
             document.querySelector('.game_fase').textContent = game.fase ? 'Mover peças': 'Colocar Peças';
             return;
         }
@@ -556,7 +556,7 @@ function player_move(game,peca_div,flags){
 
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+            document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez // alternar o texto a indicar a vez
         }
 
         // analizar se é para trocar de fase
@@ -614,7 +614,7 @@ function player_move(game,peca_div,flags){
                 // talvez adicionar algo no ecra para indicar que e para eliminar uma peca
             }else{
                 game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-                document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+                document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
             }
         }
     }
@@ -626,7 +626,7 @@ function player_move(game,peca_div,flags){
 
 async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
-    await new Promise((r)=>setTimeout(r, 750));
+    await new Promise((r)=>setTimeout(r, 400));
 
     if( !game.fase ){ //colocar
 
@@ -660,7 +660,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
             document.querySelector('.game_fase').textContent = 'Eliminar Peça';
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+            document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
         }
     }
     else if(game.fase == 1){ // mover a peca
@@ -668,11 +668,10 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
         let antiga =[], nova=[]; // antiga=[sq,pos] e nova=[sq,pos]
         if(CPU == 'AI'){ //minimax
             const celulas_validas = executeMinimaxMove(evaluateBoard, game.dificuldade[game.turn])(game); // receber a posicao para colocar
+            console.log("mover peca AI: ",celulas_validas);
             antiga = celulas_validas[1];
             nova = celulas_validas[0];
             game.peca_para_mover = [antiga[0], antiga[1]];
-            //square = celulas_validas[0][0];
-            //position = celulas_validas[0][1];
 
         }else{ //random
             const celulas_validas = game.jogadas_possiveis();
@@ -711,7 +710,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
             document.querySelector('.game_fase').textContent = 'Eliminar Peça';
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+            document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
         }
     }
 
@@ -746,11 +745,11 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
         if (game.is_terminal_move()){
             game.fase = 2;
-            document.querySelector('.player_turn').textContent = "";
+            document.querySelector('.player_turn').textContent = "Jogo terminado";
             document.querySelector('.game_fase').textContent = `${CPU} ganhou`;
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+            document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
             document.querySelector('.game_fase').textContent = game.fase ? 'Mover peças': 'Colocar Peças';
             return;
         }
