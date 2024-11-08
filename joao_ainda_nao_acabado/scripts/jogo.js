@@ -10,6 +10,7 @@ class trilha{
         this.pieces = [size_board*3,size_board*3];
         this.fase = 0; // 0 -> colocar pecas | 1 -> mover | 2 -> terminado
         this.remove_peca = false;
+        this.remover_peca_cpu = false;
         this.size_board = size_board;
         this.peca_para_mover;
         this.pos_validas;
@@ -607,7 +608,7 @@ function player_move(game,peca_div,flags){
 
 
 async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
-    let remover_peca_cpu = false;
+    //let remover_peca_cpu = false;
 
     await new Promise((r)=>setTimeout(r, 750));
 
@@ -616,8 +617,8 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
         let square, position;
         if(CPU == 'AI'){ //minimax
             const celulas_validas = executeMinimaxMove(evaluateBoard, 1)(game); // receber a posicao para colocar
-            square = celulas_validas[0];
-            position = celulas_validas[1];
+            square = celulas_validas[0][0];
+            position = celulas_validas[0][1];
         }else{ //random
             const celulas_validas = game.jogadas_possiveis();
             const index_celulas_validas = Math.floor(Math.random() * celulas_validas.length);
@@ -639,7 +640,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
         }
 
         if (game.check_moinho(square,position)){
-            remover_peca_cpu = true;
+            game.remover_peca_cpu = true;
             document.querySelector('.game_fase').textContent = 'Eliminar Peça';
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
@@ -651,8 +652,11 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
         let antiga =[], nova=[]; // antiga=[sq,pos] e nova=[sq,pos]
         if(CPU == 'AI'){ //minimax
             const celulas_validas = executeMinimaxMove(evaluateBoard, 3)(game); // receber a posicao para colocar
-            square = celulas_validas[0];
-            position = celulas_validas[1];
+            antiga = celulas_validas[1];
+            nova = celulas_validas[0];
+            game.peca_para_mover = [antiga[0], antiga[1]];
+            //square = celulas_validas[0][0];
+            //position = celulas_validas[0][1];
 
         }else{ //random
             const celulas_validas = game.jogadas_possiveis();
@@ -687,7 +691,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
 
         if (game.check_moinho(nova[0],nova[1])){
-            remover_peca_cpu = true;
+            game.remover_peca_cpu = true;
             document.querySelector('.game_fase').textContent = 'Eliminar Peça';
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
@@ -695,14 +699,14 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
         }
     }
 
-    if (remover_peca_cpu){
+    if (game.remover_peca_cpu){
 
         // obter a posicao da peca a eliminar
         let square, position;
         if(CPU == 'AI'){ //minimax
             const celulas_validas = executeMinimaxMove(evaluateBoard, 3)(game); // receber a posicao para colocar
-            square = celulas_validas[0];
-            position = celulas_validas[1];
+            square = celulas_validas[0][0];
+            position = celulas_validas[0][1];
 
         }else{ //random
             const celulas_validas = game.jogadas_remover();
@@ -713,7 +717,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
 
         game.remover_peca(square,position);
-        remover_peca_cpu = false;
+        game.remover_peca_cpu = false;
 
         // adicina no html na div de pecas eliminadas uma nova peca
         let cell_pecas = game.turn == 0 ? document.querySelector('.player_2_pieces > .pecas_eliminadas') : document.querySelector('.player_1_pieces > .pecas_eliminadas');

@@ -6,15 +6,15 @@ class State {
     }
   
     // Executes an action and updates the history
-    execute(move, start_pos = [0,0]) {
+    execute(move, start_pos = [-1,-1]) {
       //move é um elemento das jogadas possíveis
       const new_state = _.cloneDeep(this.history[this.history.length-1]);
       //const new_state = structuredClone(this.history[this.history.length -1].board);
 
       //moinho
-      if(new_state.remove_peca){
-        new_state.remover_peca(start_pos[0], start_pos[1]);
-        new_state.remove_peca = false;
+      if(new_state.remover_peca_cpu){
+        new_state.remover_peca(move[0], move[1]);
+        new_state.remover_peca_cpu = false;
       }
 
       //fase 1 - colocar peças
@@ -55,7 +55,16 @@ class State {
       const state = new State();
       state.history.push(state_copy);
 
-      const actions = state.history[state.history.length -1].jogadas_possiveis(); //ultimo elemento do histórico; o retorno depende da fase
+      let actions = [];
+      if (state_copy.remover_peca_cpu){
+        actions = state_copy.jogadas_remover();
+      }
+
+      else {
+        actions = state.history[state.history.length -1].jogadas_possiveis(); //ultimo elemento do histórico; o retorno depende da fase
+      }
+
+      
       const fase = state.history[state.history.length -1].fase; 
       const player = state.history[state.history.length-1].turn;
   
@@ -63,49 +72,74 @@ class State {
         // There isn't much to do and this can take a long time
         return actions[0];
       }
-  
+      
+      let start_pos = [-1,-1];
+      let best_start_pos = [-1,-1];
+      let sliced_move;
       for (let move of actions) {
-        //fase 1
+        //fase 1 ou remover
         if(Number.isInteger(move[0])) {
+          //start_pos = [-1,-1]; //buffer
           state.execute(move);
+
+          const newStateEval = minimax(
+            state,
+            depth - 1,
+            -Infinity,
+            Infinity,
+            false,
+            player,
+            evaluateFunc
+          );
+          state.undo();
+    
+          if (newStateEval > bestEval) {
+            bestMoves = [move];
+            best_start_pos = start_pos;
+            bestEval = newStateEval;
+          } else if (newStateEval === bestEval) {
+            bestMoves.push(move);
+          }
         }
 
         //fase 2
         else {
-          const start_pos = move[0];
-          move = move.slice(1);
-          for(const i of move) {
-            state.execute(i, start_pos);
-          }
-        }
+            start_pos = move[0]; 
+            sliced_move = move.slice(1); //moves possiveis
+            for(let i of sliced_move) {
+              state.execute(i, start_pos);
+
+              const newStateEval = minimax(
+                state,
+                depth - 1,
+                -Infinity,
+                Infinity,
+                false,
+                player,
+                evaluateFunc
+              );
+              state.undo();
         
-        const newStateEval = minimax(
-          state,
-          depth - 1,
-          -Infinity,
-          Infinity,
-          false,
-          player,
-          evaluateFunc
-        );
-        state.undo();
-  
-        if (newStateEval > bestEval) {
-          bestMoves = [move];
-          bestEval = newStateEval;
-        } else if (newStateEval === bestEval) {
-          bestMoves.push(move);
-        }
+              if (newStateEval > bestEval) {
+                bestMoves = [i];
+                best_start_pos = start_pos;
+                bestEval = newStateEval;
+              } else if (newStateEval === bestEval) {
+                bestMoves.push(i);
+              }
+            }
+          }
+        
       }
   
       if (bestMoves.length === 0) {
         throw new Error(`Board has no valid actions ${state.history[state.history.length -1].board}`);
       }
       console.log(bestEval);
-      console.log(bestMoves);
+      //console.log(bestMoves);
   
       const randomMove = bestMoves[Math.floor(Math.random() * bestMoves.length)];
-      return randomMove;
+      return [randomMove, best_start_pos];
     };
   }
   
@@ -120,69 +154,109 @@ class State {
       let maxEval = -Infinity;
       const actions = state.history[state.history.length -1].jogadas_possiveis();
       for (let move of actions) {
-        //fase 1
+        //fase 1 ou remover
         if(Number.isInteger(move[0])) {
+          //start_pos = [-1,-1]; //buffer
           state.execute(move);
+
+          const newStateEval = minimax(
+            state,
+            depth - 1,
+            -Infinity,
+            Infinity,
+            false,
+            player,
+            evaluateFunc
+          );
+          state.undo();
+          maxEval = Math.max(maxEval, newStateEval);
+          alpha = Math.max(alpha, newStateEval);
+          if (beta <= alpha) {
+            break;
+          }
         }
 
         //fase 2
         else {
-          const start_pos = move[0];
-          move = move.slice(1);
-          for(const i of move) {
-            state.execute(i, start_pos);
+            start_pos = move[0]; 
+            sliced_move = move.slice(1); //moves possiveis
+            for(let i of sliced_move) {
+              state.execute(i, start_pos);
+
+              const newStateEval = minimax(
+                state,
+                depth - 1,
+                -Infinity,
+                Infinity,
+                false,
+                player,
+                evaluateFunc
+              );
+              state.undo();
+              maxEval = Math.max(maxEval, newStateEval);
+              alpha = Math.max(alpha, newStateEval);
+              if (beta <= alpha) {
+                break;
+              }
+            }
           }
-        }
-        const eval = minimax(
-          state,
-          depth - 1,
-          alpha,
-          beta,
-          false,
-          player,
-          evaluateFunc
-        );
-        state.undo();
-        maxEval = Math.max(maxEval, eval);
-        alpha = Math.max(alpha, eval);
-        if (beta <= alpha) {
-          break;
-        }
+        
       }
       return maxEval;
-    } else {
+
+    } 
+    else {
       let minEval = Infinity;
       const actions = state.history[state.history.length -1].jogadas_possiveis();
       for (let move of actions) {
-        //fase 1
+        //fase 1 ou remover
         if(Number.isInteger(move[0])) {
+          //start_pos = [-1,-1]; //buffer
           state.execute(move);
+
+          const newStateEval = minimax(
+            state,
+            depth - 1,
+            -Infinity,
+            Infinity,
+            false,
+            player,
+            evaluateFunc
+          );
+          state.undo();
+          minEval = Math.min(minEval, newStateEval);
+          beta = Math.min(beta, newStateEval);
+          if (beta <= alpha) {
+            break;
+          }
         }
 
         //fase 2
         else {
-          const start_pos = move[0];
-          move = move.slice(1);
-          for(const i of move) {
-            state.execute(i, start_pos);
+            start_pos = move[0]; 
+            sliced_move = move.slice(1); //moves possiveis
+            for(let i of sliced_move) {
+              state.execute(i, start_pos);
+
+              const newStateEval = minimax(
+                state,
+                depth - 1,
+                -Infinity,
+                Infinity,
+                false,
+                player,
+                evaluateFunc
+              );
+              state.undo();
+              minEval = Math.min(minEval, newStateEval);
+              beta = Math.min(beta, newStateEval);
+              if (beta <= alpha) {
+                break;
+              }
+            }
           }
-        }
-        const eval = minimax(
-          state,
-          depth - 1,
-          alpha,
-          beta,
-          true,
-          player,
-          evaluateFunc
-        );
-        state.undo();
-        minEval = Math.min(minEval, eval);
-        beta = Math.min(beta, eval);
-        if (beta <= alpha) {
-          break;
-        }
-      }
+      
       return minEval;
+      }
     }
   }
