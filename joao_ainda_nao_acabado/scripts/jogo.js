@@ -322,15 +322,13 @@ class trilha{
     }
 
     is_terminal_move() {
-        if(this.fase != 0){
-            if (this.pieces[0] < 3 || this.pieces[1] < 3){
-                updatenGames();
-                if (game.player_info[ Math.abs(game.turn-1)] == nome_p1){
-                    updateGamesWon();
-                    updateScore(10);
-                }
-                return true;
+        if (this.pieces[0] < 3 || this.pieces[1] < 3){
+            updatenGames();
+            if (game.player_info[ Math.abs(game.turn-1)] == nome_p1){
+                updateGamesWon();
+                updateScore(10);
             }
+            return true;
         }
         return false;
     }
@@ -675,9 +673,8 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
         let antiga =[], nova=[]; // antiga=[sq,pos] e nova=[sq,pos]
         if(CPU == 'AI'){ //minimax
             const celulas_validas = executeMinimaxMove(evaluateBoard, game.dificuldade[game.turn])(game); // receber a posicao para colocar
-            console.log("mover peca AI: ",celulas_validas);
-            antiga = celulas_validas[1];
             nova = celulas_validas[0];
+            antiga = celulas_validas[1];
             game.peca_para_mover = [antiga[0], antiga[1]];
 
         }else{ //random
@@ -690,20 +687,20 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
                 const index_nova_cell = Math.floor(Math.random() * ((celulas_validas[index_celulas_validas].length-1)))+1;
                 nova[0]=celulas_validas[index_celulas_validas][index_nova_cell][0];
                 nova[1]=celulas_validas[index_celulas_validas][index_nova_cell][1];
-            }else{              // [ [pos das nossas pecas], [pos de celulas vazias] ]
-                const index_peca = Math.floor(Math.random() * celulas_validas[0].length);
+            }else{              // [ [pos das nossas pecas], [pos de celulas vazias]]
+                   // formato novo [ [peça nossa],[casas vazias], [peça nossa],[casas vazias], [peça nossa],[casas vazias]]
+                const index_peca = [0,2,4][Math.floor(Math.random() * 3)]; // returna um indice 0 , 2 ou 4 para escolher qual peca mover
                 const index_celula = Math.floor(Math.random() * celulas_validas[1].length);
-                antiga[0]=celulas_validas[0][index_peca][0];
-                antiga[1]=celulas_validas[0][index_peca][1];
-                nova[0]=celulas_validas[1][index_celula][0];
-                nova[1]=celulas_validas[1][index_celula][1];
+                antiga[0]=celulas_validas[index_peca][0];
+                antiga[1]=celulas_validas[index_peca][1];
+                nova[0]=celulas_validas[index_peca+1][index_celula][0];
+                nova[1]=celulas_validas[index_peca+1][index_celula][1];
             }
 
             game.peca_para_mover = [antiga[0],antiga[1]];
         }
 
         if(antiga != [-1,-1] && nova != [-1,-1]){
-
             let div_peca_escolhida = document.querySelector(`[data-index="${antiga[0]},${antiga[1]}"]`);
             let nome_peca_escolhida = div_peca_escolhida.classList[1];
             let div_nova_posicao = document.querySelector(`[data-index="${nova[0]},${nova[1]}"]`);
