@@ -10,7 +10,6 @@ class trilha{
         this.pieces = [size_board*3,size_board*3];
         this.fase = 0; // 0 -> colocar pecas | 1 -> mover | 2 -> terminado
         this.remove_peca = false;
-        this.remover_peca_cpu = false;
         this.size_board = size_board;
         this.peca_para_mover;
         this.pos_validas;
@@ -613,7 +612,6 @@ function player_move(game,peca_div,flags){
 
 
 async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
-    //let remover_peca_cpu = false;
 
     await new Promise((r)=>setTimeout(r, 750));
 
@@ -645,7 +643,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
         }
 
         if (game.check_moinho(square,position)){
-            game.remover_peca_cpu = true;
+            game.remove_peca = true;
             document.querySelector('.game_fase').textContent = 'Eliminar Peça';
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
@@ -696,7 +694,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
 
         if (game.check_moinho(nova[0],nova[1])){
-            game.remover_peca_cpu = true;
+            game.remove_peca = true;
             document.querySelector('.game_fase').textContent = 'Eliminar Peça';
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
@@ -704,7 +702,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
         }
     }
 
-    if (game.remover_peca_cpu){
+    if (game.remove_peca){
 
         // obter a posicao da peca a eliminar
         let square, position;
@@ -722,7 +720,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
 
         game.remover_peca(square,position);
-        game.remover_peca_cpu = false;
+        game.remove_peca = false;
 
         // adicina no html na div de pecas eliminadas uma nova peca
         let cell_pecas = game.turn == 0 ? document.querySelector('.player_2_pieces > .pecas_eliminadas') : document.querySelector('.player_1_pieces > .pecas_eliminadas');

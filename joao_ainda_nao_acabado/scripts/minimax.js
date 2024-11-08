@@ -12,9 +12,9 @@ class State {
       //const new_state = structuredClone(this.history[this.history.length -1].board);
 
       //moinho
-      if(new_state.remover_peca_cpu){
+      if(new_state.remove_peca){
         new_state.remover_peca(move[0], move[1]);
-        new_state.remover_peca_cpu = false;
+        new_state.remove_peca = false;
       }
 
       //fase 1 - colocar peças
@@ -56,7 +56,7 @@ class State {
       state.history.push(state_copy);
 
       let actions = [];
-      if (state_copy.remover_peca_cpu){
+      if (state_copy.remove_peca){
         actions = state_copy.jogadas_remover();
       }
 
