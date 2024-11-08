@@ -191,109 +191,63 @@
 
 
         <div class="configuracoes">
-        <h1 class="titulo">Configurações</h1>
+            <h1 class="titulo">Configurações</h1>                      
+            <div class="content_config">
+                <div class="containerdiv">
+                    <div class="zone borderzone"></div>
+                    <div class="zone zoneOUT">
+                        <br>
+                        <label for="size">Grid size</label>
+                        <br>
+                        
+                        <select size="3" name="size">
+                            <option selected value=3 >3</option>
+                            <option value=4 >4</option>
+                            <option value=5 >5</option>
+                        </select>
+                        <br>
+                        <label for="p1">P1</label>
+                        <br>
+                        <select size="3" name="p1">
+                            <option selected value="player">player</option>
+                            <option value="random">random</option>
+                            <option value="AI">AI</option>
+                        </select>
+                    </div>
 
-        <!--
-        <table>
-            <tr>
-                <td>
-                    <label for="size">Grid size (number of squares)</label>
-                    <br>
+
+                    <div class="zone INNERzoneL"></div>
+                    <div class="zone INNERzoneR"></div>
+
                     
-                    <select size="3" name="size">
-                        <option selected>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </td>
-                <td>
-                    <label for="start">Start player</label>
-                    <br>
-                    <select size="3" name="start">
-                        <option>P1</option>
-                        <option>P2</option>
-                        <option selected>random</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="p1">P1</label>
-                    <br>
-                    <select size="3" name="p1">
-                        <option selected>player</option>
-                        <option>random</option>
-                        <option>AI</option>
-                    </select>
-                </td>
-                <td>
-                    <label for="p2">P2</label>
-                    <br>
-                    <select size="3" name="p2">
-                        <option selected>player</option>
-                        <option>random</option>
-                        <option>AI</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
-    -->
-                    
-    <div class="content_config">
-        <div class="containerdiv">
-            <div class="zone borderzone"></div>
-            <div class="zone zoneOUT">
-                <br>
-                <label for="size">Grid size</label>
-                <br>
+                    <div class="zone zoneOUT">
+                        <br>
+                        <label for="start">Start player</label>
+                        <br>
+                        <select size="3" name="start">
+                            <option selected value="P1">P1</option>
+                            <option value="P2">P2</option>
+                            <option value="random">random</option>
+                        </select>
+                        <br>
+                        <label for="p2">P2</label>
+                        <br>
+                        <select size="3" name="p2">
+                            <option value="player">player</option>
+                            <option selected value="random">random</option>
+                            <option value="AI">AI</option>
+                        </select>
+                    </div>
+                    <div class="zone borderzone"></div>
+
+                </div>
                 
-                <select size="3" name="size">
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-                <br>
-                <label for="p1">P1</label>
-                <br>
-                <select size="3" name="p1">
-                    <option>player</option>
-                    <option>random</option>
-                    <option>AI</option>
-                </select>
+                        
+                <div class="buttons">
+                    <button class="go_menu_inicial">MENU INICIAL</button>
+                    <button id="inicar_jogo" class="comecar_jogo">START</button>
+                </div>
             </div>
-
-
-            <div class="zone INNERzoneL"></div>
-            <div class="zone INNERzoneR"></div>
-
-            
-            <div class="zone zoneOUT">
-                <br>
-                <label for="start">Start player</label>
-                <br>
-                <select size="3" name="start">
-                    <option>P1</option>
-                    <option>P2</option>
-                    <option>random</option>
-                </select>
-                <br>
-                <label for="p2">P2</label>
-                <br>
-                <select size="3" name="p2">
-                    <option>player</option>
-                    <option>random</option>
-                    <option>AI</option>
-                </select>
-            </div>
-            <div class="zone borderzone"></div>
-
-        </div>
-        
-                
-        <div class="buttons">
-            <button class="go_menu_inicial">MENU INICIAL</button>
-            <button id="inicar_jogo" class="comecar_jogo">START</button>
-        </div>
         </div>
 
 
