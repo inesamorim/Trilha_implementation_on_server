@@ -111,6 +111,7 @@ function showSingleStats(){
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // Call displayStats when the page loads
@@ -164,3 +165,143 @@ function showSlides(n) {
   dots[slideIndex-1].className += " active";
 }
 
+
+
+
+///////////////////////////////////////////CONFIF/////////////////////////////////////////////////////
+
+
+
+const options = [["Easy",1], ["Medium",3],["Hard",6]];
+
+document.addEventListener("DOMContentLoaded", function() {
+  const p1Select = document.querySelector("select[name='p1']");
+  const configContainer = document.querySelector(".content_config");
+  let difficultySelect; // Variable to hold the difficulty select element
+
+  function positionDifficultySelect() {
+      if (difficultySelect) {
+          // Update the position of difficultySelect relative to p1Select
+          difficultySelect.style.top = `${p1Select.offsetTop}px`;
+          difficultySelect.style.right = `${2.7 * p1Select.offsetWidth}px`; 
+          difficultySelect.style.width = `${0.8 * p1Select.offsetWidth}px`;
+      }
+  }
+
+  p1Select.addEventListener("change", function() {
+      if (p1Select.value === "AI") {
+          if (!difficultySelect) {
+              // Create and style the difficulty select element
+              difficultySelect = document.createElement("select");
+              difficultySelect.name = "difficulty";
+              difficultySelect.size = 3;
+
+              // Set initial position
+              difficultySelect.style.position = "absolute";
+              difficultySelect.style.zIndex = "10";
+
+              // Add options for difficulty levels
+              options.forEach(optionText => {
+                  const option = document.createElement("option");
+                  option.value = optionText[1];
+                  if(optionText[0] == "Medium"){ // inicia com dificuldade media selecionada
+                    option.selected = true;
+                  }
+                  option.textContent = optionText[0];
+                  difficultySelect.appendChild(option);
+              });
+
+              // Append the new select to the configuration container
+              configContainer.appendChild(difficultySelect);
+
+              // Position it initially
+              positionDifficultySelect();
+
+              // Handle "Back" selection
+              difficultySelect.addEventListener("change", function() {
+                  if (difficultySelect.value === "back") {
+                      configContainer.removeChild(difficultySelect);
+                      difficultySelect = null;
+                  }
+              });
+          }
+      } else {
+          // Remove difficultySelect if it exists when another option is selected
+          if (difficultySelect) {
+              configContainer.removeChild(difficultySelect);
+              difficultySelect = null;
+          }
+      }
+  });
+
+  // Update difficultySelect position on window resize
+  window.addEventListener("resize", positionDifficultySelect);
+});
+
+//////////////////////////////////////////////
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const p2Select = document.querySelector("select[name='p2']");
+    const configContainer = document.querySelector(".content_config");
+    let difficultySelect2; // Variable to hold the difficulty select element
+
+  
+    function positionDifficultySelect2(){
+      if (difficultySelect2){
+        // Update the position of difficultySelect relative to p1Select
+        difficultySelect2.style.top = `${p2Select.offsetTop}px`;
+        difficultySelect2.style.right = `${1.7*p2Select.offsetWidth}px`;
+        difficultySelect2.style.width = `${0.8*p2Select.offsetWidth}px`;
+      }
+
+    }
+
+    p2Select.addEventListener("change", function(){
+      if (p2Select.value === "AI"){
+        difficultySelect2 = document.createElement("select");
+        difficultySelect2.name = "difficulty2";
+        difficultySelect2.size = 3;
+
+        difficultySelect2.style.position = "absolute";
+        difficultySelect2.style.zIndex = "10";
+
+        options.forEach(optionText => {
+          const option2 = document.createElement("option");
+          option2.value = optionText[1];
+          if(optionText[0] == "Medium"){ // inicia com dificuldade media selecionada
+            option2.selected = true;
+          }
+          option2.textContent = optionText[0];
+          difficultySelect2.appendChild(option2); 
+        });
+
+        configContainer.appendChild(difficultySelect2);
+
+        positionDifficultySelect2();
+
+        difficultySelect2.addEventListener("change", function() {
+          if (difficultySelect2.value === "back") {
+            configContainer.removeChild(difficultySelect2);
+            difficultySelect2 = null;
+          }
+        });
+      } else {
+        if (difficultySelect2) {
+          configContainer.removeChild(difficultySelect2);
+          difficultySelect2 = null;
+        }
+      }
+    });
+
+    window.addEventListener("resize", positionDifficultySelect2);
+    
+  });
+  
+ //["Easy", "Medium", "Hard", "Back"]
+
+// Call displayStats when the page loads
+    window.onload = function() {
+        showSingleStats();
+};

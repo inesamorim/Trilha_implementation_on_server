@@ -116,18 +116,10 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     window.addEventListener("resize", positionDifficultySelect2);
-    ////////////////////////  
     
   });
   
- //["Easy", "Medium", "Hard", "Back"] 
-  
-
-
-
-
-
-
+ //["Easy", "Medium", "Hard", "Back"]
 
 // Call displayStats when the page loads
 window.onload = function() {

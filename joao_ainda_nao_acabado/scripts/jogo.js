@@ -1,21 +1,19 @@
-//import { executeMinimaxMove } from './minimax.js';
 
 class trilha{
     // 0 corresponde ao P1 | 1 corresponde ao P2
 
-    constructor(size_board,player_inicial, player_1=null, player_2=null){
+    constructor(size_board,player_inicial, player_1, diff_1, player_2, diff_2){
         this.board = Array.from({ length: size_board }, () => Array(8).fill("empty")); // inicia a board cada array com 8 entradas a "empty"
         this.turn = player_inicial == 'P1' ? 0 : 1;
         this.pieces_por_colocar = [size_board*3,size_board*3];
         this.pieces = [size_board*3,size_board*3];
         this.fase = 0; // 0 -> colocar pecas | 1 -> mover | 2 -> terminado
         this.remove_peca = false;
-        this.remover_peca_cpu = false;
         this.size_board = size_board;
         this.peca_para_mover;
         this.pos_validas;
         this.player_info = [player_1,player_2];
-        //this.restricao = true;
+        this.dificuldade = [diff_1,diff_2];
     }
 
     colocar_peca(sq,pos){
@@ -326,6 +324,11 @@ class trilha{
     is_terminal_move() {
         if(this.fase != 0){
             if (this.pieces[0] < 3 || this.pieces[1] < 3){
+                updatenGames();
+                if (game.player_info[ Math.abs(game.turn-1)] == nome_p1){
+                    updateGamesWon();
+                    updateScore(10);
+                }
                 return true;
             }
         }
@@ -347,6 +350,19 @@ async function main(){ // usado para criar o jogo e apresentar no html
     const BoardSize = document.querySelector('select[name="size"]').value;
     const P1 = document.querySelector('select[name="p1"]').value;
     const P2 = document.querySelector('select[name="p2"]').value;
+    let Dific_P1;
+    let Dific_P2;
+    try{
+        Dific_P1 = document.querySelector('select[name="difficulty"]').value;
+    }catch (error) {
+        Dific_P1 = 0;
+    }
+    try{
+        Dific_P2 = document.querySelector('select[name="difficulty2"]').value;
+    }catch (error) {
+        Dific_P2 = 0;
+    }
+
     let startPlayer = document.querySelector('select[name="start"]').value;
 
     const board_structurs = [[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2],[0,3],[1,3],[2,3],[2,4],[1,4],[0,4],[2,5],[2,6],[2,7],[1,5],[1,6],[1,7],[0,5],[0,6],[0,7]],
@@ -360,7 +376,7 @@ async function main(){ // usado para criar o jogo e apresentar no html
     document.querySelector('.player_turn').textContent = startPlayer; //alterar
     document.querySelector('.game_fase').textContent = "Colocar Peças";
 
-    jogo = new trilha(BoardSize,startPlayer,P1,P2);
+    jogo = new trilha(BoardSize,startPlayer,P1,Dific_P1,P2,Dific_P2);
 
     gerar_board(BoardSize,board_structurs[BoardSize-3]);
     gerar_player_info(BoardSize);
@@ -468,7 +484,7 @@ function gerar_board(n,structure) {
 
 async function start_game(game){
 
-    if (game.player_info[game.turn] != 'player'){ // caso seja o CPU a comecar
+    if (game.player_info[game.turn] == 'AI' || game.player_info[game.turn] == 'random'){ // caso seja o CPU a comecar
         CPU_move(game,game.player_info[game.turn]);
     }
 
@@ -480,11 +496,11 @@ async function start_game(game){
     document.querySelectorAll('div[data-index]').forEach((div) => {
         div.addEventListener('click', async (event) => {
 
-            if (game.player_info[game.turn] == 'player'){ // player a jogar
+            if (game.player_info[game.turn] != 'AI' || game.player_info[game.turn] != 'random'){ // player a jogar
                 player_move(game,div,flags);
             }
 
-            if (game.player_info[game.turn] != 'player'){ // tem de ser um if novo pois caso o player tenha de escolher uma peca para mover ou eliminar o cpu ainda nao pode jogar
+            if (game.player_info[game.turn] == 'AI' || game.player_info[game.turn] == 'random'){ // tem de ser um if novo pois caso o player tenha de escolher uma peca para mover ou eliminar o cpu ainda nao pode jogar
                 await CPU_move(game,game.player_info[game.turn]);
             }
 
@@ -516,11 +532,11 @@ function player_move(game,peca_div,flags){
 
         if (game.is_terminal_move()){
             game.fase = 2;
-            document.querySelector('.player_turn').textContent = "";
-            document.querySelector('.game_fase').textContent = "player_name ganhou";
+            document.querySelector('.player_turn').textContent = "Jogo terminado";
+            document.querySelector('.game_fase').textContent = `${game.player_info[game.turn]} ganhou`;
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+            document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
             document.querySelector('.game_fase').textContent = game.fase ? 'Mover peças': 'Colocar Peças';
             return;
         }
@@ -547,7 +563,7 @@ function player_move(game,peca_div,flags){
 
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+            document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez // alternar o texto a indicar a vez
         }
 
         // analizar se é para trocar de fase
@@ -605,7 +621,7 @@ function player_move(game,peca_div,flags){
                 // talvez adicionar algo no ecra para indicar que e para eliminar uma peca
             }else{
                 game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-                document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+                document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
             }
         }
     }
@@ -616,15 +632,14 @@ function player_move(game,peca_div,flags){
 
 
 async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
-    //let remover_peca_cpu = false;
 
-    await new Promise((r)=>setTimeout(r, 750));
+    await new Promise((r)=>setTimeout(r, 400));
 
     if( !game.fase ){ //colocar
 
         let square, position;
         if(CPU == 'AI'){ //minimax
-            const celulas_validas = executeMinimaxMove(evaluateBoard, 1)(game); // receber a posicao para colocar
+            const celulas_validas = executeMinimaxMove(evaluateBoard, game.dificuldade[game.turn])(game); // receber a posicao para colocar
             square = celulas_validas[0][0];
             position = celulas_validas[0][1];
         }else{ //random
@@ -648,23 +663,22 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
         }
 
         if (game.check_moinho(square,position)){
-            game.remover_peca_cpu = true;
+            game.remove_peca = true;
             document.querySelector('.game_fase').textContent = 'Eliminar Peça';
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+            document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
         }
     }
     else if(game.fase == 1){ // mover a peca
 
         let antiga =[], nova=[]; // antiga=[sq,pos] e nova=[sq,pos]
         if(CPU == 'AI'){ //minimax
-            const celulas_validas = executeMinimaxMove(evaluateBoard, 4)(game); // receber a posicao para colocar
+            const celulas_validas = executeMinimaxMove(evaluateBoard, game.dificuldade[game.turn])(game); // receber a posicao para colocar
+            console.log("mover peca AI: ",celulas_validas);
             antiga = celulas_validas[1];
             nova = celulas_validas[0];
             game.peca_para_mover = [antiga[0], antiga[1]];
-            //square = celulas_validas[0][0];
-            //position = celulas_validas[0][1];
 
         }else{ //random
             const celulas_validas = game.jogadas_possiveis();
@@ -701,20 +715,20 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
 
         if (game.check_moinho(nova[0],nova[1])){
-            game.remover_peca_cpu = true;
+            game.remove_peca = true;
             document.querySelector('.game_fase').textContent = 'Eliminar Peça';
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+            document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
         }
     }
 
-    if (game.remover_peca_cpu){
+    if (game.remove_peca){
 
         // obter a posicao da peca a eliminar
         let square, position;
         if(CPU == 'AI'){ //minimax
-            const celulas_validas = executeMinimaxMove(evaluateBoard, 4)(game); // receber a posicao para colocar
+            const celulas_validas = executeMinimaxMove(evaluateBoard, game.dificuldade[game.turn])(game); // receber a posicao para colocar
             square = celulas_validas[0][0];
             position = celulas_validas[0][1];
 
@@ -727,7 +741,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
 
         game.remover_peca(square,position);
-        game.remover_peca_cpu = false;
+        game.remove_peca = false;
 
         // adicina no html na div de pecas eliminadas uma nova peca
         let cell_pecas = game.turn == 0 ? document.querySelector('.player_2_pieces > .pecas_eliminadas') : document.querySelector('.player_1_pieces > .pecas_eliminadas');
@@ -740,11 +754,11 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
         if (game.is_terminal_move()){
             game.fase = 2;
-            document.querySelector('.player_turn').textContent = "";
+            document.querySelector('.player_turn').textContent = "Jogo terminado";
             document.querySelector('.game_fase').textContent = `${CPU} ganhou`;
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = game.turn == 0 ? 'P1': 'P2'; // alternar o texto a indicar a vez
+            document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
             document.querySelector('.game_fase').textContent = game.fase ? 'Mover peças': 'Colocar Peças';
             return;
         }
