@@ -1,9 +1,8 @@
-//import { executeMinimaxMove } from './minimax.js';
 
 class trilha{
     // 0 corresponde ao P1 | 1 corresponde ao P2
 
-    constructor(size_board,player_inicial, player_1=null, player_2=null){
+    constructor(size_board,player_inicial, player_1, diff_1, player_2, diff_2){
         this.board = Array.from({ length: size_board }, () => Array(8).fill("empty")); // inicia a board cada array com 8 entradas a "empty"
         this.turn = player_inicial == 'P1' ? 0 : 1;
         this.pieces_por_colocar = [size_board*3,size_board*3];
@@ -14,6 +13,7 @@ class trilha{
         this.peca_para_mover;
         this.pos_validas;
         this.player_info = [player_1,player_2];
+        this.dificuldade = [diff_1,diff_2];
     }
 
     colocar_peca(sq,pos){
@@ -343,6 +343,19 @@ async function main(){ // usado para criar o jogo e apresentar no html
     const BoardSize = document.querySelector('select[name="size"]').value;
     const P1 = document.querySelector('select[name="p1"]').value;
     const P2 = document.querySelector('select[name="p2"]').value;
+    let Dific_P1;
+    let Dific_P2;
+    try{
+        Dific_P1 = document.querySelector('select[name="difficulty"]').value;
+    }catch (error) {
+        Dific_P1 = 0;
+    }
+    try{
+        Dific_P2 = document.querySelector('select[name="difficulty2"]').value;
+    }catch (error) {
+        Dific_P2 = 0;
+    }
+
     let startPlayer = document.querySelector('select[name="start"]').value;
 
     const board_structurs = [[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2],[0,3],[1,3],[2,3],[2,4],[1,4],[0,4],[2,5],[2,6],[2,7],[1,5],[1,6],[1,7],[0,5],[0,6],[0,7]],
@@ -356,7 +369,7 @@ async function main(){ // usado para criar o jogo e apresentar no html
     document.querySelector('.player_turn').textContent = startPlayer; //alterar
     document.querySelector('.game_fase').textContent = "Colocar Peças";
 
-    jogo = new trilha(BoardSize,startPlayer,P1,P2);
+    jogo = new trilha(BoardSize,startPlayer,P1,Dific_P1,P2,Dific_P2);
 
     gerar_board(BoardSize,board_structurs[BoardSize-3]);
     gerar_player_info(BoardSize);
@@ -619,7 +632,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
         let square, position;
         if(CPU == 'AI'){ //minimax
-            const celulas_validas = executeMinimaxMove(evaluateBoard, 1)(game); // receber a posicao para colocar
+            const celulas_validas = executeMinimaxMove(evaluateBoard, game.dificuldade[game.turn])(game); // receber a posicao para colocar
             square = celulas_validas[0][0];
             position = celulas_validas[0][1];
         }else{ //random
@@ -654,7 +667,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
         let antiga =[], nova=[]; // antiga=[sq,pos] e nova=[sq,pos]
         if(CPU == 'AI'){ //minimax
-            const celulas_validas = executeMinimaxMove(evaluateBoard, 3)(game); // receber a posicao para colocar
+            const celulas_validas = executeMinimaxMove(evaluateBoard, game.dificuldade[game.turn])(game); // receber a posicao para colocar
             antiga = celulas_validas[1];
             nova = celulas_validas[0];
             game.peca_para_mover = [antiga[0], antiga[1]];
@@ -707,7 +720,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
         // obter a posicao da peca a eliminar
         let square, position;
         if(CPU == 'AI'){ //minimax
-            const celulas_validas = executeMinimaxMove(evaluateBoard, 3)(game); // receber a posicao para colocar
+            const celulas_validas = executeMinimaxMove(evaluateBoard, game.dificuldade[game.turn])(game); // receber a posicao para colocar
             square = celulas_validas[0][0];
             position = celulas_validas[0][1];
 

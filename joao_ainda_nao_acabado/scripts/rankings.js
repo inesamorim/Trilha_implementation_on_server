@@ -172,7 +172,7 @@ function showSlides(n) {
 
 
 
-const options = ["Easy", "Medium", "Hard"];
+const options = [["Easy",1], ["Medium",3],["Hard",6]];
 
 document.addEventListener("DOMContentLoaded", function() {
   const p1Select = document.querySelector("select[name='p1']");
@@ -203,8 +203,11 @@ document.addEventListener("DOMContentLoaded", function() {
               // Add options for difficulty levels
               options.forEach(optionText => {
                   const option = document.createElement("option");
-                  option.value = optionText.toLowerCase();
-                  option.textContent = optionText;
+                  option.value = optionText[1];
+                  if(optionText[0] == "Medium"){ // inicia com dificuldade media selecionada
+                    option.selected = true;
+                  }
+                  option.textContent = optionText[0];
                   difficultySelect.appendChild(option);
               });
 
@@ -266,8 +269,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
         options.forEach(optionText => {
           const option2 = document.createElement("option");
-          option2.value = optionText.toLocaleLowerCase();
-          option2.textContent = optionText;
+          option2.value = optionText[1];
+          if(optionText[0] == "Medium"){ // inicia com dificuldade media selecionada
+            option2.selected = true;
+          }
+          option2.textContent = optionText[0];
           difficultySelect2.appendChild(option2); 
         });
 
