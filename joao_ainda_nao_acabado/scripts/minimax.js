@@ -1,6 +1,6 @@
 // Holds the board state and history
 class State {
-    constructor(board) {
+    constructor() {
       //this.board = board;
       this.history = []; // lista de classes 'game' - inclui board, turn, pieces e fase
     }
@@ -73,8 +73,8 @@ class State {
         return actions[0];
       }
       
-      let start_pos = [-1,-1];
-      let best_start_pos = [-1,-1];
+      let start_pos = [];
+      let best_start_pos = [];
       let sliced_move;
       for (let move of actions) {
         //fase 1 ou remover
@@ -95,10 +95,11 @@ class State {
     
           if (newStateEval > bestEval) {
             bestMoves = [move];
-            best_start_pos = start_pos;
+            //best_start_pos = [start_pos];
             bestEval = newStateEval;
           } else if (newStateEval === bestEval) {
             bestMoves.push(move);
+            //best_start_pos.push(best_start_pos);
           }
         }
 
@@ -122,10 +123,11 @@ class State {
         
               if (newStateEval > bestEval) {
                 bestMoves = [i];
-                best_start_pos = start_pos;
+                best_start_pos = [start_pos];
                 bestEval = newStateEval;
               } else if (newStateEval === bestEval) {
                 bestMoves.push(i);
+                best_start_pos.push(start_pos);
               }
             }
           }
@@ -133,13 +135,16 @@ class State {
       }
   
       if (bestMoves.length === 0) {
+        return ([-1,-1], [-1,-1]);
         throw new Error(`Board has no valid actions ${state.history[state.history.length -1].board}`);
       }
       console.log(bestEval);
       //console.log(bestMoves);
-  
-      const randomMove = bestMoves[Math.floor(Math.random() * bestMoves.length)];
-      return [randomMove, best_start_pos];
+      
+
+      const j = Math.floor(Math.random() * bestMoves.length);
+      const randomMove = [bestMoves[j], best_start_pos[j]]
+      return randomMove;
     };
   }
   

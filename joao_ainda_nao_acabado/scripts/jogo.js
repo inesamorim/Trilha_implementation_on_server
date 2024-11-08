@@ -15,6 +15,7 @@ class trilha{
         this.peca_para_mover;
         this.pos_validas;
         this.player_info = [player_1,player_2];
+        //this.restricao = true;
     }
 
     colocar_peca(sq,pos){
@@ -122,19 +123,26 @@ class trilha{
                 }
             }
         }else{ // mover para qualquer pos -done-
-            let n = 0, m = 0;
-            possiveis = [[],[]]; // [ [pos das nossas pecas], [pos de celulas vazias] ]
+            //this.restricao = false;
+            //let n = 0, m = 0;
+            let vazias = [];
+            let nossas = [];
+            possiveis = [];
             for (let i=0; i<this.board.length;i++){
                 for(let j=0;j<this.board[i].length;j++){
                     if ( this.board[i][j] == prox_a_jogar ){ // pos das nossas pecas
-                        possiveis[0][m++] = [i,j];
+                        nossas.push([i,j]);
                         continue;
                     }
                     if (this.board[i][j] == "empty" ){ // pos validas
-                        possiveis[1][n++] = [i,j];
+                        vazias.push([i,j]);
                         continue;
                     }
                 }
+            }
+            for(let i = 0; i<nossas.length; i++){
+                possiveis.push(nossas[i],vazias);
+
             }
         }
 
@@ -651,7 +659,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
         let antiga =[], nova=[]; // antiga=[sq,pos] e nova=[sq,pos]
         if(CPU == 'AI'){ //minimax
-            const celulas_validas = executeMinimaxMove(evaluateBoard, 3)(game); // receber a posicao para colocar
+            const celulas_validas = executeMinimaxMove(evaluateBoard, 4)(game); // receber a posicao para colocar
             antiga = celulas_validas[1];
             nova = celulas_validas[0];
             game.peca_para_mover = [antiga[0], antiga[1]];
@@ -680,14 +688,16 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
             game.peca_para_mover = [antiga[0],antiga[1]];
         }
 
+        if(antiga != [-1,-1] && nova != [-1,-1]){
 
-        let div_peca_escolhida = document.querySelector(`[data-index="${antiga[0]},${antiga[1]}"]`);
-        let nome_peca_escolhida = div_peca_escolhida.classList[1];
-        let div_nova_posicao = document.querySelector(`[data-index="${nova[0]},${nova[1]}"]`);
+            let div_peca_escolhida = document.querySelector(`[data-index="${antiga[0]},${antiga[1]}"]`);
+            let nome_peca_escolhida = div_peca_escolhida.classList[1];
+            let div_nova_posicao = document.querySelector(`[data-index="${nova[0]},${nova[1]}"]`);
 
-        div_peca_escolhida.classList.remove(nome_peca_escolhida); //eliminar no html do local atual
-        div_nova_posicao.classList.add(nome_peca_escolhida); // mover no html para o novo local
-        game.mover_peca(nova[0],nova[1]); // mover no objeto
+            div_peca_escolhida.classList.remove(nome_peca_escolhida); //eliminar no html do local atual
+            div_nova_posicao.classList.add(nome_peca_escolhida); // mover no html para o novo local
+            game.mover_peca(nova[0],nova[1]); // mover no objeto
+        }
 
 
         if (game.check_moinho(nova[0],nova[1])){
@@ -704,7 +714,7 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
         // obter a posicao da peca a eliminar
         let square, position;
         if(CPU == 'AI'){ //minimax
-            const celulas_validas = executeMinimaxMove(evaluateBoard, 3)(game); // receber a posicao para colocar
+            const celulas_validas = executeMinimaxMove(evaluateBoard, 4)(game); // receber a posicao para colocar
             square = celulas_validas[0][0];
             position = celulas_validas[0][1];
 
