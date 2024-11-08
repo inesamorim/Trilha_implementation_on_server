@@ -318,6 +318,11 @@ class trilha{
     is_terminal_move() {
         if(this.fase != 0){
             if (this.pieces[0] < 3 || this.pieces[1] < 3){
+                updatenGames();
+                if (game.player_info[ Math.abs(game.turn-1)] == nome_p1){
+                    updateGamesWon();
+                    updateScore(10);
+                }
                 return true;
             }
         }
