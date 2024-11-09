@@ -14,6 +14,8 @@ class trilha{
         this.pos_validas;
         this.player_info = [player_1,player_2];
         this.dificuldade = [diff_1,diff_2];
+        this.winner = null;
+        this.jogadas_para_empatar = 10; // quando estao 3pecas vs 3pecas apos 10 jogadas se ninguem ganhar fica empate
     }
 
     colocar_peca(sq,pos){
@@ -121,8 +123,7 @@ class trilha{
                 }
             }
         }else{ // mover para qualquer pos -done-
-            //this.restricao = false;
-            //let n = 0, m = 0;
+            // formato novo [ [peça nossa],[casas vazias], [peça nossa],[casas vazias], [peça nossa],[casas vazias]]
             let vazias = [];
             let nossas = [];
             possiveis = [];
@@ -322,15 +323,15 @@ class trilha{
     }
 
     is_terminal_move() {
-        if(this.fase != 0){
-            if (this.pieces[0] < 3 || this.pieces[1] < 3){
-                updatenGames();
-                if (game.player_info[ Math.abs(game.turn-1)] == nome_p1){
-                    updateGamesWon();
-                    updateScore(10);
-                }
-                return true;
-            }
+        if (this.pieces[0] < 3 || this.pieces[1] < 3){
+            // updatenGames();
+            // if (game.player_info[ Math.abs(game.turn-1)] == nome_p1){
+            //     updateGamesWon();
+            //     updateScore(10);
+            // }
+            this.fase = 2;
+            this.winner = this.player_info[ Math.abs(this.turn-1)];
+            return true;
         }
         return false;
     }
@@ -496,15 +497,37 @@ async function start_game(game){
     document.querySelectorAll('div[data-index]').forEach((div) => {
         div.addEventListener('click', async (event) => {
 
-            if (game.player_info[game.turn] != 'AI' || game.player_info[game.turn] != 'random'){ // player a jogar
-                player_move(game,div,flags);
+            if (game.fase != 2){
+                if (game.player_info[game.turn] != 'AI' || game.player_info[game.turn] != 'random'){ // player a jogar
+                    player_move(game,div,flags);
+
+                    if (game.fase){ // se nao esta mover entao vamos escolher uma peca e caso nao existam jogadas é empate
+                        if(game.jogadas_possiveis().length == 0 || game.jogadas_para_empatar == 0){ // verificar se existem jogadas possiveis para o prox caso nao entao é empate
+                            game.winner = 'draw';
+                            game.fase = 2;
+                            document.querySelector('.player_turn').textContent = "Jogo terminado";
+                            document.querySelector('.game_fase').textContent = "Empate";
+                        }
+                    }
+                }
+                
+                if (game.player_info[game.turn] == 'AI' || game.player_info[game.turn] == 'random'){ // tem de ser um if novo pois caso o player tenha de escolher uma peca para mover ou eliminar o cpu ainda nao pode jogar
+                    await CPU_move(game,game.player_info[game.turn]);
+
+                    if (game.fase){
+                        if(game.jogadas_possiveis().length == 0 || game.jogadas_para_empatar == 0){ // verificar se existem jogadas possiveis para o prox caso nao entao é empate
+                            game.winner = 'draw';
+                            game.fase = 2;
+                            document.querySelector('.player_turn').textContent = "Jogo terminado";
+                            document.querySelector('.game_fase').textContent = "Empate";
+                        }
+                    }
+                }
+
+            }else{ // jogo terminado apenas nao fazer nada ?
+
             }
 
-            if (game.player_info[game.turn] == 'AI' || game.player_info[game.turn] == 'random'){ // tem de ser um if novo pois caso o player tenha de escolher uma peca para mover ou eliminar o cpu ainda nao pode jogar
-                await CPU_move(game,game.player_info[game.turn]);
-            }
-
-            // verificar se o jogo acabou if(game.fase == 2)
 
         });
       });
@@ -515,8 +538,8 @@ function player_move(game,peca_div,flags){
     let [square, position] = peca_div.getAttribute('data-index').split(',').map(Number); // obter a posicao da celula escolhida
 
     if (flags.eliminar_peca){
-        let peca_a_eliminar = game.turn == 0 ? 'piece_1' : 'piece_2';;
-        if (game.board[square][position] == 'empty' || game.board[square][position] == peca_a_eliminar) return; // true se nao escolher nenhuma peca ou estiver ocupado com uma peca propria
+        let peca_a_eliminar = game.turn == 0 ? 'piece_2' : 'piece_1';
+        if (game.board[square][position] != peca_a_eliminar) return; // true se nao escolher nenhuma peca ou estiver ocupado com uma peca propria
 
         game.remover_peca(square,position);
         flags.eliminar_peca = false;
@@ -531,7 +554,6 @@ function player_move(game,peca_div,flags){
         celula_remover.classList.remove(celula_remover.classList[1]);
 
         if (game.is_terminal_move()){
-            game.fase = 2;
             document.querySelector('.player_turn').textContent = "Jogo terminado";
             document.querySelector('.game_fase').textContent = `${game.player_info[game.turn]} ganhou`;
         }else{
@@ -577,7 +599,7 @@ function player_move(game,peca_div,flags){
         // escolher
         let peca_valida_escolher = game.turn == 0 ? 'piece_1' : 'piece_2';
         if(!flags.mover_peca){ // escolher a peca para mover
-            if (game.board[square][position] == 'empty' || game.board[square][position] != peca_valida_escolher) return; // true se nao escolher nenhuma peca ou escolheu peca adversaria
+            if (game.board[square][position] != peca_valida_escolher) return; // true se escolher celula que nao seja a sua
 
 
             game.pos_validas = game.jogadas_possiveis_dada_peca(square,position);
@@ -596,14 +618,16 @@ function player_move(game,peca_div,flags){
                 return;
             }
 
+            if (game.board[square][position] != 'empty') return; // ignora se a celula estiver ocupada
+
             let posicao_valida_para_mover = false;
             for (let index in game.pos_validas){
-                if (game.pos_validas[index][0] == square && game.pos_validas[index][1] == position) {posicao_valida_para_mover = true;}
+                if (game.pos_validas[index][0] == square && game.pos_validas[index][1] == position) {posicao_valida_para_mover = true;break;}
             }
+            if (!posicao_valida_para_mover) return;
 
-            if (game.board[square][position] != 'empty' || !posicao_valida_para_mover ) return; // ignora se a celula estiver ocupada
 
-
+            if (game.pieces[0] == 3 && game.pieces[1] == 3) game.jogadas_para_empatar--; // se chegar aqui significa que vai gastar uma jogada caso esteja 3pecas vs 3pecas
 
             let div_peca_escolhida = document.querySelector(`[data-index="${game.peca_para_mover[0]},${game.peca_para_mover[1]}"]`);
             let nome_peca_escolhida = div_peca_escolhida.classList[1];
@@ -675,9 +699,8 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
         let antiga =[], nova=[]; // antiga=[sq,pos] e nova=[sq,pos]
         if(CPU == 'AI'){ //minimax
             const celulas_validas = executeMinimaxMove(evaluateBoard, game.dificuldade[game.turn])(game); // receber a posicao para colocar
-            console.log("mover peca AI: ",celulas_validas);
-            antiga = celulas_validas[1];
             nova = celulas_validas[0];
+            antiga = celulas_validas[1];
             game.peca_para_mover = [antiga[0], antiga[1]];
 
         }else{ //random
@@ -690,19 +713,21 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
                 const index_nova_cell = Math.floor(Math.random() * ((celulas_validas[index_celulas_validas].length-1)))+1;
                 nova[0]=celulas_validas[index_celulas_validas][index_nova_cell][0];
                 nova[1]=celulas_validas[index_celulas_validas][index_nova_cell][1];
-            }else{              // [ [pos das nossas pecas], [pos de celulas vazias] ]
-                const index_peca = Math.floor(Math.random() * celulas_validas[0].length);
+            }else{              // [ [pos das nossas pecas], [pos de celulas vazias]]
+                   // formato novo [ [peça nossa],[casas vazias], [peça nossa],[casas vazias], [peça nossa],[casas vazias]]
+                const index_peca = [0,2,4][Math.floor(Math.random() * 3)]; // returna um indice 0 , 2 ou 4 para escolher qual peca mover
                 const index_celula = Math.floor(Math.random() * celulas_validas[1].length);
-                antiga[0]=celulas_validas[0][index_peca][0];
-                antiga[1]=celulas_validas[0][index_peca][1];
-                nova[0]=celulas_validas[1][index_celula][0];
-                nova[1]=celulas_validas[1][index_celula][1];
+                antiga[0]=celulas_validas[index_peca][0];
+                antiga[1]=celulas_validas[index_peca][1];
+                nova[0]=celulas_validas[index_peca+1][index_celula][0];
+                nova[1]=celulas_validas[index_peca+1][index_celula][1];
             }
 
             game.peca_para_mover = [antiga[0],antiga[1]];
         }
 
         if(antiga != [-1,-1] && nova != [-1,-1]){
+            if (game.pieces[0] == 3 && game.pieces[1] == 3) game.jogadas_para_empatar--; // se chegar aqui significa que vai gastar uma jogada caso esteja 3pecas vs 3pecas
 
             let div_peca_escolhida = document.querySelector(`[data-index="${antiga[0]},${antiga[1]}"]`);
             let nome_peca_escolhida = div_peca_escolhida.classList[1];
@@ -753,7 +778,6 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
         celula_remover.classList.remove(celula_remover.classList[1]);
 
         if (game.is_terminal_move()){
-            game.fase = 2;
             document.querySelector('.player_turn').textContent = "Jogo terminado";
             document.querySelector('.game_fase').textContent = `${CPU} ganhou`;
         }else{
@@ -782,4 +806,16 @@ document.addEventListener("DOMContentLoaded", () => {
             await main();
         }
     }
+
+    const button_menu_inicial = document.getElementById('menu_inicial_desistir');
+    const menu_inicial = document.querySelector('.menu_inicial');
+
+    button_menu_inicial.onclick = function(){
+        let desistir_do_jogo = confirm("Vai desistir do jogo.\nConfirmar:");
+        if (desistir_do_jogo) {
+            menu_jogo.style.display = 'none';
+            menu_inicial.style.display = 'block';
+        }
+    };
+
 });
