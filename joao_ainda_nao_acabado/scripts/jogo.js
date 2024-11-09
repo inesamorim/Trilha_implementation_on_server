@@ -806,4 +806,16 @@ document.addEventListener("DOMContentLoaded", () => {
             await main();
         }
     }
+
+    const button_menu_inicial = document.getElementById('menu_inicial_desistir');
+    const menu_inicial = document.querySelector('.menu_inicial');
+
+    button_menu_inicial.onclick = function(){
+        let desistir_do_jogo = confirm("Vai desistir do jogo.\nConfirmar:");
+        if (desistir_do_jogo) {
+            menu_jogo.style.display = 'none';
+            menu_inicial.style.display = 'block';
+        }
+    };
+
 });
