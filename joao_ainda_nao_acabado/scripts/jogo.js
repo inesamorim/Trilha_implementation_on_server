@@ -139,7 +139,7 @@ class trilha{
                 }
             }
             for(let i = 0; i<nossas.length; i++){
-                possiveis.push(nossas[i],vazias);
+                possiveis.push([nossas[i],vazias]);
 
             }
         }

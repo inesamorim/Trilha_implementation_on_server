@@ -108,28 +108,56 @@ class State {
             start_pos = move[0]; 
             sliced_move = move.slice(1); //moves possiveis
             for(let i of sliced_move) {
-              state.execute(i, start_pos);
+              if(Number.isInteger(i[0])){
+                state.execute(i, start_pos);
 
-              const newStateEval = minimax(
-                state,
-                depth - 1,
-                -Infinity,
-                Infinity,
-                false,
-                player,
-                evaluateFunc
-              );
-              state.undo();
-        
-              if (newStateEval > bestEval) {
-                bestMoves = [i];
-                best_start_pos = [start_pos];
-                bestEval = newStateEval;
-              } else if (newStateEval === bestEval) {
-                bestMoves.push(i);
-                best_start_pos.push(start_pos);
+                const newStateEval = minimax(
+                  state,
+                  depth - 1,
+                  -Infinity,
+                  Infinity,
+                  false,
+                  player,
+                  evaluateFunc
+                );
+                state.undo();
+          
+                if (newStateEval > bestEval) {
+                  bestMoves = [i];
+                  best_start_pos = [start_pos];
+                  bestEval = newStateEval;
+                } else if (newStateEval === bestEval) {
+                  bestMoves.push(i);
+                  best_start_pos.push(start_pos);
+                }
+             }
+             else{
+              for(let j of i){
+                state.execute(j, start_pos);
+
+                const newStateEval = minimax(
+                  state,
+                  depth - 1,
+                  -Infinity,
+                  Infinity,
+                  false,
+                  player,
+                  evaluateFunc
+                );
+                state.undo();
+          
+                if (newStateEval > bestEval) {
+                  bestMoves = [j];
+                  best_start_pos = [start_pos];
+                  bestEval = newStateEval;
+                } else if (newStateEval === bestEval) {
+                  bestMoves.push(j);
+                  best_start_pos.push(start_pos);
+                }
               }
+            }  
             }
+            
           }
         
       }
