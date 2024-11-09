@@ -714,13 +714,13 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
                 nova[0]=celulas_validas[index_celulas_validas][index_nova_cell][0];
                 nova[1]=celulas_validas[index_celulas_validas][index_nova_cell][1];
             }else{              // [ [pos das nossas pecas], [pos de celulas vazias]]
-                   // formato novo [ [peça nossa],[casas vazias], [peça nossa],[casas vazias], [peça nossa],[casas vazias]]
-                const index_peca = [0,2,4][Math.floor(Math.random() * 3)]; // returna um indice 0 , 2 ou 4 para escolher qual peca mover
-                const index_celula = Math.floor(Math.random() * celulas_validas[1].length);
-                antiga[0]=celulas_validas[index_peca][0];
-                antiga[1]=celulas_validas[index_peca][1];
-                nova[0]=celulas_validas[index_peca+1][index_celula][0];
-                nova[1]=celulas_validas[index_peca+1][index_celula][1];
+                   // formato novo [ [[peça nossa],[casas vazias]], [[peça nossa],[casas vazias]], [[peça nossa],[casas vazias]]]
+                const index_peca = Math.floor(Math.random() * 3); // returna um indice 0 , 1 ou 2 para escolher qual peca mover
+                const index_celula = Math.floor(Math.random() * celulas_validas[index_peca][1].length);
+                antiga[0]=celulas_validas[index_peca][0][0];
+                antiga[1]=celulas_validas[index_peca][0][1];
+                nova[0]=celulas_validas[index_peca][1][index_celula][0];
+                nova[1]=celulas_validas[index_peca][1][index_celula][1];
             }
 
             game.peca_para_mover = [antiga[0],antiga[1]];
