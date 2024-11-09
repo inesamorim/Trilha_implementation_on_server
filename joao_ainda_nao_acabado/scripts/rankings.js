@@ -16,7 +16,7 @@ closeRankingBtn.onclick = function() {
 }
 
 // Fecha o modal ao clicar fora dele
-window.onclick = function(event) {
+window.onclick = function(event) { // nao funciona
     if (event.target == rankingModal) {
         rankingModal.style.display = "none";
     }
@@ -123,7 +123,7 @@ window.onload = function() {
 function showSlide(index) {
     const slides = document.querySelectorAll('.slide');
     const dots = document.querySelectorAll('.dot');
-    
+    let currentSlideIndex;
     // Wrap the index to stay within bounds
     if (index >= slides.length) currentSlideIndex = 0;
     if (index < 0) currentSlideIndex = slides.length - 1;
@@ -172,9 +172,8 @@ function showSlides(n) {
 
 
 
-const options = [["Easy",1], ["Medium",3],["Hard",6]];
-
 document.addEventListener("DOMContentLoaded", function() {
+  const options = [["Easy",1], ["Medium",3],["Hard",6]];
   const p1Select = document.querySelector("select[name='p1']");
   const configContainer = document.querySelector(".content_config");
   let difficultySelect; // Variable to hold the difficulty select element
@@ -243,6 +242,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 document.addEventListener("DOMContentLoaded", function() {
+    const options = [["Easy",1], ["Medium",3],["Hard",6]];
     const p2Select = document.querySelector("select[name='p2']");
     const configContainer = document.querySelector(".content_config");
     let difficultySelect2; // Variable to hold the difficulty select element
