@@ -345,7 +345,6 @@ class trilha{
 }
 
 
-var jogo = null;
 async function main(){ // usado para criar o jogo e apresentar no html
 
     const BoardSize = document.querySelector('select[name="size"]').value;
@@ -383,6 +382,8 @@ async function main(){ // usado para criar o jogo e apresentar no html
     gerar_player_info(BoardSize);
 
     await start_game(jogo);
+
+    return jogo;
 }
 
 
@@ -796,6 +797,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const menu_config = document.querySelector('.configuracoes');
     const menu_jogo = document.querySelector('.jogo');
 
+    var jogo;
+
     start.onclick = async function(){
         // se P1 for nao for player entao P2 tambem nao pode ser
         if (document.querySelector('select[name="p1"]').value != 'player' && document.querySelector('select[name="p2"]').value == 'player'){
@@ -803,7 +806,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }else{ // trocar para o menu do tabuleiro e iniciar jogo
             menu_config.style.display = 'none';
             menu_jogo.style.display = 'flex';
-            await main();
+            jogo = await main();
         }
     }
 
@@ -811,8 +814,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const menu_inicial = document.querySelector('.menu_inicial');
 
     button_menu_inicial.onclick = function(){
-        let desistir_do_jogo = confirm("Vai desistir do jogo.\nConfirmar:");
-        if (desistir_do_jogo) {
+        if (jogo.fase != 2){// jogo ainda nao acabou entao prompt para informar que vai desistir
+            let desistir_do_jogo = confirm("Vai desistir do jogo.\nConfirmar:");
+            if (desistir_do_jogo) {
+                menu_jogo.style.display = 'none';
+                menu_inicial.style.display = 'block';
+            }
+        }
+        else{ // jogo já acabou entao user pode sair sem problemas
             menu_jogo.style.display = 'none';
             menu_inicial.style.display = 'block';
         }
