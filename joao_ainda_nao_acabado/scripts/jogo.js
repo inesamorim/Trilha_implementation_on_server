@@ -381,7 +381,12 @@ async function main(){ // usado para criar o jogo e apresentar no html
     gerar_board(BoardSize,board_structurs[BoardSize-3]);
     gerar_player_info(BoardSize);
 
-    await start_game(jogo);
+    if(P1 != 'random' && P1 != 'AI'){ // player vs player || player vs AI
+        await start_game(jogo);
+    }
+    else{ // jogo AI vs AI
+        await AIduel(jogo);
+    }
 
     return jogo;
 }
@@ -525,13 +530,30 @@ async function start_game(game){
                     }
                 }
 
-            }else{ // jogo terminado apenas nao fazer nada ?
+                
 
             }
 
 
+
+
         });
       });
+}
+
+async function AIduel(game) { // funcao para jogar AI vs AI ate o jogo acabar
+
+    while (game.fase != 2){       
+        await CPU_move(game,game.player_info[game.turn]);
+        if (game.fase){
+            if(game.jogadas_possiveis().length == 0 || game.jogadas_para_empatar == 0){ // verificar se existem jogadas possiveis para o prox caso nao entao é empate
+                game.winner = 'draw';
+                game.fase = 2;
+                document.querySelector('.player_turn').textContent = "Jogo terminado";
+                document.querySelector('.game_fase').textContent = "Empate";
+            }
+        }
+    }
 }
 
 
