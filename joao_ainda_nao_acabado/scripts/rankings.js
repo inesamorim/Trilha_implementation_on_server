@@ -1,26 +1,26 @@
-// Obtém o modal e o botão de abrir/fechar
-var rankingModal = document.getElementById("ranking_page");
-var openRankingBtn = document.querySelectorAll('.menu');
-var closeRankingBtn = document.getElementsByClassName("close_ranking")[0];
+// // Obtém o modal e o botão de abrir/fechar
+// var rankingModal = document.getElementById("ranking_page");
+// var openRankingBtn = document.querySelectorAll('.menu');
+// var closeRankingBtn = document.getElementsByClassName("close_ranking")[0];
 
-// Abre a tabela classificativa quando o botão é clicado
-openRankingBtn.forEach(button => {
-    button.addEventListener('click', function() { // mostrar menu inicial
-    rankingModal.style.display = "block";
-    loadRanking();  // Carrega a classificação
-})});
+// // Abre a tabela classificativa quando o botão é clicado
+// openRankingBtn.forEach(button => {
+//     button.addEventListener('click', function() { // mostrar menu inicial
+//     rankingModal.style.display = "block";
+//     loadRanking();  // Carrega a classificação
+// })});
 
-// Fecha a tabela classificativa ao clicar no "X"
-closeRankingBtn.onclick = function() {
-    rankingModal.style.display = "none";
-}
+// // Fecha a tabela classificativa ao clicar no "X"
+// closeRankingBtn.onclick = function() {
+//     rankingModal.style.display = "none";
+// }
 
-// Fecha o modal ao clicar fora dele
-window.onclick = function(event) { // nao funciona
-    if (event.target == rankingModal) {
-        rankingModal.style.display = "none";
-    }
-}
+// // Fecha o modal ao clicar fora dele
+// window.onclick = function(event) { // nao funciona
+//     if (event.target == rankingModal) {
+//         rankingModal.style.display = "none";
+//     }
+// }
 
 
 // Função para carregar a classificação (simulação de dados nesta fase)
@@ -67,10 +67,16 @@ function updateGamesWon(){
     localStorage.setItem("GamesWon", W);
 }
 
-function updateScore(addScore){
-    let score = parseInt(localStorage.getItem("SingleSocre"))||0;
-    score +=addScore;
+function updateScorewinner(){
+    let score = parseInt(localStorage.getItem("SingleScore"))||0;
+    score += 25;
     localStorage.setItem("SingleScore", score);
+}
+
+function updateScoreloser(){
+  let score = parseInt(localStorage.getItem("SingleScore"))||0;
+  score -= 10;
+  localStorage.setItem("SingleScore", score);
 }
 
 
@@ -87,9 +93,9 @@ function showSingleStats(){
     var GamesWon = (localStorage.getItem("GamesWon") || 0);
     var SingleScore = (localStorage.getItem("SingleScore") || 0);
 
-    console.log("Games Played:", nGames); 
-    console.log("Games Won:", GamesWon);
-    console.log("Overall Score:", SingleScore);
+    // console.log("Games Played:", nGames); 
+    // console.log("Games Won:", GamesWon);
+    // console.log("Overall Score:", SingleScore);
 
 
     var rankingScores = [

@@ -324,13 +324,17 @@ class trilha{
 
     is_terminal_move() {
         if (this.pieces[0] < 3 || this.pieces[1] < 3){
-            // updatenGames();
-            // if (game.player_info[ Math.abs(game.turn-1)] == nome_p1){
-            //     updateGamesWon();
-            //     updateScore(10);
-            // }
             this.fase = 2;
-            this.winner = this.player_info[ Math.abs(this.turn-1)];
+            this.winner = this.player_info[this.turn];
+
+            updatenGames();
+            if (this.winner == 'player'){ // player ganhou
+                updateGamesWon();
+                updateScorewinner();
+            }else if(this.winner != 'draw'){ // player perdeu
+                updateScoreloser();
+            } // else para quando empate pelo que nao fazemos alteracao
+
             return true;
         }
         return false;
@@ -815,6 +819,37 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Obtém o modal e o botão de abrir/fechar
+    const rankingModal = document.getElementById("ranking_page");
+    const openRankingBtn = document.querySelectorAll('.menu');
+    const closeRankingBtn = document.getElementsByClassName("close_ranking")[0];
+    
+    var rankingData = [
+        { posicao: 1, jogador: "player", pontuacao: 500 },
+        { posicao: 2, jogador: "AI", pontuacao: 500 },
+        { posicao: 3, jogador: "random", pontuacao: 500 }
+    ];
+
+    // Abre a tabela classificativa quando o botão é clicado
+    openRankingBtn.forEach(button => {
+        button.onclick = function() { // mostrar menu inicial
+        rankingModal.style.display = "block";
+        loadRanking(rankingData);  // Carrega a classificação
+        }
+    });
+
+    // Fecha a tabela classificativa ao clicar no "X"
+    closeRankingBtn.onclick = function() {
+        rankingModal.style.display = "none";
+    }
+
+    // Fecha o modal ao clicar fora dele
+    window.onclick = function(event) { // nao funciona
+        if (event.target == rankingModal) {
+            rankingModal.style.display = "none";
+        }
+    }
+    
     const start = document.getElementById('inicar_jogo');
     const menu_config = document.querySelector('.configuracoes');
     const menu_jogo = document.querySelector('.jogo');
