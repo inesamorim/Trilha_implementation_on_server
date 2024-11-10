@@ -874,6 +874,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (jogo.fase != 2){// jogo ainda nao acabou entao prompt para informar que vai desistir
             let desistir_do_jogo = confirm("Vai desistir do jogo.\nConfirmar:");
             if (desistir_do_jogo) {
+                jogo.fase = 2;
+                jogo.winner = jogo.player_info[1]; // para single player a AI/random nao conseguem desistir, quando for PvP temos de alterar
                 menu_jogo.style.display = 'none';
                 menu_inicial.style.display = 'block';
             }
