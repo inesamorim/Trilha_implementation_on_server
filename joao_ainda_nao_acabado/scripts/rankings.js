@@ -1,26 +1,26 @@
-// Obtém o modal e o botão de abrir/fechar
-var rankingModal = document.getElementById("ranking_page");
-var openRankingBtn = document.querySelectorAll('.menu');
-var closeRankingBtn = document.getElementsByClassName("close_ranking")[0];
+// // Obtém o modal e o botão de abrir/fechar
+// var rankingModal = document.getElementById("ranking_page");
+// var openRankingBtn = document.querySelectorAll('.menu');
+// var closeRankingBtn = document.getElementsByClassName("close_ranking")[0];
 
-// Abre a tabela classificativa quando o botão é clicado
-openRankingBtn.forEach(button => {
-    button.addEventListener('click', function() { // mostrar menu inicial
-    rankingModal.style.display = "block";
-    loadRanking();  // Carrega a classificação
-})});
+// // Abre a tabela classificativa quando o botão é clicado
+// openRankingBtn.forEach(button => {
+//     button.addEventListener('click', function() { // mostrar menu inicial
+//     rankingModal.style.display = "block";
+//     loadRanking();  // Carrega a classificação
+// })});
 
-// Fecha a tabela classificativa ao clicar no "X"
-closeRankingBtn.onclick = function() {
-    rankingModal.style.display = "none";
-}
+// // Fecha a tabela classificativa ao clicar no "X"
+// closeRankingBtn.onclick = function() {
+//     rankingModal.style.display = "none";
+// }
 
-// Fecha o modal ao clicar fora dele
-window.onclick = function(event) {
-    if (event.target == rankingModal) {
-        rankingModal.style.display = "none";
-    }
-}
+// // Fecha o modal ao clicar fora dele
+// window.onclick = function(event) { // nao funciona
+//     if (event.target == rankingModal) {
+//         rankingModal.style.display = "none";
+//     }
+// }
 
 
 // Função para carregar a classificação (simulação de dados nesta fase)
@@ -44,93 +44,21 @@ function loadRanking() {
 
 
 //start with 0 points
-/*
-class StoreScores{
 
-  constructor(){
-
-    if(!localStorage.getItem("SinglePlayer")){
-      localStorage.setItem("nGames", 0);
-      localStorage.setItem("GamesWon", 0);
-      localStorage.setItem("SingleScore", 500);
-    }
-
-  }
-
-  updatenGames(){
-    let nG = parseInt(localStorage.getItem("nGames"))||0;
-    nG +=1;
-    localStorage.setItem("nGames", nG);
-  }
-
-  //PROXIMAS 2 SÓ CHAMADAs SE VITÓRIA
-  updateGamesWon(){
-    let W = parseInt(localStorage.getItem("GamesWon")) || 0;
-    W += 1;
-    localStorage.setItem("GamesWon", W);
-  }
-
-  updateScore(addScore){
-    let score = parseInt(localStorage.getItem("SingleSocre"))||0;
-    score +=addScore;
-    localStorage.setItem("SingleScore", score);
-  }
-
-
-  //RESET IF WANTED
-  reSetStats(){
-    localStorage.setItem("nGames", 0);
-    localStorage.setItem("GamesWon", 0);
-    localStorage.setItem("SingleScore", 0);
-  }
-
-  
-  showSingleStats(){
-    var nGames = (localStorage.getItem("nGames") || 0);  
-    var GamesWon = (localStorage.getItem("GamesWon") || 0);
-    var SingleScore = (localStorage.getItem("SingleScore") || 0);
-
-    console.log("Games Played:", nGames); 
-    console.log("Games Won:", GamesWon);
-    console.log("Overall Score:", SingleScore);
-
-
-    var rankingScores = [
-        { T: "nº of matches", G: nGames},
-        { T: "nº of victories" , G: GamesWon},
-        { T: "total points" , G: SingleScore}
-    ];
-
-    var tableBodyScore = document.getElementById("table_scores");
-    tableBodyScore.innerHTML = "";  // Limpa a tabela antes de carregar os dados
-
-    // Itera pelos dados de ranking e insere na tabela
-    rankingScores.forEach(function(entry) {
-        var row = document.createElement("tr");
-        row.innerHTML = `<td>${entry.T}</td><td>${entry.G}</td>`;
-        tableBodyScore.appendChild(row);
-    });
-
-  }
-
-}
-*/
 
 
 //to create data
 if(!localStorage.getItem("SinglePlayer")){
     localStorage.setItem("nGames", 0);
     localStorage.setItem("GamesWon", 0);
-    localStorage.setItem("SingleScore", 500);
+    localStorage.setItem("SingleScore", 0);
 }
 
-/*
 function updatenGames(){
     let nG = parseInt(localStorage.getItem("nGames"))||0;
     nG +=1;
     localStorage.setItem("nGames", nG);
 }
-    
 
 //PROXIMAS 2 SÓ CHAMADAs SE VITÓRIA
 function updateGamesWon(){
@@ -139,21 +67,16 @@ function updateGamesWon(){
     localStorage.setItem("GamesWon", W);
 }
 
-function updateScore(addScore){
-    let score = parseInt(localStorage.getItem("SingleSocre"))||0;
-    score +=addScore;
+function updateScorewinner(){
+    let score = parseInt(localStorage.getItem("SingleScore"))||0;
+    score += 25;
     localStorage.setItem("SingleScore", score);
 }
 
-function UpdateSP(P2, victor){
-  updatenGames;
-
-  if(victor == 'nome_p1'){
-    updateGamesWon();
-    updateScore(50);
-  }else{
-    updateScore(-50);
-  }
+function updateScoreloser(){
+  let score = parseInt(localStorage.getItem("SingleScore"))||0;
+  score -= 10;
+  localStorage.setItem("SingleScore", score);
 }
 
 
@@ -165,15 +88,14 @@ function reSetStats(){
 }
 
   
-
 function showSingleStats(){
     var nGames = (localStorage.getItem("nGames") || 0);  
     var GamesWon = (localStorage.getItem("GamesWon") || 0);
     var SingleScore = (localStorage.getItem("SingleScore") || 0);
 
-    console.log("Games Played:", nGames); 
-    console.log("Games Won:", GamesWon);
-    console.log("Overall Score:", SingleScore);
+    // console.log("Games Played:", nGames); 
+    // console.log("Games Won:", GamesWon);
+    // console.log("Overall Score:", SingleScore);
 
 
     var rankingScores = [
@@ -193,8 +115,6 @@ function showSingleStats(){
     });
 
 }
-*/
-
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -209,7 +129,7 @@ window.onload = function() {
 function showSlide(index) {
     const slides = document.querySelectorAll('.slide');
     const dots = document.querySelectorAll('.dot');
-    
+    let currentSlideIndex;
     // Wrap the index to stay within bounds
     if (index >= slides.length) currentSlideIndex = 0;
     if (index < 0) currentSlideIndex = slides.length - 1;
@@ -258,9 +178,8 @@ function showSlides(n) {
 
 
 
-const options = [["Easy",1], ["Medium",3],["Hard",6]];
-
 document.addEventListener("DOMContentLoaded", function() {
+  const options = [["Easy",1], ["Medium",3],["Hard",6]];
   const p1Select = document.querySelector("select[name='p1']");
   const configContainer = document.querySelector(".content_config");
   let difficultySelect; // Variable to hold the difficulty select element
@@ -329,6 +248,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 document.addEventListener("DOMContentLoaded", function() {
+    const options = [["Easy",1], ["Medium",3],["Hard",6]];
     const p2Select = document.querySelector("select[name='p2']");
     const configContainer = document.querySelector(".content_config");
     let difficultySelect2; // Variable to hold the difficulty select element

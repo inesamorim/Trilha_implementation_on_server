@@ -321,22 +321,20 @@ class trilha{
         return false;
 
     }
-    ///////////////////////////////////////////////////////////////////////////
 
     is_terminal_move() {
         if (this.pieces[0] < 3 || this.pieces[1] < 3){
-            updatenGames();
-            /*
-            if (game.player_info[Math.abs(game.turn-1)] == 'nome_p1'){
-               updateGamesWon();
-               updateScore(50);
-            }else{
-                updateScore(-50);
-            }
-            */
-            showSingleStats();
             this.fase = 2;
-            this.winner = this.player_info[ Math.abs(this.turn-1)];
+            this.winner = this.player_info[this.turn];
+
+            updatenGames();
+            if (this.winner == 'player'){ // player ganhou
+                updateGamesWon();
+                updateScorewinner();
+            }else if(this.winner != 'draw'){ // player perdeu
+                updateScoreloser();
+            } // else para quando empate pelo que nao fazemos alteracao
+
             return true;
         }
         return false;
@@ -387,7 +385,12 @@ async function main(){ // usado para criar o jogo e apresentar no html
     gerar_board(BoardSize,board_structurs[BoardSize-3]);
     gerar_player_info(BoardSize);
 
-    await start_game(jogo);
+    if(P1 != 'random' && P1 != 'AI'){ // player vs player || player vs AI
+        await start_game(jogo);
+    }
+    else{ // jogo AI vs AI
+        await AIduel(jogo);
+    }
 
     return jogo;
 }
@@ -531,13 +534,30 @@ async function start_game(game){
                     }
                 }
 
-            }else{ // jogo terminado apenas nao fazer nada ?
+                
 
             }
 
 
+
+
         });
       });
+}
+
+async function AIduel(game) { // funcao para jogar AI vs AI ate o jogo acabar
+
+    while (game.fase != 2){       
+        await CPU_move(game,game.player_info[game.turn]);
+        if (game.fase){
+            if(game.jogadas_possiveis().length == 0 || game.jogadas_para_empatar == 0){ // verificar se existem jogadas possiveis para o prox caso nao entao é empate
+                game.winner = 'draw';
+                game.fase = 2;
+                document.querySelector('.player_turn').textContent = "Jogo terminado";
+                document.querySelector('.game_fase').textContent = "Empate";
+            }
+        }
+    }
 }
 
 
@@ -799,6 +819,37 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Obtém o modal e o botão de abrir/fechar
+    const rankingModal = document.getElementById("ranking_page");
+    const openRankingBtn = document.querySelectorAll('.menu');
+    const closeRankingBtn = document.getElementsByClassName("close_ranking")[0];
+    
+    var rankingData = [
+        { posicao: 1, jogador: "player", pontuacao: 500 },
+        { posicao: 2, jogador: "AI", pontuacao: 500 },
+        { posicao: 3, jogador: "random", pontuacao: 500 }
+    ];
+
+    // Abre a tabela classificativa quando o botão é clicado
+    openRankingBtn.forEach(button => {
+        button.onclick = function() { // mostrar menu inicial
+        rankingModal.style.display = "block";
+        loadRanking(rankingData);  // Carrega a classificação
+        }
+    });
+
+    // Fecha a tabela classificativa ao clicar no "X"
+    closeRankingBtn.onclick = function() {
+        rankingModal.style.display = "none";
+    }
+
+    // Fecha o modal ao clicar fora dele
+    window.onclick = function(event) { // nao funciona
+        if (event.target == rankingModal) {
+            rankingModal.style.display = "none";
+        }
+    }
+    
     const start = document.getElementById('inicar_jogo');
     const menu_config = document.querySelector('.configuracoes');
     const menu_jogo = document.querySelector('.jogo');
@@ -823,6 +874,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (jogo.fase != 2){// jogo ainda nao acabou entao prompt para informar que vai desistir
             let desistir_do_jogo = confirm("Vai desistir do jogo.\nConfirmar:");
             if (desistir_do_jogo) {
+                jogo.fase = 2;
+                jogo.winner = jogo.player_info[1]; // para single player a AI/random nao conseguem desistir, quando for PvP temos de alterar
                 menu_jogo.style.display = 'none';
                 menu_inicial.style.display = 'block';
             }
@@ -834,64 +887,3 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
 });
-
-
-////////////////////////////
-/**/
-function updatenGames(){
-    let nG = parseInt(localStorage.getItem("nGames"))||0;
-    nG +=1;
-    localStorage.setItem("nGames", nG);
-}
-
-//PROXIMAS 2 SÓ CHAMADAs SE VITÓRIA
-function updateGamesWon(){
-    let W = parseInt(localStorage.getItem("GamesWon")) || 0;
-    W += 1;
-    localStorage.setItem("GamesWon", W);
-}
-
-function updateScore(addScore){
-    let score = parseInt(localStorage.getItem("SingleSocre"))||0;
-    score +=addScore;
-    localStorage.setItem("SingleScore", score);
-}
-
-//RESET IF WANTED
-function reSetStats(){
-    localStorage.setItem("nGames", 0);
-    localStorage.setItem("GamesWon", 0);
-    localStorage.setItem("SingleScore", 0);
-}
-
-
-function showSingleStats(){
-    var nGames = (localStorage.getItem("nGames") || 0);  
-    var GamesWon = (localStorage.getItem("GamesWon") || 0);
-    var SingleScore = (localStorage.getItem("SingleScore") || 0);
-
-    console.log("Games Played:", nGames); 
-    console.log("Games Won:", GamesWon);
-    console.log("Overall Score:", SingleScore);
-
-
-    var rankingScores = [
-        { T: "nº of matches", G: nGames},
-        { T: "nº of victories" , G: GamesWon},
-        { T: "total points" , G: SingleScore}
-    ];
-
-    var tableBodyScore = document.getElementById("table_scores");
-    tableBodyScore.innerHTML = "";  // Limpa a tabela antes de carregar os dados
-
-    // Itera pelos dados de ranking e insere na tabela
-    rankingScores.forEach(function(entry) {
-        var row = document.createElement("tr");
-        row.innerHTML = `<td>${entry.T}</td><td>${entry.G}</td>`;
-        tableBodyScore.appendChild(row);
-    });
-
-}
-
-
-
