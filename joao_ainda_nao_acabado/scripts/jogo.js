@@ -321,14 +321,20 @@ class trilha{
         return false;
 
     }
+    ///////////////////////////////////////////////////////////////////////////
 
     is_terminal_move() {
         if (this.pieces[0] < 3 || this.pieces[1] < 3){
-            // updatenGames();
-            // if (game.player_info[ Math.abs(game.turn-1)] == nome_p1){
-            //     updateGamesWon();
-            //     updateScore(10);
-            // }
+            updatenGames();
+            /*
+            if (game.player_info[Math.abs(game.turn-1)] == 'nome_p1'){
+               updateGamesWon();
+               updateScore(50);
+            }else{
+                updateScore(-50);
+            }
+            */
+            showSingleStats();
             this.fase = 2;
             this.winner = this.player_info[ Math.abs(this.turn-1)];
             return true;
@@ -828,3 +834,64 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
 });
+
+
+////////////////////////////
+/**/
+function updatenGames(){
+    let nG = parseInt(localStorage.getItem("nGames"))||0;
+    nG +=1;
+    localStorage.setItem("nGames", nG);
+}
+
+//PROXIMAS 2 SÓ CHAMADAs SE VITÓRIA
+function updateGamesWon(){
+    let W = parseInt(localStorage.getItem("GamesWon")) || 0;
+    W += 1;
+    localStorage.setItem("GamesWon", W);
+}
+
+function updateScore(addScore){
+    let score = parseInt(localStorage.getItem("SingleSocre"))||0;
+    score +=addScore;
+    localStorage.setItem("SingleScore", score);
+}
+
+//RESET IF WANTED
+function reSetStats(){
+    localStorage.setItem("nGames", 0);
+    localStorage.setItem("GamesWon", 0);
+    localStorage.setItem("SingleScore", 0);
+}
+
+
+function showSingleStats(){
+    var nGames = (localStorage.getItem("nGames") || 0);  
+    var GamesWon = (localStorage.getItem("GamesWon") || 0);
+    var SingleScore = (localStorage.getItem("SingleScore") || 0);
+
+    console.log("Games Played:", nGames); 
+    console.log("Games Won:", GamesWon);
+    console.log("Overall Score:", SingleScore);
+
+
+    var rankingScores = [
+        { T: "nº of matches", G: nGames},
+        { T: "nº of victories" , G: GamesWon},
+        { T: "total points" , G: SingleScore}
+    ];
+
+    var tableBodyScore = document.getElementById("table_scores");
+    tableBodyScore.innerHTML = "";  // Limpa a tabela antes de carregar os dados
+
+    // Itera pelos dados de ranking e insere na tabela
+    rankingScores.forEach(function(entry) {
+        var row = document.createElement("tr");
+        row.innerHTML = `<td>${entry.T}</td><td>${entry.G}</td>`;
+        tableBodyScore.appendChild(row);
+    });
+
+}
+
+
+

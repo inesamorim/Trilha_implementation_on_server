@@ -44,21 +44,93 @@ function loadRanking() {
 
 
 //start with 0 points
+/*
+class StoreScores{
 
+  constructor(){
+
+    if(!localStorage.getItem("SinglePlayer")){
+      localStorage.setItem("nGames", 0);
+      localStorage.setItem("GamesWon", 0);
+      localStorage.setItem("SingleScore", 500);
+    }
+
+  }
+
+  updatenGames(){
+    let nG = parseInt(localStorage.getItem("nGames"))||0;
+    nG +=1;
+    localStorage.setItem("nGames", nG);
+  }
+
+  //PROXIMAS 2 SÓ CHAMADAs SE VITÓRIA
+  updateGamesWon(){
+    let W = parseInt(localStorage.getItem("GamesWon")) || 0;
+    W += 1;
+    localStorage.setItem("GamesWon", W);
+  }
+
+  updateScore(addScore){
+    let score = parseInt(localStorage.getItem("SingleSocre"))||0;
+    score +=addScore;
+    localStorage.setItem("SingleScore", score);
+  }
+
+
+  //RESET IF WANTED
+  reSetStats(){
+    localStorage.setItem("nGames", 0);
+    localStorage.setItem("GamesWon", 0);
+    localStorage.setItem("SingleScore", 0);
+  }
+
+  
+  showSingleStats(){
+    var nGames = (localStorage.getItem("nGames") || 0);  
+    var GamesWon = (localStorage.getItem("GamesWon") || 0);
+    var SingleScore = (localStorage.getItem("SingleScore") || 0);
+
+    console.log("Games Played:", nGames); 
+    console.log("Games Won:", GamesWon);
+    console.log("Overall Score:", SingleScore);
+
+
+    var rankingScores = [
+        { T: "nº of matches", G: nGames},
+        { T: "nº of victories" , G: GamesWon},
+        { T: "total points" , G: SingleScore}
+    ];
+
+    var tableBodyScore = document.getElementById("table_scores");
+    tableBodyScore.innerHTML = "";  // Limpa a tabela antes de carregar os dados
+
+    // Itera pelos dados de ranking e insere na tabela
+    rankingScores.forEach(function(entry) {
+        var row = document.createElement("tr");
+        row.innerHTML = `<td>${entry.T}</td><td>${entry.G}</td>`;
+        tableBodyScore.appendChild(row);
+    });
+
+  }
+
+}
+*/
 
 
 //to create data
 if(!localStorage.getItem("SinglePlayer")){
     localStorage.setItem("nGames", 0);
     localStorage.setItem("GamesWon", 0);
-    localStorage.setItem("SingleScore", 0);
+    localStorage.setItem("SingleScore", 500);
 }
 
+/*
 function updatenGames(){
     let nG = parseInt(localStorage.getItem("nGames"))||0;
     nG +=1;
     localStorage.setItem("nGames", nG);
 }
+    
 
 //PROXIMAS 2 SÓ CHAMADAs SE VITÓRIA
 function updateGamesWon(){
@@ -73,6 +145,17 @@ function updateScore(addScore){
     localStorage.setItem("SingleScore", score);
 }
 
+function UpdateSP(P2, victor){
+  updatenGames;
+
+  if(victor == 'nome_p1'){
+    updateGamesWon();
+    updateScore(50);
+  }else{
+    updateScore(-50);
+  }
+}
+
 
 //RESET IF WANTED
 function reSetStats(){
@@ -82,6 +165,7 @@ function reSetStats(){
 }
 
   
+
 function showSingleStats(){
     var nGames = (localStorage.getItem("nGames") || 0);  
     var GamesWon = (localStorage.getItem("GamesWon") || 0);
@@ -109,6 +193,8 @@ function showSingleStats(){
     });
 
 }
+*/
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
