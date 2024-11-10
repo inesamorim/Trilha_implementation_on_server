@@ -52,6 +52,7 @@ if(!localStorage.getItem("SinglePlayer")){
     localStorage.setItem("nGames", 0);
     localStorage.setItem("GamesWon", 0);
     localStorage.setItem("SingleScore", 500);
+    localStorage.setItem("SinglePlayer", "Exists");
 }
 
 function updatenGames(){
