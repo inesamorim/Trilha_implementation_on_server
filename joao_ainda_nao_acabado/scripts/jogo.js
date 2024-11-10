@@ -334,7 +334,7 @@ class trilha{
             }else if(this.winner != 'draw'){ // player perdeu
                 updateScoreloser();
             } // else para quando empate pelo que nao fazemos alteracao
-
+            showSingleStats();
             return true;
         }
         return false;

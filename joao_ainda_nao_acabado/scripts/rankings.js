@@ -51,7 +51,7 @@ function loadRanking() {
 if(!localStorage.getItem("SinglePlayer")){
     localStorage.setItem("nGames", 0);
     localStorage.setItem("GamesWon", 0);
-    localStorage.setItem("SingleScore", 0);
+    localStorage.setItem("SingleScore", 500);
 }
 
 function updatenGames(){
