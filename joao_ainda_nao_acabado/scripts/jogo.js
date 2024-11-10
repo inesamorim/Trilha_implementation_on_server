@@ -327,14 +327,16 @@ class trilha{
             this.fase = 2;
             this.winner = this.player_info[this.turn];
 
-            updatenGames();
-            if (this.winner == 'player'){ // player ganhou
-                updateGamesWon();
-                updateScorewinner();
-            }else if(this.winner != 'draw'){ // player perdeu
-                updateScoreloser();
-            } // else para quando empate pelo que nao fazemos alteracao
-            showSingleStats();
+            if(this.player_info[0]=='player'){
+                updatenGames();
+                if (this.winner == 'player'){ // player ganhou
+                    updateGamesWon();
+                    updateScorewinner();
+                }else if(this.winner != 'draw'){ // player perdeu
+                    updateScoreloser();
+                } // else para quando empate pelo que nao fazemos alteracao
+                showSingleStats();      
+            }
             return true;
         }
         return false;
