@@ -1,969 +1,780 @@
 
-  h1.trilha {
-      text-align:center;
-      color: white;
-      font-family:cursive;
-      font-size: 6vw; /* 4 em*/
-      padding-left: 10%;
+:root{ /* define variaveis para usar no css */
+  --color_p1: #a856af;
+  --color_p2: rgb(83, 22, 153);
+}
+
+
+body {
+    background-color: pink;
+    background-image: url(https://images6.alphacoders.com/115/1153825.jpg);
+}
+
+.navbar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2% 0 10%;
+  
+  .trilha {
+    flex: 1;
+    text-align:center;
+    color: white;
+    font-family:cursive;
+    font-size: 3.5em; /* 4 em*/
+
   }
 
-  body {
-      background-color: pink;
-      background-image: url(https://images6.alphacoders.com/115/1153825.jpg);
-  }
-
-/*-----------------------------Login and title--------------------------------------*/
-  img.kurby {
-      width: 100px;
-      margin-left: 20px;
-      margin-top: 35px;
-      cursor: pointer;
-  }
-  figcaption.kurby {
+  .column_login{   
+    /*----Login and title----*/
+    .kurby_fig {
       text-align: center;
       margin-top: 5px;
-      margin-right: 20px;
       font-size: large ;
       font-family: Arial, Helvetica, sans-serif;
       color: white;
-  } 
-  figure.kurby {
-      margin: 0;
+    }
+    .kurby_img {
+      width: 100px;
+      cursor: pointer;
+    }
   }
-
-  div.column_title {
-      float: left;
-      width: 90%;
-      height: 150px;
-      position: relative;
-      margin: 0;
-  }
-
-  div.column_login {
-      float: right;
-      width: 10%;
-  }
-
-  div.row::after{
-      content: "";
-      display: table;
-      clear: both;
-      height: 10px;
-  }
-
-  /*-----------------------------Login Box----------------------------------*/
 
   .login_box {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     right: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
-  }
-
-  .box_content {
-    font-family: Arial, Helvetica, sans-serif;
-    color: rgb(153, 30, 81);
-    background-color: white;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 300px;
-    border-radius: 8px;
-  }
-
-  .close {
-    cursor: pointer;
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-
-  .close:hover, 
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  form input {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    box-sizing: border-box;
-  }
-
-  form button {
-    background-color: rgb(153, 30, 81);
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  form button:hover {
-    background-color: pink;
-  }
-  /*-----------------------------Board--------------------------------------*/
-
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Alinha o tabuleiro e as peças no topo */
-    margin: 50px; /* Espaçamento em volta do container */
-  }
-
-  div.board {
-    top: 30px;
-    border-bottom: 20px;
-    position: relative;
-    width: 500px; /* Ajuste a largura do contêiner conforme necessário */
-    height: 500px; /* Altura do contêiner */
-    margin: 0 auto; /* Centraliza o contêiner horizontalmente */
-    display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center;     /* Centraliza verticalmente */
-    background:none;
-    stroke: transparent;
-  }
-    
-    /* Quadrados do tabuleiro */
-  .square {
-    position: absolute;
-    border: 4px solid white;
-    background:none;
-  }
-
-  /* Quadrado externo (maior) */
-  .outer {
-    width: 450px;
-    height: 450px;
-  }
-
-  /* Quadrado intermediário */
-  .middle {
-    width: 65%;
-    height: 65%;
-    top: 17.5%;
-    left: 17.5%;
-  }
-
-  /* Quadrado interno (menor) */
-  .inner {
-    width: 30%;
-    height: 30%;
-    top: 35%;
-    left: 35%;
-  }
+    background-color: rgba(0, 0, 0, 0.5);  /* Fundo semi-transparente */
   
-  /* Linha horizontal e vertical do meio */
-  .line {
-    position: absolute;
-    background-color: white;
-  }
-
-  /* Linha horizontal no meio */
-  .line.horizontal_left {
-    top: 50%;
-    left: 25px;
-    width: 30%;
-    height: 4px;
-    transform: translateY(-50%);
-  }
-
-  .line.horizontal_right {
-    top: 50%;
-    right: 25px;
-    width: 30%;
-    height: 4px;
-    transform: translateY(-50%);
-  }
-
-  /* Linha vertical no meio */
-  .line.vertical_up {
-    left: 50%;
-    top: 25px;
-    width: 4px;
-    height: 30%;
-    transform: translateX(-50%);
-  }
-
-  .line.vertical_down {
-    left: 50%;
-    bottom: 25px;
-    width: 4px;
-    height: 30%;
-    transform: translateX(-50%);
-  }
-
-  /* Linhas diagonais */
-  .line.diagonal {
-    position: absolute;
-    background-color: white;
-    width: 4px;
-    height: 636.4px; /* Altura = comprimento da diagonal usando o Teorema de Pitágoras */;
-    transform-origin: center;
-  }
-
-  /* Diagonal da esquerda superior para a direita inferior */
-  .line.diagonal1 {
-    transform: rotate(-45deg);
-    left: 25px;
-    top: 25px; /* Ajuste para posicionar corretamente */
-    transform-origin: top left;
-  }
-
-  /* Diagonal da direita superior para a esquerda inferior */
-  .line.diagonal2 {
-    transform: rotate(45deg);
-    left: 475px;
-    top: 25px; /* Ajuste para posicionar corretamente */
-    transform-origin: top right;
-  }
-    
-  /* Pontos de interseção */
-  .point {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    background-color: white;
-    border-radius: 50%;
-  }
+    .box_content {
+      font-family: Arial, Helvetica, sans-serif;
+      color: rgb(153, 30, 81);
+      background-color: white;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 300px;
+      border-radius: 8px;
   
-  .point.top-left {
-    top: 10px;
-    left: 10px;
+      .close {
+        cursor: pointer;
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      
+      .close:hover, .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      
+      form input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        box-sizing: border-box;
+      }
+      
+      form button {
+        background-color: rgb(153, 30, 81);
+        color: white;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 10px;
+      }
+      
+      form button:hover {
+        background-color: pink;
+      }
+    }
   }
-
-  .point.top-left-2 {
-    top: 17.5%;
-    left: 17.5%;
-    transform: translate(-50%, -50%)
-    
-  }
-  
-  .point.top-left-3 {
-    top: 35%;
-    left: 35%;
-    transform: translate(-50%, -50%)
-    
-  }
-  
-  .point.top-middle {
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .point.top-middle-2 {
-    top: 17.5%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .point.top-middle-3 {
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  .point.top-right {
-    top: 10px;
-    right: 10px;
-  }
-
-  .point.top-right-2 {
-    top: 17.5%;
-    right: 17.5%;
-    transform: translate(50%, -50%);
-  }
-  
-  .point.top-right-3 {
-    top: 35%;
-    right: 35%;
-    transform: translate(50%, -50%);
-  }
-
-  .point.middle-left {
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-  }
-
-  .point.middle-left-2 {
-    top: 50%;
-    left: 17.5%;
-    transform: translate(-50%, -50%);
-  }
-  
-  .point.middle-left-3 {
-    top: 50%;
-    left: 35%;
-    transform: translate(-50%, -50%);
-  }
-
-  .point.center {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  .point.middle-right {
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-  }
-
-  .point.middle-right-2 {
-    top: 50%;
-    right: 17.5%;
-    transform: translate(70%, -50%);
-  }
-  
-  .point.middle-right-3 {
-    top: 50%;
-    right: 35%;
-    transform: translate(70%, -50%);
-  }
-
-  .point.bottom-left {
-    bottom: 10px;
-    left: 10px;
-  }
-
-  .point.bottom-left-2 {
-    bottom: 17.5%;
-    left: 17.5%;
-    transform: translate(-50%, 50%);
-  }
-
-  .point.bottom-left-3 {
-    bottom: 35%;
-    left: 35%;
-    transform: translate(-50%, 50%);
-  }
-  
-  .point.bottom-middle {
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .point.bottom-middle-2 {
-    bottom: 17.5%;
-    left: 50%;
-    transform: translate(-50%, 50%);
-  }
-
-  .point.bottom-middle-3 {
-    bottom: 35%;
-    left: 50%;
-    transform: translate(-50%, 50%);
-  }
-  
-  .point.bottom-right {
-    bottom: 10px;
-    right: 10px;
-  }
-
-  .point.bottom-right-2 {
-    bottom: 17.5%;
-    right: 17.5%;
-    transform: translate(50%, 50%);
-  }
-
-  .point.bottom-right-3 {
-    bottom: 35%;
-    right: 35%;
-    transform: translate(50%, 50%);
-  }
-
-  /*--------------------------Peças------------------------------*/
-
-  /* Estilos para as peças */
-.pieces {
-  display: flex; /* Habilita o flexbox para o contêiner */
-  flex-wrap: wrap; /* Permite que as peças se movam para uma nova linha quando necessário */
-  max-width: 100%; /* Limita a largura do contêiner se necessário */
-  position: relative; /* Para que as peças sejam posicionadas de acordo com seu contêiner */
-  height: 100px;
-  margin-top: 10px;
 }
 
-.player1 {
-  float: left;
-  display: flex; /* Habilita o flexbox para o player1 */
-  flex-wrap: wrap; /* Permite que as peças se movam para uma nova linha quando necessário */
-  width: 20%;
-  max-width: 500px;
-  position: absolute; /* Permite o posicionamento das peças em relação ao tabuleiro */
-  margin-top: 25px;
-  left: 9%; /* Ajusta para a parte esquerda */
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  color: #a856af;
-  font-size: 20px;
-}
-
-.player2 {
-  float: right;
-  display: flex; /*Habilita o flexbox para o player2 */
-  flex-wrap: wrap; /*Permite que as peças se movam para uma nova linha quando necessário */
-  width: 20%; 
-  position: absolute; /* Permite o posicionamento das peças em relação ao tabuleiro */
-  margin-top: 330px;
-  right: 5%; /* Ajusta para a parte direita */
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  color: rgba(83, 22, 153);
-  font-size: 20px;
-  justify-content: left;
-}
-
-.piece_player1 {
-  display: flex;
-  flex-wrap: wrap;
-  width: 30px; /* Tamanho da peça */
-  height: 30px; /* Tamanho da peça */
-  margin: 5px; /* Espaço entre as peças */
-  border-radius: 50%; /* Torna as peças circulares */
-  z-index: 1; /* Garante que as peças fiquem acima do tabuleiro */
-  background-color: #a856af;
-}
-
-.piece_player2 {
-  display: flex;
-  flex-wrap: wrap;
-  width: 30px; /* Tamanho da peça */
-  height: 30px; /* Tamanho da peça */
-  margin: 5px; /* Espaço entre as peças */
-  border-radius: 50%; /* Torna as peças circulares */
-  z-index: 1; /* Garante que as peças fiquem acima do tabuleiro */
-  background-color: rgb(83, 22, 153);
-}
-
-/*---------------------------------- Menu ------------------------------------------------------*/
-
-button{
-  position: relative;
-  background-color: rgb(153, 30, 81);
-  border-radius: 16px;
-  border-width: 4px 4px 4px;
-  border-color: rgb(153, 30, 81);
-  color: #FFFFFF;
-  cursor: pointer;
-  padding: 13px 16px;
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  line-height: 20px;
-  width: 450px;
-  margin-top: 10px;
-  left: 20px;
-}
-
-div.buttons {
-  top: 10px;
-  border-bottom: 20px;
-  position: relative;
-  width: 500px; /* Ajuste a largura do contêiner conforme necessário */
-  height: 500px; /* Altura do contêiner */
-  margin: 0 auto; /* Centraliza o contêiner horizontalmente */
-  justify-content: center; /* Centraliza horizontalmente */
-  align-items: center;     /* Centraliza verticalmente */
-  background:none;
-  stroke: transparent;
-}
-
-/*---------------------------- Tabela Classificativa -------------------------*/
-.ranking_title {
-  text-align: center;
-  color: lightcyan;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 50px;
-}
 
 .modal {
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.85);
+
+  .close_ranking {
+    color: pink;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-right: 20%;
+  }
+  .close_ranking:hover, .close_ranking:focus {
+    color: pink;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .ranking_title {
+    text-align: center;
+    color: lightcyan;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 50px;
+  }
+  .center {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+
+    table {
+      border-collapse: collapse;
+      width: 35%;
+    }
+    table th, table td {
+      color: lightcyan;
+      font-size: 30px;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid pink;
+      justify-content: center;
+    }
+  }
 }
 
-.modal-content {
-  background-color: pink;
-  color: white;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid pink;
-  width: 50%;
-  border-radius: 8px;
+/*    classification buttons    */
+* {box-sizing:border-box}
+.slideshow-container {
+  max-width: 1000px;
+  height: 390px;
+  position: relative;
+  margin: auto;
 }
 
-.close_ranking {
-  color: pink;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close_ranking:hover,
-.close_ranking:focus {
-  color: pink;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.center {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-/*    Alterações  -----------------------------------------------
-
- */
-
- * {box-sizing:border-box}
-
- /* Slideshow container */
- .slideshow-container {
-   max-width: 1000px;
-   height: 390px;
-   position: relative;
-   margin: auto;
- }
- /* Styling for each slide
- .slide {
-  display: none; 
-  font-size: 1.5em;
-  padding: 20px;
-}
-
-
-.active-slide {
-  display: block;
-} 
- */
-
-
- /* Hide the images by default 
-
- */
- .mySlides {
+.mySlides {
   display: none;
- }
- 
- 
- /* Next & previous buttons */
+}
+
+/* Next & previous buttons */
  .prev, .next {
-   cursor: pointer;
-   position: absolute;
-   top: 50%;
-   width: auto;
-   margin-top: -22px;
-   padding: 16px;
-   color: white;
-   font-weight: bold;
-   font-size: 18px;
-   transition: 0.6s ease;
-   border-radius: 0 3px 3px 0;
-   user-select: none;
- }
- 
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
  /* Position the "next button" to the right */
  .next {
-   right: 0;
-   border-radius: 3px 0 0 3px;
- }
- 
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
  /* On hover, add a black background color with a little bit see-through */
  .prev:hover, .next:hover {
-   background-color: rgba(167, 99, 162, 0.8);
- }
- 
- /* Caption text */
- .text {
-   color: #f2f2f2;
-   font-size: 15px;
-   padding: 8px 12px;
-   position: absolute;
-   bottom: 8px;
-   width: 100%;
-   text-align: center;
- }
- 
+  background-color: rgba(167, 99, 162, 0.8);
+}
 
- 
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
  /* The dots/bullets/indicators */
  .dot {
-   cursor: pointer;
-   height: 15px;
-   width: 15px;
-   margin: 0 2px;
-   background-color: #dfb8d7;
-   border-radius: 50%;
-   display: inline-block;
-   transition: background-color 0.6s ease;
- }
- 
- .active, .dot:hover {
-   background-color: #c980b9;
- }
- 
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #dfb8d7;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #c980b9;
+}
+
  /* Fading animation */
  .fade {
-   animation-name: fade;
-   animation-duration: 1.5s;
- }
- 
- @keyframes fade {
-   from {opacity: .4}
-   to {opacity: 1}
- }
-
-/*    Alterações   */
-
-table {
-  border-collapse: collapse;
-  width: 35%;
+  animation-name: fade;
+  animation-duration: 1.5s;
 }
 
-table th, table td {
-  color: lightcyan;
-  font-size: 30px;
-  font-family: Arial, Helvetica, sans-serif;
-  padding: 10px;
-  text-align: left;
-  border-bottom: 1px solid pink;
-  justify-content: center;
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
 }
 
-/*------------------------------------------- Regras --------------------------------------------------------------*/
-.regras{
-    display: none;
-    flex-direction: column;
-    .content{
+
+
+
+.menu_inicial{
+  display: block;
+
+  .container {
+    display: flex;  
+    align-items: flex-start; /* Alinha o tabuleiro e as peças no topo */
+    padding: 0 50px 30px 50px;
+
+    .board {
+      top: 30px;
+      border-bottom: 20px;
+      position: relative;
+      width: 500px; /* Ajuste a largura do contêiner conforme necessário */
+      height: 500px; /* Altura do contêiner */
+      margin: 0 auto; /* Centraliza o contêiner horizontalmente */
+      display: flex;
+      justify-content: center; /* Centraliza horizontalmente */
+      align-items: center;     /* Centraliza verticalmente */
+      background:none;
+      stroke: transparent;
+
+      /* Quadrados do tabuleiro */
+      .square {
+        position: absolute;
+        border: 4px solid white;
+        background:none;
+      }
+
+      /* Quadrado externo (maior) */
+      .outer {
+        width: 450px;
+        height: 450px;
+      }
+
+      /* Quadrado intermediário */
+      .middle {
+        width: 65%;
+        height: 65%;
+        top: 17.5%;
+        left: 17.5%;
+      }
+
+      /* Quadrado interno (menor) */
+      .inner {
+        width: 30%;
+        height: 30%;
+        top: 35%;
+        left: 35%;
+      }
+
+      /* Linha horizontal e vertical do meio */
+      .line {
+        position: absolute;
+        background-color: white;
+      }
+
+      /* Linha horizontal no meio */
+      .line.horizontal_left {
+        top: 50%;
+        left: 25px;
+        width: 30%;
+        height: 4px;
+        transform: translateY(-50%);
+      }
+
+      .line.horizontal_right {
+        top: 50%;
+        right: 25px;
+        width: 30%;
+        height: 4px;
+        transform: translateY(-50%);
+      }
+
+      /* Linha vertical no meio */
+      .line.vertical_up {
+        left: 50%;
+        top: 25px;
+        width: 4px;
+        height: 30%;
+        transform: translateX(-50%);
+      }
+
+      .line.vertical_down {
+        left: 50%;
+        bottom: 25px;
+        width: 4px;
+        height: 30%;
+        transform: translateX(-50%);
+      }
+
+      /* Linhas diagonais */
+      .line.diagonal {
+        position: absolute;
+        background-color: white;
+        width: 4px;
+        height: 636.4px; /* Altura = comprimento da diagonal usando o Teorema de Pitágoras */;
+        transform-origin: center;
+      }
+
+      /* Diagonal da esquerda superior para a direita inferior */
+      .line.diagonal1 {
+        transform: rotate(-45deg);
+        left: 25px;
+        top: 25px; /* Ajuste para posicionar corretamente */
+        transform-origin: top left;
+      }
+
+      /* Diagonal da direita superior para a esquerda inferior */
+      .line.diagonal2 {
+        transform: rotate(45deg);
+        left: 475px;
+        top: 25px; /* Ajuste para posicionar corretamente */
+        transform-origin: top right;
+      }
+        
+      /* Pontos de interseção */
+      .point {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background-color: white;
+        border-radius: 50%;
+      }
+
+      .point.top-left {
+        top: 10px;
+        left: 10px;
+      }
+
+      .point.top-left-2 {
+        top: 17.5%;
+        left: 17.5%;
+        transform: translate(-50%, -50%)
+        
+      }
+
+      .point.top-left-3 {
+        top: 35%;
+        left: 35%;
+        transform: translate(-50%, -50%)
+        
+      }
+
+      .point.top-middle {
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .point.top-middle-2 {
+        top: 17.5%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .point.top-middle-3 {
+        top: 35%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .point.top-right {
+        top: 10px;
+        right: 10px;
+      }
+
+      .point.top-right-2 {
+        top: 17.5%;
+        right: 17.5%;
+        transform: translate(50%, -50%);
+      }
+
+      .point.top-right-3 {
+        top: 35%;
+        right: 35%;
+        transform: translate(50%, -50%);
+      }
+
+      .point.middle-left {
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+      }
+
+      .point.middle-left-2 {
+        top: 50%;
+        left: 17.5%;
+        transform: translate(-50%, -50%);
+      }
+
+      .point.middle-left-3 {
+        top: 50%;
+        left: 35%;
+        transform: translate(-50%, -50%);
+      }
+
+      .point.center {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .point.middle-right {
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+      }
+
+      .point.middle-right-2 {
+        top: 50%;
+        right: 17.5%;
+        transform: translate(70%, -50%);
+      }
+
+      .point.middle-right-3 {
+        top: 50%;
+        right: 35%;
+        transform: translate(70%, -50%);
+      }
+
+      .point.bottom-left {
+        bottom: 10px;
+        left: 10px;
+      }
+
+      .point.bottom-left-2 {
+        bottom: 17.5%;
+        left: 17.5%;
+        transform: translate(-50%, 50%);
+      }
+
+      .point.bottom-left-3 {
+        bottom: 35%;
+        left: 35%;
+        transform: translate(-50%, 50%);
+      }
+
+      .point.bottom-middle {
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .point.bottom-middle-2 {
+        bottom: 17.5%;
+        left: 50%;
+        transform: translate(-50%, 50%);
+      }
+
+      .point.bottom-middle-3 {
+        bottom: 35%;
+        left: 50%;
+        transform: translate(-50%, 50%);
+      }
+
+      .point.bottom-right {
+        bottom: 10px;
+        right: 10px;
+      }
+
+      .point.bottom-right-2 {
+        bottom: 17.5%;
+        right: 17.5%;
+        transform: translate(50%, 50%);
+      }
+
+      .point.bottom-right-3 {
+        bottom: 35%;
+        right: 35%;
+        transform: translate(50%, 50%);
+      }
+    }
+
+    /* Estilos para as peças */
+    .pieces {
+      display: flex; /* Habilita o flexbox para o contêiner */
+      flex-wrap: wrap; /* Permite que as peças se movam para uma nova linha quando necessário */
+      max-width: 100%; /* Limita a largura do contêiner se necessário */
+      position: relative; /* Para que as peças sejam posicionadas de acordo com seu contêiner */
+      height: 100px;
+      margin-top: 10px;
+    }
+
+    .player1 {
+      float: left;
+      display: flex; /* Habilita o flexbox para o player1 */
+      flex-wrap: wrap; /* Permite que as peças se movam para uma nova linha quando necessário */
+      width: 20%;
+      max-width: 500px;
+      position: absolute; /* Permite o posicionamento das peças em relação ao tabuleiro */
+      margin-top: 25px;
+      left: 9%; /* Ajusta para a parte esquerda */
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      color: var(--color_p1);
+      font-size: 20px;
+
+      .piece_player1 {
         display: flex;
-        flex-direction: row;
+        flex-wrap: wrap;
+        width: 30px; /* Tamanho da peça */
+        height: 30px; /* Tamanho da peça */
+        margin: 5px; /* Espaço entre as peças */
+        border-radius: 50%; /* Torna as peças circulares */
+        z-index: 1; /* Garante que as peças fiquem acima do tabuleiro */
+        background-color: var(--color_p1);
+      }
+    }
+    .player2 {
+      float: right;
+      display: flex; /*Habilita o flexbox para o player2 */
+      flex-wrap: wrap; /*Permite que as peças se movam para uma nova linha quando necessário */
+      width: 20%; 
+      position: absolute; /* Permite o posicionamento das peças em relação ao tabuleiro */
+      margin-top: 330px;
+      right: 5%; /* Ajusta para a parte direita */
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      color: var(--color_p2);
+      font-size: 20px;
+      justify-content: left;
+      
+      .piece_player2 {
+        display: flex;
+        flex-wrap: wrap;
+        width: 30px; /* Tamanho da peça */
+        height: 30px; /* Tamanho da peça */
+        margin: 5px; /* Espaço entre as peças */
+        border-radius: 50%; /* Torna as peças circulares */
+        z-index: 1; /* Garante que as peças fiquem acima do tabuleiro */
+        background-color: var(--color_p2);
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    margin-right: 35px;
+    justify-content: center; 
+    align-items: center;     
+ 
+    stroke: transparent;
+
+    button{
+      position: relative;
+      background-color: rgb(153, 30, 81);
+      border-radius: 16px;
+      border-width: 4px 4px 4px;
+      border-color: rgb(153, 30, 81);
+      color: #FFFFFF;
+      cursor: pointer;
+      padding: 13px 16px;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      line-height: 20px;
+      width: 450px;
+      margin-top: 10px;
+      left: 20px;
+    }
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+  
+    .close_ranking {
+      color: pink;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .close_ranking:hover, .close_ranking:focus {
+      color: pink;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .ranking_title {
+      text-align: center;
+      color: lightcyan;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 50px;
+    }
+    .center {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+  
+      table {
+        border-collapse: collapse;
+        width: 35%;
+      }
+      table th, table td {
+        color: lightcyan;
+        font-size: 30px;
         font-family: Arial, Helvetica, sans-serif;
-
-
-        h2{
-            text-align: center;
-            color: azure;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        }
-
-        h3{
-            color: azure;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        }
-
-        .regras_esq{
-            align-items: center;
-            margin-left: 10%;
-            width: 30%;
-            position: left;
-            span{
-                color: azure;
-                
-            }
-            p{
-                margin-left: 10%;
-                width: 80%;
-                color: white;
-            }
-        }
-        
-        .regras_mid{
-            .board{
-                /*max-width: 100%;*/
-                border-style: inset;
-                border-color: rgb(153, 30, 81);
-                display: flex;
-                justify-content: center;
-                align-self: center;
-            }
-
-            button{
-                background-color: rgb(153, 30, 81);
-                border-radius: 16px;
-                border-width: 4px 4px 4px;
-                border-color: rgb(153, 30, 81);
-                color: #FFFFFF;
-                cursor: pointer;
-                padding: 0;
-                font-size: 30px;
-                font-weight: 700;
-                letter-spacing: 1px;
-                line-height: 20px;
-                padding: 13px 16px;
-                width: 80%;
-                margin-top: 5px;
-            }
-        }
-        
-        .regras_dir{
-            width: 30%;
-            margin-right: 10%;
-            margin-left: 10px;
-            p{
-                margin-left: 5%;
-                text-indent: 5%;
-                color: white;
-              }
-            h3{text-indent: 9%;}
-    
-            .fases{margin-left: 2%;}
-            .fim_jogo{
-              margin-left: 2%;
-              color: white;
-            }
-
-        }
-    }   
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid pink;
+        justify-content: center;
+      }
+    }
+  }
 }
-
-h1.titulo {
-  text-align:center;
-  color: white;
-  font-family:cursive;
-  font-size: 6vw; /* 4 em*/
-}
-
-/*---------------------------------------------------- Configurações -----------------------------------------------------------------*/
 
 
 .configuracoes{
   display: none;
-  flex-direction: column;
-  .content_config{
-      display: flex;
-      flex-direction: row;
-      font-family: Arial, Helvetica, sans-serif;
-
-      /* Container to allow absolute positioning */
-      .container {
-        position: relative;
-        width: 100%; /* Full width of the window */
-        height: 100px; /* Set a height to avoid collapsing */
-        margin: 0;
-        padding: 0;
-      }
-      .card {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        background-color: white;
-        border-radius: 8px;
-        padding: 20px;
-        margin: 20px 0;
-      }
-      .table {
-        margin: 0;
-        width: 100%;
-        
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-      }
-      table {
-        display: flex;
-        width: 100%;
-        margin-bottom: 39px;
-        border-collapse: collapse;
-        align-self: center;
-        justify-content: center;
-      }
-
-      /*
-      label{
-        font-family: cursive;
-        font-size:2.1vmax;/*
-        color: rgb(217, 237, 237);
-      }
-
-      td {
-        padding: 20px 10px; 
-        text-align: center;
-      }
-
-      hr {
-        margin-bottom: 20px;
-        width: 100px;
-        height: 5px;
-      }
-      */
-
-      .canto {
-        position: fixed;
-        bottom: 5%;
-        right: 0;
-        width: 100px;
-      }
-
-      .hidden {
-        display: none;
-      }
-
-
-      .containerdiv {
-          display: flex;
-          width: 100%;
-           /*height: 200px; Set height as needed */
-      }
-
-
-      /* Zone 1 and Zone 4 - each occupy 30% of the width */
-      .zoneOUT {
-          width: 28%;
-          flex-direction: column; /* Stack children vertically */
-          align-items: flex-start; /* Align items to the start */
-          padding: 10px; /* Add some padding */
-          /*margin-bottom: 15px;*/
-      }
-
-      .zoneOUT select{
-        margin-bottom: 25 px;
-      }
-
-      /* Zone 2 and Zone 3 - each occupy 20% of the width */
-      .INNERzoneL {
-          width: 15%;
-          flex-direction: column; /* Stack children vertically */
-          padding: 10px; /* Add some padding */
-          align-items: left;
-          
-      }
-      /* Zone 2 and Zone 3 - each occupy 20% of the width */
-      .INNERzoneR {
-        width: 15%;
-        flex-direction: column; /* Stack children vertically */
-        align-items: right;
-      }
-
-      .borderzone {
-        width:7%;
-      }
-
-      /* Styling for each zone (optional styling for demonstration) */
-      .zone {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          color: white;
-          font-size: 20px;
-      }
-
-
-      .row {
-        display: flex;
-        align-items: center; /* Aligns elements within row vertically */
-        gap: 10px; /* Space between P1 and diff level */
-      }
-
-
-      /*
-      option {
-        font-family: cursive;
-        font-size:1.7vmax;
-        color: rgb(230, 169, 179);
-      }
-      */
-
-      /* -------------------------------------------------------- */
-
-      /* Style the select box */
-      select {
-        width: 19vw;/*  200px Adjust width */
-        padding: 10px; /* Add some padding */
-        border: 2px solid rgb(255, 192, 203); /* Add border and color */
-        border-radius: 10px; /* Make the edges rounded */
-        background-color: #f1f1f1; /* Light background color */
-        font-family: cursive; /*Arial, sans-serif Customize font */
-        font-size: 1.7vmax; /* 16px Adjust font size */
-        color: rgb(230, 169, 179); /*  Change text color */
-        cursor: pointer; /* Add pointer cursor */
-        appearance: none; /* Remove default arrow for styling */
-        overflow: hidden; /*the only one that does something*/
-        text-shadow: 0 1px 0 rgba(150, 77, 117, 0.84) /*makes it look 3D */
-        
-      }
-
-
-
-
-      /* Style the dropdown arrow 
-      select::after {
-        content: '▼'; 
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        pointer-events: none;
-      }
-
-      For certain browsers, remove the scrollbar 
-      select::-ms-expand {
-        display: none; 
-      }
-      */
-
-
-      /* Change background and border on hover */
-      select:hover {
-        background-color: #e2e6ea; /* Slight hover effect */
-        border-color: #df848c; 
-      }
-
-      /* Change background and border on focus */
-      select:focus {
-        outline: none;
-        border-color: #8fdef7;
-        box-shadow: 0 0 5px rgba(120, 219, 228, 0.84); /* Add shadow on focus */
-      }
-
-      /* Make sure the select options have proper padding */
-      /**/
-      option {
-        padding: 10px;
-        background-color: #f1f1f1;
-        text-align: center;
-      }
-
-      option:active {
-        background-color: #e2e6ea;
-      }
-
-      option:checked {
-        color: #8352e4;
-      }
-
-
-
-      /*######################################COPIADO###############################*/
-
-      
-
-
+  
+  table {
+    width: 100%; /* Full width of the window */
+    margin-left: -5%;
+    margin-right: 15%;
+    border-collapse: collapse;
+    align-self: center;
   }
 
-  .buttons_config {
+  .titulo {
+    text-align:center;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2em; 
+  }
+  
+  label{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:2vmax;/**/
+    color: rgb(217, 237, 237);
+  }
+
+  td {
+    padding: 20px 10px; /* 20px 10px Vertical padding of 20px, horizontal padding of 10px */
+    text-align: center;/**/
+  }
+
+  /* ALTERAÇÔES */
+
+  .containerdiv {
     display: flex;
-    flex-direction: column;
-    width: 40%;
-    align-self: center;
+    width: 100%;
+     /*height: 200px; Set height as needed */
+  }
+
+
+  /* Zone 1 and Zone 4 - each occupy 30% of the width */
+  .zoneOUT {
+      width: 28%;
+      flex-direction: column; /* Stack children vertically */
+      align-items: flex-start; /* Align items to the start */
+      padding: 10px; /* Add some padding */
+      /*margin-bottom: 15px;*/
+  }
+
+  .zoneOUT select{
+    margin-bottom: 25 px;
+  }
+
+  /* Zone 2 and Zone 3 - each occupy 20% of the width */
+  .INNERzoneL {
+      width: 15%;
+      flex-direction: column; /* Stack children vertically */
+      padding: 10px; /* Add some padding */
+      align-items: left;
+      
+  }
+  /* Zone 2 and Zone 3 - each occupy 20% of the width */
+  .INNERzoneR {
+    width: 15%;
+    flex-direction: column; /* Stack children vertically */
+    align-items: right;
+  }
+
+  .borderzone {
+    width:7%;
+  }
+    /* Styling for each zone (optional styling for demonstration) */
+  .zone {
+    display: flex;
     justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+  }
+
+
+    .row {
+      display: flex;
+      align-items: center; /* Aligns elements within row vertically */
+      gap: 10px; /* Space between P1 and diff level */
+    }
+
+
+
+  /* ALTERAÇÔES */
+
+  select {
+    width: 19vw;/*  200px Adjust width */
+    padding: 10px; /* Add some padding */
+    border: 2px solid rgb(255, 192, 203); /* Add border and color */
+    border-radius: 10px; /* Make the edges rounded */
+    background-color: #f1f1f1; /* Light background color */
+    font-family: Arial, Helvetica, sans-serif; /*Arial, sans-serif Customize font */
+    font-size: 1.5vmax; /* 16px Adjust font size */
+    color: rgb(230, 169, 179); /*  Change text color */
+    cursor: pointer; /* Add pointer cursor */
+    appearance: none; /* Remove default arrow for styling */
+    overflow: hidden; /*the only one that does something*/
+    text-shadow: 0 1px 0 rgba(150, 77, 117, 0.84) /*makes it look 3D */
+    
+  }
+
+  /* Change background and border on hover */
+  select:hover {
+    background-color: #e2e6ea; /* Slight hover effect */
+    border-color: #df848c; 
+  }
+
+  /* Change background and border on focus */
+  select:focus {
+    outline: none;
+    border-color: #8fdef7;
+    box-shadow: 0 0 5px rgba(120, 219, 228, 0.84); /* Add shadow on focus */
+  }
+
+  /* Make sure the select options have proper padding */
+  /**/
+  option {
+    padding: 10px;
+    background-color: #f1f1f1;
+    text-align: center;
+  }
+
+  option:active {
+    background-color: #e2e6ea;
+  }
+
+  option:checked {
+    color: #8352e4;
   }
 
   button{
@@ -978,14 +789,322 @@ h1.titulo {
     font-weight: 700;
     letter-spacing: 1px;
     line-height: 20px;
-    width: 100%;
-    justify-content:center ;
+    margin-top: 10px;
+    width: 30%;
+  }
+
+  .buttons{
     display: flex;
     flex-direction: row;
-    margin-bottom: 5px;
+    align-items: center;
+    margin-left: 26%;
+    justify-items: center;
+    gap: 30px;
   }
+
 }
 
 
+.regras{
+  display: none;
+  flex-direction: column;
+
+  h1{
+    text-align: center;
+    color: azure;
+    font-family: cursive;
+    /* font-size: 4em; */
+  }
+
+  h2{
+    text-align: center;
+    color: azure;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  h3{
+    color: azure;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+
+  .content{
+    
+
+    display: flex;
+    flex-direction: row;
+    font-family: Arial, Helvetica, sans-serif;
+    color: azure;
+
+      .titulo {
+          text-align:center;
+          color: white;
+          font-family:cursive;
+          font-size: 2em; 
+          padding-left: 10%;
+      }
+
+      .regras_esq{
+          align-items: center;
+          margin-left: 10%;
+          width: 30%;
+          position: left;
+          span{
+              color: azure;
+              
+          }
+          p{
+              margin-left: 10%;
+              width: 80%;
+          }
+      }
+      
+      .regras_mid{
+          .board{
+              max-width: 100%;
+              border-style: inset;
+              border-color: rgb(153, 30, 81);
+          }
+          button{
+              background-color: rgb(153, 30, 81);
+              border-radius: 16px;
+              border-width: 4px 4px 4px;
+              border-color: rgb(153, 30, 81);
+              color: #FFFFFF;
+              cursor: pointer;
+              padding: 13px 16px;
+              font-size: 15px;
+              font-weight: 700;
+              letter-spacing: 1px;
+              line-height: 20px;
+              width: 80%;
+              margin-left: 10%;
+              margin-top: 10px;
+          }
+      }
+      
+      .regras_dir{
+          width: 30%;
+          margin-right: 10%;
+          margin-left: 10px;
+          p{
+              margin-left: 5%;
+              text-indent: 5%;}
+          h3{text-indent: 9%;}
+  
+          .fases{margin-left: 2%;}
+          .fim_jogo{margin-left: 2%;}
+      }
+  }   
+}
 
 
+.jogo{
+  display: none;
+  flex-direction: row;
+  color: azure;
+
+ .info{
+   align-items: center;
+   text-align: center;
+   width: 20%;
+   height: 280px;
+   margin-top: 5%;
+   margin-left: 1.5%;
+   margin-right: 1%;
+   border-radius: 20px;
+   border-width: 5px;
+   border-style: solid;
+   border-color: rgb(153, 30, 81);
+   background-color: rgb(153, 30, 81, 0.35);
+   font-family: Arial, Helvetica, sans-serif;
+   
+   .inf_topic{
+     color: pink;
+   }
+
+   .buttons {
+     display: flex;
+     flex-direction: column;
+     justify-content: center; 
+     align-items: center;  
+     
+     stroke: transparent;
+
+     button{
+       width: 95%;
+       position: center;
+       background-color: rgb(153, 30, 81);
+       border-radius: 16px;
+       border-width: 4px 4px 4px;
+       border-color: rgb(153, 30, 81);
+       color: #FFFFFF;
+       cursor: pointer;
+       padding: 13px 16px;
+       font-size: 15px;
+       font-weight: 600;
+       letter-spacing: 1px;
+       line-height: 20px;
+       margin-top: 10px;
+       left: 20px;
+     }
+   }
+       
+   .modal {
+     display: none;
+     position: fixed;
+     z-index: 1;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     background-color: rgba(0, 0, 0, 0.85);
+   
+     .close_ranking {
+       color: pink;
+       float: right;
+       font-size: 28px;
+       font-weight: bold;
+     }
+     .close_ranking:hover, .close_ranking:focus {
+       color: pink;
+       text-decoration: none;
+       cursor: pointer;
+     }
+     .ranking_title {
+       text-align: center;
+       color: lightcyan;
+       font-family: Arial, Helvetica, sans-serif;
+       font-size: 50px;
+     }
+     .center {
+       display: flex;
+       width: 100%;
+       justify-content: center;
+       align-items: center;
+
+       table {
+       border-collapse: collapse;
+       width: 35%;
+       }
+       table th, table td {
+       color: lightcyan;
+       font-size: 30px;
+       font-family: Arial, Helvetica, sans-serif;
+       padding: 10px;
+       text-align: left;
+       border-bottom: 1px solid pink;
+       justify-content: center;
+       }
+     }
+   }
+ }
+
+
+ .play{
+   display: flex;
+   flex-direction: row;
+   width: 100%;  
+   margin-top: 2%;
+
+  h2, h3{
+    width: 100%;
+    color: azure;
+  }
+
+  .player_1_pieces{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    width: 15%;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    
+    .peca{
+      background-color: var(--color_p1);
+    }
+  }
+
+  .player_2_pieces{
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    text-align: center;
+    width: 15%;
+    font-family: Arial, Helvetica, sans-serif;
+
+    .peca{
+      background-color: var(--color_p2);
+    }
+  }
+
+  .pecas_por_colocar{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .pecas_eliminadas{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .peca{
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 50%; /* Makes it a circle */
+    border-color: black;
+    margin-right: 2px;
+    margin-bottom: 2px;
+  }   
+
+  .tabuleiro{
+      display: grid;
+      align-items: center;
+      justify-content: center;
+      color: azure;
+      width: 40%;
+      margin-right: 2%;
+      margin-left: 2%;
+
+      .cell {
+        z-index: 1;
+        text-align: center; /* delete */
+        color: white; /* delete */
+        width: 30px;
+        height: 30px;
+        border-width: 3px;
+        border-style: solid;
+        border-radius: 50%; /* Makes it a circle */
+        border-color: black;
+        background: white;
+      }
+
+      .piece_1{
+        background-color: var(--color_p1);
+      }
+
+      .piece_2{
+        background-color: var(--color_p2);
+      }
+      
+      .hrule {
+        width: 100%; /* Full width */
+        height: 5px; /* Height of the horizontal line */
+        background: white; /* Line color */
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
+      
+      .vrule {
+        width: 5px; /* Width of the vertical line */
+        height: 100%; /* Full height */
+        background: white; /* Line color */
+        margin-left: 15px;
+        margin-right: 15px;
+      }
+   }
+
+ }
+}
