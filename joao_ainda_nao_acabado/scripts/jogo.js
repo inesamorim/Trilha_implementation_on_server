@@ -606,17 +606,9 @@ function player_move(game,peca_div,flags){
         const container = game.turn == 0 ? document.querySelector('.player_1_pieces > .pecas_por_colocar') : document.querySelector('.player_2_pieces > .pecas_por_colocar');
         container.removeChild(container.lastChild);
 
-
-        if (game.check_moinho(square,position)){
-            flags.eliminar_peca = true;
-            document.querySelector('.game_fase').textContent = 'Eliminar Peça';
-            // talvez adicionar algo no ecra para indicar que e para eliminar uma peca
-
-        }else{
-            game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez // alternar o texto a indicar a vez
-        }
-
+        game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
+        document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez // alternar o texto a indicar a vez
+        
         // analizar se é para trocar de fase
         if (document.querySelector('.player_1_pieces > .pecas_por_colocar').childElementCount == 0
         && document.querySelector('.player_2_pieces > .pecas_por_colocar').childElementCount == 0){
@@ -715,13 +707,8 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
             document.querySelector('.game_fase').textContent = 'Mover peças';
         }
 
-        if (game.check_moinho(square,position)){
-            game.remove_peca = true;
-            document.querySelector('.game_fase').textContent = 'Eliminar Peça';
-        }else{
-            game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
-        }
+        game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
+        document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
     }
     else if(game.fase == 1){ // mover a peca
 
