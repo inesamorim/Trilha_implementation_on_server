@@ -1,27 +1,3 @@
-// // Obtém o modal e o botão de abrir/fechar
-// var rankingModal = document.getElementById("ranking_page");
-// var openRankingBtn = document.querySelectorAll('.menu');
-// var closeRankingBtn = document.getElementsByClassName("close_ranking")[0];
-
-// // Abre a tabela classificativa quando o botão é clicado
-// openRankingBtn.forEach(button => {
-//     button.addEventListener('click', function() { // mostrar menu inicial
-//     rankingModal.style.display = "block";
-//     loadRanking();  // Carrega a classificação
-// })});
-
-// // Fecha a tabela classificativa ao clicar no "X"
-// closeRankingBtn.onclick = function() {
-//     rankingModal.style.display = "none";
-// }
-
-// // Fecha o modal ao clicar fora dele
-// window.onclick = function(event) { // nao funciona
-//     if (event.target == rankingModal) {
-//         rankingModal.style.display = "none";
-//     }
-// }
-
 
 // Função para carregar a classificação (simulação de dados nesta fase)
 function loadRanking() {
@@ -42,8 +18,6 @@ function loadRanking() {
     });
 }
 
-
-//start with 0 points
 
 
 
