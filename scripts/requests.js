@@ -1,44 +1,88 @@
-/**
- * @param {string} nick - Nome do jogador.
- * @param {string} password - Senha escolhida pelo jogador.
- */
- 
+var USERNAME = "utilizador";
+var PASSWORD = "123456";
+const BASE_URL = "http://twserver.alunos.dcc.fc.up.pt:8008";
+var GAMEID;
 
-async function register(nick, password) {
-    const url = "http://twserver.alunos.dcc.fc.up.pt:8008/register";
 
-    // Corpo do pedido
-    const body = {
-        nick: nick,
-        password: password
-    };
-
-    try {
-        // Enviar o pedido ao servidor
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(body)
-        });
-
-        // Verificar se a resposta foi bem-sucedida
-        if (!response.ok) {
-            throw new Error(`Erro HTTP: ${response.status}`);
-        }
-
-        // Processar a resposta como JSON
-        const data = await response.json();
-
-        // Verificar resposta do servidor
-        if (data.error) {
-            console.error("Erro no registro:", data.error);
-        } else {
-            console.log("Registro bem-sucedido para o jogador:", nick);
-        }
-    } catch (error) {
-        console.error("Erro na comunicação com o servidor:", error);
+async function request(comand,args) {
+    let response = await fetch(`${BASE_URL}/${comand}`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(args)
+    });
+    if (!response.ok) {
+        console.log(response.json());
+        throw new Error(`HTTP error! status: ${response.status}`);
     }
+    let body_resp = await response.json()
+    // logica para cada tipo de comand
+    switch (comand){
+        case "register":
+            break;
+        case "join":
+            GAMEID = body_resp.game; // guardar o id do jogo
+            break;
+    }
+
+
+
+    console.log("request:", comand,"| response:", body_resp);  
 }
 
+
+
+// funcao para fazer update do estado do jogo
+function update(){
+    const eventSource = new EventSource(BASE_URL+"/update?nick="+USERNAME+"&game="+GAMEID);
+    eventSource.onmessage = function(event) {
+       const data = JSON.parse(event.data);
+       console.log("update:", event.data);
+    }
+    // eventSource.close()
+}
+
+
+
+
+// funcoes para testar
+
+function makereg(){
+    request("register",{'nick': "utilizador", 'password': "123456"});
+}
+
+function makejoin(){
+    request("join",{"group": "2", "nick": USERNAME, "password": PASSWORD, "size": "3"})
+}
+
+function makeleave(){
+    request({"nick": USERNAME, "password": PASSWORD, "game": GAMEID});
+}
+
+function makenotify(){
+    request({"nick": USERNAME, "password": PASSWORD, "game": GAMEID, "cell": {"square": 0, "position": 0}});
+}
+
+
+
+
+
+
+//codigo com uso final
+// Register
+document.getElementById("login_form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    USERNAME = document.getElementById("username").value;
+    PASSWORD = document.getElementById("password").value;
+
+    request("register",{'nick': USERNAME, 'password': PASSWORD});
+});
+
+// JOIN
+
+// LEAVE
+
+// NOTIFY
+
+// UPDATE
+
+// RANKING
