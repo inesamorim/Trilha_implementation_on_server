@@ -1022,6 +1022,12 @@ body {
       background-color: var(--color_p1);
     }
   }
+  /*333333333333333333333333
+  .player_1_pieces.selected {
+    border-color: rgb(107, 237, 237)
+  }
+  */
+  
 
   .player_2_pieces{
     display: flex;
@@ -1057,7 +1063,13 @@ body {
     border-color: black;
     margin-right: 2px;
     margin-bottom: 2px;
-  }   
+
+  } 
+
+  /* quando não é a vez do jogador alterar a cor das peças*/
+  .peca.disabled{
+    opacity: 0.6;
+  }
 
   .tabuleiro{
       display: grid;
@@ -1079,6 +1091,15 @@ body {
         border-radius: 50%; /* Makes it a circle */
         border-color: black;
         background: white;
+      }
+      /* mudar a cor da borda quando a peça é selecionada*/ 
+      .cell.selected{
+        border-color: rgb(107, 237, 237)
+      }
+
+      /* possíveis locais para a peça se mover*/
+      .cell.poss_vacate{
+        background-color: #b2edf1;
       }
 
       .piece_1{

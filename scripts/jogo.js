@@ -566,6 +566,10 @@ async function AIduel(game) { // funcao para jogar AI vs AI ate o jogo acabar
 function player_move(game,peca_div,flags){
     let [square, position] = peca_div.getAttribute('data-index').split(',').map(Number); // obter a posicao da celula escolhida
 
+    ////////////////////
+    document.querySelectorAll('.jogo .cell').forEach(piece => piece.classList.remove('selected'))
+    ////////////////////
+
     if (flags.eliminar_peca){
         let peca_a_eliminar = game.turn == 0 ? 'piece_2' : 'piece_1';
         if (game.board[square][position] != peca_a_eliminar) return; // true se nao escolher nenhuma peca ou estiver ocupado com uma peca propria
@@ -622,6 +626,8 @@ function player_move(game,peca_div,flags){
         if(!flags.mover_peca){ // escolher a peca para mover
             if (game.board[square][position] != peca_valida_escolher) return; // true se escolher celula que nao seja a sua
 
+            //alterar a cor da border
+            peca_div.classList.add('selected');
 
             game.pos_validas = game.jogadas_possiveis_dada_peca(square,position);
             if (game.pos_validas.length == 0) return; // caso nao existam movimentos para a peca
@@ -635,6 +641,25 @@ function player_move(game,peca_div,flags){
             if (peca_valida_escolher == game.board[square][position]){ // para o caso de escolher a peca errada para mover
                 game.peca_para_mover = [square,position];
                 game.pos_validas = game.jogadas_possiveis_dada_peca(square,position);
+                ////////////
+
+                document.querySelectorAll('.jogo .cell').forEach(piece => {
+                    piece.classList.remove('poss_vacate')
+                })
+
+
+                for (let piece of game.pos_validas) {
+                    let square = piece[0];    // Extract square
+                    let position = piece[1]; // Extract position
+
+                    // Find the corresponding cell using its data-index attribute
+                    let cell = document.querySelector(`[data-index="${square},${position}"]`);
+                    if (cell) {
+                        cell.classList.add('poss_vacate'); // Apply the .poss_vacate class
+                    }
+                    
+                }
+                ////////////
                 if (game.pos_validas.length == 0) flags.mover_peca = false;
                 return;
             }

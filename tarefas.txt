@@ -44,3 +44,7 @@ Opcionalmente, podem implementar o algoritmo Minimax para jogar de forma mais in
 [] Random
 [] 2ºfase do jogo - João
 [] guardar dados para leaderboard - Dani (dica: tenta guardar o histórico numa dataframe?)
+
+
+-> mudar cores de border quando a peça é selecionada -> mostrar jogadas possíveis
+-> quando AI a jogar tornar mais obvio -> marcar a peça q foi jogada, a sua posição nova e a anterior
