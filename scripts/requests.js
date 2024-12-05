@@ -2,6 +2,7 @@ var USERNAME = "utilizador";
 var PASSWORD = "123456";
 const BASE_URL = "http://twserver.alunos.dcc.fc.up.pt:8008";
 var GAMEID;
+var LOGGED = false;
 
 
 async function request(comand,args) {
@@ -18,7 +19,7 @@ async function request(comand,args) {
     // logica para cada tipo de comand
     switch (comand){
         case "register":
-            break;
+            return true;
         case "join":
             GAMEID = body_resp.game; // guardar o id do jogo
             break;
@@ -42,29 +43,43 @@ function update(){
 }
 
 
+async function listenForUpdates() {
+
+    const eventSource = new EventSource(`${BASE_URL}/update?group="2"&game=${GAMEID}`);
+    eventSource.onmessage = (event) => {
+        console.log("Game Update:", event.data);
+        alert("Game Update: " + event.data);
+    };  
+    eventSource.onerror = (err) => {
+        console.error("Error in SSE:", err);
+        eventSource.close();
+    };
+    eventSource.close()
+}
+
 
 
 // funcoes para testar
 
 function makereg(){
-    request("register",{'nick': "utilizador", 'password': "123456"});
+    request("register", {'nick': "utilizador", 'password': "123456"});
 }
 
 function makejoin(){
-    request("join",{"group": "2", "nick": USERNAME, "password": PASSWORD, "size": "3"})
+    request("join", {"group": "2", "nick": USERNAME, "password": PASSWORD, "size": "3"})
 }
 
 function makeleave(){
-    request({"nick": USERNAME, "password": PASSWORD, "game": GAMEID});
+    request("leave", {"nick": USERNAME, "password": PASSWORD, "game": GAMEID});
 }
 
 function makenotify(){
-    request({"nick": USERNAME, "password": PASSWORD, "game": GAMEID, "cell": {"square": 0, "position": 0}});
+    request("notify", {"nick": USERNAME, "password": PASSWORD, "game": GAMEID, "cell": {"square": 0, "position": 0}});
 }
 
-
-
-
+function makeupdate(){
+    request("update", {"nick": USERNAME, "game": GAMEID})
+}
 
 
 //codigo com uso final
@@ -74,7 +89,14 @@ document.getElementById("login_form").addEventListener("submit", async (e) => {
     USERNAME = document.getElementById("username").value;
     PASSWORD = document.getElementById("password").value;
 
-    request("register",{'nick': USERNAME, 'password': PASSWORD});
+    let state = await request("register",{'nick': USERNAME, 'password': PASSWORD});
+    if (state){ // register|login concretizado
+        LOGGED = true;
+        let player_name_loggin = document.querySelector(".kurby_capt");
+        player_name_loggin.textContent = USERNAME.toUpperCase();
+        document.getElementById("login").style.display = "none";
+    }
+
 });
 
 // JOIN
