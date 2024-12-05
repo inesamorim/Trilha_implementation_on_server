@@ -27,7 +27,7 @@ async function request(comand,args) {
 
 
 
-    console.log("request:", comand,"| response:", body_resp);  
+    console.log("request:", comand,"| response:", body_resp);
 }
 
 

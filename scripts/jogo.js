@@ -566,10 +566,6 @@ async function AIduel(game) { // funcao para jogar AI vs AI ate o jogo acabar
 function player_move(game,peca_div,flags){
     let [square, position] = peca_div.getAttribute('data-index').split(',').map(Number); // obter a posicao da celula escolhida
 
-    ////////////////////
-    document.querySelectorAll('.jogo .cell').forEach(piece => piece.classList.remove('selected'))
-    ////////////////////
-
     if (flags.eliminar_peca){
         let peca_a_eliminar = game.turn == 0 ? 'piece_2' : 'piece_1';
         if (game.board[square][position] != peca_a_eliminar) return; // true se nao escolher nenhuma peca ou estiver ocupado com uma peca propria
@@ -621,10 +617,24 @@ function player_move(game,peca_div,flags){
         }
     }
     else if(game.fase == 1){ // mover a peca
+
+        // Limpar as funções 
+        document.querySelectorAll('.jogo .cell').forEach(cell => {
+            cell.classList.remove('poss_vacate','selected');
+        });
+
         // escolher
         let peca_valida_escolher = game.turn == 0 ? 'piece_1' : 'piece_2';
         if(!flags.mover_peca){ // escolher a peca para mover
             if (game.board[square][position] != peca_valida_escolher) return; // true se escolher celula que nao seja a sua
+
+            // se já foi selecionada
+            /*
+            if (peca_div.classList.contains('selected')) {
+                flags.mover_peca = false;
+                return;
+            }
+             */
 
             //alterar a cor da border
             peca_div.classList.add('selected');
@@ -632,33 +642,29 @@ function player_move(game,peca_div,flags){
             game.pos_validas = game.jogadas_possiveis_dada_peca(square,position);
             if (game.pos_validas.length == 0) return; // caso nao existam movimentos para a peca
 
+
+            //////////2////////
+            game.pos_validas.forEach(([sq, pos]) => {
+                let cell = document.querySelector(`[data-index="${sq},${pos}"]`);
+                if (cell) cell.classList.add('poss_vacate');
+            })
+            //////////2////////
+
             // falta desenhar os locais validos para mover
             game.peca_para_mover=[square,position];
             flags.mover_peca = true;
 
 
-        }else{ // mover a peca
+        }else{ // mover a pecax
             if (peca_valida_escolher == game.board[square][position]){ // para o caso de escolher a peca errada para mover
                 game.peca_para_mover = [square,position];
                 game.pos_validas = game.jogadas_possiveis_dada_peca(square,position);
-                ////////////
 
-                document.querySelectorAll('.jogo .cell').forEach(piece => {
-                    piece.classList.remove('poss_vacate')
-                })
-
-
-                for (let piece of game.pos_validas) {
-                    let square = piece[0];    // Extract square
-                    let position = piece[1]; // Extract position
-
-                    // Find the corresponding cell using its data-index attribute
-                    let cell = document.querySelector(`[data-index="${square},${position}"]`);
-                    if (cell) {
-                        cell.classList.add('poss_vacate'); // Apply the .poss_vacate class
-                    }
-                    
-                }
+                peca_div.classList.add('selected');
+                game.pos_validas.forEach(([sq, pos]) => {
+                    let cell = document.querySelector(`[data-index="${sq},${pos}"]`);
+                    if (cell) cell.classList.add('poss_vacate');
+                });
                 ////////////
                 if (game.pos_validas.length == 0) flags.mover_peca = false;
                 return;
@@ -682,6 +688,19 @@ function player_move(game,peca_div,flags){
             div_peca_escolhida.classList.remove(nome_peca_escolhida); //eliminar no html do local atual
             peca_div.classList.add(nome_peca_escolhida); // mover no html para o novo local
             game.mover_peca(square,position); // mover no objeto
+
+            ////////2/////////
+            /*
+            // dar uppdate das peças na página
+            let [oldSquare, oldPosition] = game.peca_para_mover;
+            let oldCell = document.querySelector(`[data-index="${oldSquare},${oldPosition}"]`);
+            let newCell = document.querySelector(`[data-index="${square},${position}"]`);
+
+            if (oldCell) oldCell.classList.remove('piece_1', 'piece_2'); // Remove piece class
+            if (newCell) newCell.classList.add(peca_valida_escolher); // Add piece class
+
+             */
+            ////////2/////////
 
             flags.mover_peca = false;
 
@@ -767,6 +786,13 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
             game.peca_para_mover = [antiga[0],antiga[1]];
         }
 
+        /**/
+        // Limpar as funções 
+        document.querySelectorAll('.jogo .cell').forEach(cell => {
+            cell.classList.remove('old_position','new_position');
+        });
+        
+
         if(antiga != [-1,-1] && nova != [-1,-1]){
             if (game.pieces[0] == 3 && game.pieces[1] == 3) game.jogadas_para_empatar--; // se chegar aqui significa que vai gastar uma jogada caso esteja 3pecas vs 3pecas
 
@@ -774,9 +800,20 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
             let nome_peca_escolhida = div_peca_escolhida.classList[1];
             let div_nova_posicao = document.querySelector(`[data-index="${nova[0]},${nova[1]}"]`);
 
+            ////
+            div_peca_escolhida.classList.add('old_position');
             div_peca_escolhida.classList.remove(nome_peca_escolhida); //eliminar no html do local atual
             div_nova_posicao.classList.add(nome_peca_escolhida); // mover no html para o novo local
+            ///
+            div_nova_posicao.classList.add('new_position');
+
+            //criar time out para a old poss
+            setTimeout(() => {
+                div_peca_escolhida.classList.remove('old_position');
+            }, 3000);
+
             game.mover_peca(nova[0],nova[1]); // mover no objeto
+            
         }
 
 
