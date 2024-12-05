@@ -46,5 +46,6 @@ Opcionalmente, podem implementar o algoritmo Minimax para jogar de forma mais in
 [] guardar dados para leaderboard - Dani (dica: tenta guardar o histórico numa dataframe?)
 
 
--> mudar cores de border quando a peça é selecionada -> mostrar jogadas possíveis
+[x] mudar cores de border quando a peça é selecionada -> mostrar jogadas possíveis 
+-> quando a eliminar as peças a bordas das possíveis muda de cor
 -> quando AI a jogar tornar mais obvio -> marcar a peça q foi jogada, a sua posição nova e a anterior

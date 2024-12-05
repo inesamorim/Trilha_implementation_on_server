@@ -1094,12 +1094,16 @@ body {
       }
       /* mudar a cor da borda quando a peça é selecionada*/ 
       .cell.selected{
-        border-color: rgb(107, 237, 237)
+        border-color: rgb(0, 250, 250)
       }
 
       /* possíveis locais para a peça se mover*/
       .cell.poss_vacate{
-        background-color: #b2edf1;
+        background-color: #e8f262;
+      }
+
+      .cell.to_eat{
+        border-color: rgb(225, 255, 0);
       }
 
       .piece_1{
