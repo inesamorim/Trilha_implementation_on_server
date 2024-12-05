@@ -784,13 +784,13 @@ body {
     border-color: rgb(153, 30, 81);
     color: #FFFFFF;
     cursor: pointer;
-    padding: 13px 16px;
+    padding: 16px 16px;
     font-size: 30px;
     font-weight: 700;
     letter-spacing: 1px;
-    line-height: 20px;
+    line-height: 25px;
     margin-top: 10px;
-    width: 30%;
+    width: 20%;
   }
 
   .buttons{
@@ -799,7 +799,7 @@ body {
     align-items: center;
     margin-left: 26%;
     justify-items: center;
-    gap: 30px;
+    gap: 25px;
   }
 
 }
@@ -1022,6 +1022,12 @@ body {
       background-color: var(--color_p1);
     }
   }
+  /*333333333333333333333333
+  .player_1_pieces.selected {
+    border-color: rgb(107, 237, 237)
+  }
+  */
+  
 
   .player_2_pieces{
     display: flex;
@@ -1057,7 +1063,13 @@ body {
     border-color: black;
     margin-right: 2px;
     margin-bottom: 2px;
-  }   
+
+  } 
+
+  /* quando não é a vez do jogador alterar a cor das peças*/
+  .peca.disabled{
+    opacity: 0.6;
+  }
 
   .tabuleiro{
       display: grid;
@@ -1079,6 +1091,28 @@ body {
         border-radius: 50%; /* Makes it a circle */
         border-color: black;
         background: white;
+      }
+      /* mudar a cor da borda quando a peça é selecionada*/ 
+      .cell.selected{
+        border-color: rgb(0, 250, 250)
+      }
+
+      /* possíveis locais para a peça se mover*/
+      .cell.poss_vacate{
+        background-color: #e8f262;
+      }
+
+      .cell.to_eat{
+        border-color: rgb(255, 196, 0);
+      }
+      
+      .cell.old_position{
+        border-color: #283b9888;
+        background-color: bisque;
+      }
+
+      .cell.new_position {
+        border-color: rgb(255, 196, 0);
       }
 
       .piece_1{
