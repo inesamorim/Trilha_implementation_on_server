@@ -42,3 +42,23 @@ async function register(nick, password) {
     }
 }
 
+function make_request(command,args) {
+// …
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('POST',"http://twserver.alunos.dcc.fc.up.pt:8008/" + command ,true);
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState == 4) {
+            const data = JSON.parse(xhr.responseText);
+            console.log(xhr.responseText);
+     }
+    }    
+    xhr.send(JSON.stringify(args));
+}
+
+function make_resgister(){
+    let nick = 'ines';
+    let password = '1234';
+
+    make_request('register', {'nick': nick, 'password': password})
+}
