@@ -1103,7 +1103,16 @@ body {
       }
 
       .cell.to_eat{
-        border-color: rgb(225, 255, 0);
+        border-color: rgb(255, 196, 0);
+      }
+      
+      .cell.old_position{
+        border-color: #283b9888;
+        background-color: bisque;
+      }
+
+      .cell.new_position {
+        border-color: rgb(255, 196, 0);
       }
 
       .piece_1{
