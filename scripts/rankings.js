@@ -1,19 +1,16 @@
 
 // Função para carregar a classificação (simulação de dados nesta fase)
-function loadRanking() {
-    var rankingData = [
-        { posicao: 1, jogador: "Jogador A", pontuacao: 1500 },
-        { posicao: 2, jogador: "Jogador B", pontuacao: 1200 },
-        { posicao: 3, jogador: "Jogador C", pontuacao: 900 }
-    ];
+async function loadRanking() {
+    let rankingData = await request("ranking", {"group": "2", "size": "3"});
 
     var tableBody = document.getElementById("ranking_table");
     tableBody.innerHTML = "";  // Limpa a tabela antes de carregar os dados
 
     // Itera pelos dados de ranking e insere na tabela
+    let posicao = 0
     rankingData.forEach(function(entry) {
         var row = document.createElement("tr");
-        row.innerHTML = `<td>${entry.posicao}</td><td>${entry.jogador}</td><td>${entry.pontuacao}</td>`;
+        row.innerHTML = `<td>${posicao++}</td><td>${entry.nick}</td><td>${entry.games}</td><td>${entry.victories}</td>`;
         tableBody.appendChild(row);
     });
 }
@@ -67,11 +64,6 @@ function showSingleStats(){
     var nGames = (localStorage.getItem("nGames") || 0);  
     var GamesWon = (localStorage.getItem("GamesWon") || 0);
     var SingleScore = (localStorage.getItem("SingleScore") || 0);
-
-    // console.log("Games Played:", nGames); 
-    // console.log("Games Won:", GamesWon);
-    // console.log("Overall Score:", SingleScore);
-
 
     var rankingScores = [
         { T: "nº of matches", G: nGames},
