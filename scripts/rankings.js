@@ -7,7 +7,7 @@ async function loadRanking() {
     tableBody.innerHTML = "";  // Limpa a tabela antes de carregar os dados
 
     // Itera pelos dados de ranking e insere na tabela
-    let posicao = 0
+    let posicao = 1
     rankingData.forEach(function(entry) {
         var row = document.createElement("tr");
         row.innerHTML = `<td>${posicao++}</td><td>${entry.nick}</td><td>${entry.games}</td><td>${entry.victories}</td>`;
