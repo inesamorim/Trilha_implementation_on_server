@@ -1,8 +1,3 @@
-var USERNAME = "utilizador";
-var PASSWORD = "123456";
-const BASE_URL = "http://twserver.alunos.dcc.fc.up.pt:8008";
-var GAMEID;
-
 
 async function request(comand,args) {
     let response = await fetch(`${BASE_URL}/${comand}`, {
@@ -18,53 +13,71 @@ async function request(comand,args) {
     // logica para cada tipo de comand
     switch (comand){
         case "register":
-            break;
+            console.log("request:", comand,"| response:", body_resp);
+            return true;
         case "join":
             GAMEID = body_resp.game; // guardar o id do jogo
+            console.log("request:", comand,"| response:", body_resp);
+            return true;
+        case "leave":
+            console.log("request:", comand,"| response:", body_resp);
+            break;
+        case "notify":
+            console.log("request:", comand,"| response:", body_resp);
+            break;
+        case "ranking":
+            console.log("request:", comand,"| response:", body_resp);
             break;
     }
 
 
 
-    console.log("request:", comand,"| response:", body_resp);  
 }
 
 
 
-// funcao para fazer update do estado do jogo
-function update(){
-    const eventSource = new EventSource(BASE_URL+"/update?nick="+USERNAME+"&game="+GAMEID);
-    eventSource.onmessage = function(event) {
-       const data = JSON.parse(event.data);
-       console.log("update:", event.data);
-    }
-    // eventSource.close()
-}
 
+
+// async function listenForUpdates() {
+
+//     const eventSource = new EventSource(`${BASE_URL}/update?group=2&game=${GAMEID}`);
+//     eventSource.onmessage = (event) => {
+//         console.log("Game Update:", event.data);
+//         alert("Game Update: " + event.data);
+//     };  
+//     eventSource.onerror = (err) => {
+//         console.error("Error in SSE:", err);
+//         eventSource.close();
+//     };
+//     // eventSource.close()
+// }
 
 
 
 // funcoes para testar
 
+let i = 0;
+let j = 0;
+
 function makereg(){
-    request("register",{'nick': "utilizador", 'password': "123456"});
+    request("register", {'nick': "utilizador", 'password': "123456"});
 }
 
 function makejoin(){
-    request("join",{"group": "2", "nick": USERNAME, "password": PASSWORD, "size": "3"})
+    request("join", {"group": "2", "nick": USERNAME, "password": PASSWORD, "size": "3"});
 }
 
 function makeleave(){
-    request({"nick": USERNAME, "password": PASSWORD, "game": GAMEID});
+    request("leave", {"nick": USERNAME, "password": PASSWORD, "game": GAMEID});
 }
 
 function makenotify(){
-    request({"nick": USERNAME, "password": PASSWORD, "game": GAMEID, "cell": {"square": 0, "position": 0}});
+    request("notify", {"nick": USERNAME, "password": PASSWORD, "game": GAMEID, "cell": {"square": i, "position": j}});
 }
 
-
-
-
+function makeranking(){
+    request("ranking", {"group": "2", "size": "3"});
+}
 
 
 //codigo com uso final
@@ -74,15 +87,70 @@ document.getElementById("login_form").addEventListener("submit", async (e) => {
     USERNAME = document.getElementById("username").value;
     PASSWORD = document.getElementById("password").value;
 
-    request("register",{'nick': USERNAME, 'password': PASSWORD});
+    let state = await request("register",{'nick': USERNAME, 'password': PASSWORD});
+    if (state){ // register|login concretizado
+        LOGGED = true;
+        let player_name_loggin = document.querySelector(".kurby_capt");
+        player_name_loggin.textContent = USERNAME.toUpperCase();
+        document.getElementById("login").style.display = "none";
+    }
 });
 
-// JOIN
+// JOIN 
+button_start_online_game.onclick = async function(){
+
+    if (!LOGGED){ // indicar que precisa de fazer login
+        alert('Necessário fazer login');
+    }else{ // trocar para o menu do tabuleiro e iniciar jogo
+        let game_size = document.querySelector('select[name="size"]').value;
+        
+        let state = await request("join", {"group": "2", "nick": USERNAME, "password": PASSWORD, "size": game_size})
+        if (state){ 
+            jogo_online = true;
+            esperar_adversario();
+            menu_config.style.display = 'none';
+            menu_jogo.style.display = 'flex';
+        }
+    }
+}
 
 // LEAVE
+// feito - esta em mudar_menu quando o utilizador tenta retornar ao menu principal durante o jogo
 
 // NOTIFY
 
-// UPDATE
+// UPDATE -> obtem o estado atual do jogo {board,turn,...} || quando um player faz "leave", recebe {"winner": nick}
+function update(){
+    eventSource = new EventSource(BASE_URL+"/update?nick="+USERNAME+"&game="+GAMEID);
+    eventSource.onmessage = function(event) { // vai ler as mensagens recebidas
+       const data = JSON.parse(event.data);
+       console.log("update:", event.data);
+    }
+    eventSource.onerror = (err) => {
+        console.error("Error in SSE:", err);
+        eventSource.close();
+    };
+}
+
+function esperar_adversario(){
+    const update_mensagem_espera = setInterval(wait_game_text, 500);
+
+    let eventSource2 = new EventSource(BASE_URL+"/update?nick="+USERNAME+"&game="+GAMEID);
+    eventSource2.onmessage = function(event) {
+       const data = JSON.parse(event.data);
+       console.log("update:", event.data);
+       eventSource2.close();
+       clearInterval(update_mensagem_espera);
+       if (data.board){
+           main_online_game(data);
+           update();
+        }
+    }
+    eventSource2.onerror = (err) => {
+        console.error("Error in SSE:", err);
+        eventSource2.close();
+    };
+}
+
 
 // RANKING
