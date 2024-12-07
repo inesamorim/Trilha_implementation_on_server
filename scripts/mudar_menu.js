@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     
+    
     button_menu_inicial.forEach(button => {
         button.onclick = function(){ // ir para menu inicial      
         if (jogo && jogo.fase != 2){// jogo ainda nao acabou entao prompt para informar que vai desistir
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 jogo.winner = jogo.player_info[1]; // adversario ganha
 
                 menu_jogo.style.display = 'none';
+                overlayInfo.style.display = 'none';///
                 menu_inicial.style.display = 'block';
             }
         }else if(jogo_online){
@@ -24,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 GAMEID = null;
                 jogo_online = false;
                 menu_jogo.style.display = 'none';
+                overlayInfo.style.display = 'none';///
                 menu_inicial.style.display = 'block';
             }
         }
@@ -31,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
             menu_regras.style.display = 'none';
             menu_config.style.display = 'none';
             menu_jogo.style.display = 'none';
+            overlayInfo.style.display = 'none';
             menu_inicial.style.display = 'block';
         }
     }});
@@ -94,6 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
             await main_local_game();
             menu_config.style.display = 'none';
             menu_jogo.style.display = 'flex';
+            overlayInfo.style.display = 'block'; ///
         }
     }
 });

@@ -128,6 +128,8 @@ body {
   border-bottom: 5px;
   z-index: 1000;
   text-align: center;
+  color: white;
+  font-family:cursive;
   font-size: 2em; /* Adjust as needed */
 }
 

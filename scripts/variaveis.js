@@ -21,6 +21,8 @@ const menu_inicial = document.querySelector('.menu_inicial');
 const menu_regras = document.querySelector('.regras');
 const menu_config = document.querySelector('.configuracoes');
 const menu_jogo = document.querySelector('.jogo');
+const overlayInfo = document.querySelector(".overlay-title");///
+
 
 // botoes
 const button_menu_inicial = document.querySelectorAll('.go_menu_inicial');
