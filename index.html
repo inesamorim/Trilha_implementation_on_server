@@ -38,7 +38,7 @@
                     <h2>Login</h2>
                     <form id="login_form">
                         <label for="username">Username: </label>
-                        <input type="text" id="username" name="username" required>
+                        <input type="text" id="username" autocomplete="on" name="username" required>
                         <br><br>
                         <label for="password">Password: </label>
                         <input type="password" id="password" name="password" required>
@@ -68,7 +68,8 @@
                                 <tr>
                                     <th>Posição</th>
                                     <th>Jogador</th>
-                                    <th>Pontuação</th>
+                                    <th>Jogos</th>
+                                    <th>Vitórias</th>
                                 </tr>
                             </thead>
                             <tbody id="ranking_table">
@@ -212,7 +213,7 @@
                         <label for="size">Grid size</label>
                         <br>
                         
-                        <select size="3" name="size">
+                        <select id="size" size="3" name="size">
                             <option selected value=3 >3</option>
                             <option value=4 >4</option>
                             <option value=5 >5</option>
@@ -220,7 +221,7 @@
                         <br>
                         <label for="p1">P1</label>
                         <br>
-                        <select size="3" name="p1">
+                        <select id="p1" size="3" name="p1">
                             <option selected value="player">player</option>
                             <option value="random">random</option>
                             <option value="AI">AI</option>
@@ -236,7 +237,7 @@
                         <br>
                         <label for="start">Start player</label>
                         <br>
-                        <select size="3" name="start">
+                        <select id="start" size="3" name="start">
                             <option selected value="P1">P1</option>
                             <option value="P2">P2</option>
                             <option value="random">random</option>
@@ -244,7 +245,7 @@
                         <br>
                         <label for="p2">P2</label>
                         <br>
-                        <select size="3" name="p2">
+                        <select id="p2" size="3" name="p2">
                             <option value="player">player</option>
                             <option selected value="random">random</option>
                             <option value="AI">AI</option>
@@ -361,7 +362,8 @@
                                 <tr>
                                     <th>Posição</th>
                                     <th>Jogador</th>
-                                    <th>Pontuação</th>
+                                    <th>Jogos</th>
+                                    <th>Vitórias</th>
                                 </tr>
                             </thead>
                             <tbody id="ranking_table">

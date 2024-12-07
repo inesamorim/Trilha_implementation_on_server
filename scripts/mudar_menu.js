@@ -95,10 +95,10 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Formato inválido\nNão pode escolher CPU VS Player');
         }else{ // trocar para o menu do tabuleiro e iniciar jogo
             jogo_online = false;
-            await main_local_game();
             menu_config.style.display = 'none';
             menu_jogo.style.display = 'flex';
             overlayInfo.style.display = 'block'; ///
+            await main_local_game();
         }
     }
 });

@@ -719,7 +719,7 @@ function player_move(game,peca_div,flags){
 
 async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
-    await new Promise((r)=>setTimeout(r, 400));
+    await new Promise((r)=>setTimeout(r, 600));
 
     if( !game.fase ){ //colocar
 
