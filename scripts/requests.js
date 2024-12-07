@@ -27,7 +27,7 @@ async function request(comand,args) {
             break;
         case "ranking":
             console.log("request:", comand,"| response:", body_resp);
-            break;
+            return body_resp.ranking;
     }
 
 
@@ -119,13 +119,10 @@ button_start_online_game.onclick = async function(){
 
 // NOTIFY
 
-// UPDATE -> obtem o estado atual do jogo {board,turn,...} || quando um player faz "leave", recebe {"winner": nick}
+// UPDATE -> obtem o estado atual do jogo {board,turn,...} || quando o jogo acaba recebe {"winner": nick} || quando um jogador faz um move recebe 
 function update(){
     eventSource = new EventSource(BASE_URL+"/update?nick="+USERNAME+"&game="+GAMEID);
-    eventSource.onmessage = function(event) { // vai ler as mensagens recebidas
-       const data = JSON.parse(event.data);
-       console.log("update:", event.data);
-    }
+
     eventSource.onerror = (err) => {
         console.error("Error in SSE:", err);
         eventSource.close();
@@ -133,17 +130,18 @@ function update(){
 }
 
 function esperar_adversario(){
+    wait_game_text();
     const update_mensagem_espera = setInterval(wait_game_text, 500);
 
     let eventSource2 = new EventSource(BASE_URL+"/update?nick="+USERNAME+"&game="+GAMEID);
     eventSource2.onmessage = function(event) {
-       const data = JSON.parse(event.data);
-       console.log("update:", event.data);
-       eventSource2.close();
-       clearInterval(update_mensagem_espera);
-       if (data.board){
-           main_online_game(data);
-           update();
+        const data = JSON.parse(event.data);
+        console.log("update:", event.data);
+        eventSource2.close();
+        clearInterval(update_mensagem_espera);
+        if (data.board){ // jogo emparelhado
+            update();
+            main_online_game(data);
         }
     }
     eventSource2.onerror = (err) => {
