@@ -620,7 +620,7 @@ function player_move(game,peca_div,flags){
 
         // Limpar as funções 
         document.querySelectorAll('.jogo .cell').forEach(cell => {
-            cell.classList.remove('poss_vacate','selected');
+            cell.classList.remove('poss_vacate','selected','old_position','new_position');
         });
 
         // escolher

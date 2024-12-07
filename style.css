@@ -10,6 +10,21 @@ body {
     background-image: url(https://images6.alphacoders.com/115/1153825.jpg);
 }
 
+
+/*
+.gamestats{
+  flex: 1;
+  text-align:center;
+  color: white;
+  font-family:cursive;
+  font-size: 3.3 em; 
+
+}
+*/
+
+/**/
+
+
 .navbar{
   display: flex;
   flex-direction: row;
@@ -97,6 +112,23 @@ body {
       }
     }
   }
+}
+
+/*aparece em jogo e serve como subtitulo para mostrar quem é a jogar e q tarefa deve fazer*/
+.overlay-title {
+   /* position: fixed; absolute*/
+  /*
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 5px;
+  */
+  padding-bottom: 10px 20px;
+  border-bottom: 5px;
+  z-index: 1000;
+  text-align: center;
+  font-size: 2em; /* Adjust as needed */
 }
 
 
@@ -896,11 +928,11 @@ body {
   }   
 }
 
-
 .jogo{
   display: none;
   flex-direction: row;
   color: azure;
+
 
  .info{
    align-items: center;
@@ -1100,10 +1132,6 @@ body {
       /* possíveis locais para a peça se mover*/
       .cell.poss_vacate{
         background-color: #e8f262;
-      }
-
-      .cell.to_eat{
-        border-color: rgb(255, 196, 0);
       }
       
       .cell.old_position{
