@@ -351,7 +351,7 @@ class trilha{
 }
 
 
-async function main(){ // usado para criar o jogo e apresentar no html
+async function main_local_game(){ // usado para criar o jogo e apresentar no html
 
     const BoardSize = document.querySelector('select[name="size"]').value;
     const P1 = document.querySelector('select[name="p1"]').value;
@@ -371,9 +371,6 @@ async function main(){ // usado para criar o jogo e apresentar no html
 
     let startPlayer = document.querySelector('select[name="start"]').value;
 
-    const board_structurs = [[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2],[0,3],[1,3],[2,3],[2,4],[1,4],[0,4],[2,5],[2,6],[2,7],[1,5],[1,6],[1,7],[0,5],[0,6],[0,7]],
-                           [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2],[3,0],[3,1],[3,2],[0,3],[1,3],[2,3],[3,3],[3,4],[2,4],[1,4],[0,4],[3,5],[3,6],[3,7],[2,5],[2,6],[2,7],[1,5],[1,6],[1,7],[0,5],[0,6],[0,7]],
-                           [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2],[3,0],[3,1],[3,2],[4,0],[4,1],[4,2],[0,3],[1,3],[2,3],[3,3],[4,3],[4,4],[3,4],[2,4],[1,4],[0,4],[4,5],[4,6],[4,7],[3,5],[3,6],[3,7],[2,5],[2,6],[2,7],[1,5],[1,6],[1,7],[0,5],[0,6],[0,7]]];
 
     if (startPlayer == 'random'){
         startPlayer = Math.random() < 0.5 ? "P1" : "P2";
@@ -407,7 +404,7 @@ function gerar_player_info(n){
         let cell_player = document.createElement('div');
         let h2 = document.createElement('h2');
         h2.classList.add("player_name");
-        h2.textContent = h2.className; // <---- alterar aqui
+        h2.textContent = jogo.player_info[i]; // <---- alterar aqui
         cell_player.appendChild(h2)
         container.appendChild(cell_player);
 
@@ -867,74 +864,3 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
 
     }
 }
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    // Obtém o modal e o botão de abrir/fechar
-    const rankingModal = document.getElementById("ranking_page");
-    const openRankingBtn = document.querySelectorAll('.menu');
-    const closeRankingBtn = document.getElementsByClassName("close_ranking")[0];
-    
-    var rankingData = [
-        { posicao: 1, jogador: "player", pontuacao: 500 },
-        { posicao: 2, jogador: "AI", pontuacao: 500 },
-        { posicao: 3, jogador: "random", pontuacao: 500 }
-    ];
-
-    // Abre a tabela classificativa quando o botão é clicado
-    openRankingBtn.forEach(button => {
-        button.onclick = function() { // mostrar menu inicial
-        rankingModal.style.display = "block";
-        loadRanking(rankingData);  // Carrega a classificação
-        }
-    });
-
-    // Fecha a tabela classificativa ao clicar no "X"
-    closeRankingBtn.onclick = function() {
-        rankingModal.style.display = "none";
-    }
-
-    // Fecha o modal ao clicar fora dele
-    window.onclick = function(event) { // nao funciona
-        if (event.target == rankingModal) {
-            rankingModal.style.display = "none";
-        }
-    }
-    
-    const start = document.getElementById('inicar_jogo');
-    const menu_config = document.querySelector('.configuracoes');
-    const menu_jogo = document.querySelector('.jogo');
-
-    var jogo;
-
-    start.onclick = async function(){
-        // se P1 for nao for player entao P2 tambem nao pode ser
-        if (document.querySelector('select[name="p1"]').value != 'player' && document.querySelector('select[name="p2"]').value == 'player'){
-            alert('Formato inválido\nNão pode escolher CPU VS Player');
-        }else{ // trocar para o menu do tabuleiro e iniciar jogo
-            menu_config.style.display = 'none';
-            menu_jogo.style.display = 'flex';
-            jogo = await main();
-        }
-    }
-
-    const button_menu_inicial = document.getElementById('menu_inicial_desistir');
-    const menu_inicial = document.querySelector('.menu_inicial');
-
-    button_menu_inicial.onclick = function(){
-        if (jogo.fase != 2){// jogo ainda nao acabou entao prompt para informar que vai desistir
-            let desistir_do_jogo = confirm("Vai desistir do jogo.\nConfirmar:");
-            if (desistir_do_jogo) {
-                jogo.fase = 2;
-                jogo.winner = jogo.player_info[1]; // para single player a AI/random nao conseguem desistir, quando for PvP temos de alterar
-                menu_jogo.style.display = 'none';
-                menu_inicial.style.display = 'block';
-            }
-        }
-        else{ // jogo já acabou entao user pode sair sem problemas
-            menu_jogo.style.display = 'none';
-            menu_inicial.style.display = 'block';
-        }
-    };
-
-});
