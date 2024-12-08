@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     GAMEID = null;
                     jogo_online = false;
                     eventSource.close(); // fechar a ligacao com o servidor
+                }else{ // desistiu de jogo contra CPU
+                    updateScoreloser();
+                    updatenGames();
+                    showSingleStats();
                 }
                 jogo.fase = 2;
                 jogo.winner = jogo.player_info[1]; // adversario ganha
@@ -19,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 overlayInfo.style.display = 'none';///
                 menu_inicial.style.display = 'block';
             }
-        }else if(jogo_online){
+        }else if(jogo_online){ // vai abandonar a procura de jogo
             let abandonar = confirm("Vai abandonar a procura.\nConfirmar:");
             if (abandonar){
                 request("leave", {"nick": USERNAME, "password": PASSWORD, "game": GAMEID});
@@ -59,17 +63,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const openRankingBtn = document.querySelectorAll('.menu');
     const closeRankingBtn = document.getElementsByClassName("close_ranking")[0];
     
-    var rankingData = [
-        { posicao: 1, jogador: "player", pontuacao: 500 },
-        { posicao: 2, jogador: "AI", pontuacao: 500 },
-        { posicao: 3, jogador: "random", pontuacao: 500 }
-    ];
 
     // Abre a tabela classificativa quando o botão é clicado
     openRankingBtn.forEach(button => {
         button.onclick = function() { // mostrar menu inicial
         rankingModal.style.display = "block";
-        loadRanking(rankingData);  // Carrega a classificação
+        loadRanking();  // Carrega a classificação
         }
     });
 
@@ -86,8 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
 
-
-    
     // iniciar jogo local
     button_start_local_game.onclick = async function(){
         // se P1 for nao for player entao P2 tambem nao pode ser
