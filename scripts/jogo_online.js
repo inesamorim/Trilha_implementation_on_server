@@ -31,7 +31,7 @@ async function main_online_game(game_data){
     // recebe as mensagens de update e executa a logica
     eventSource.onmessage = function(event) { // vai ler as mensagens recebidas
         const data = JSON.parse(event.data);
-        console.log("update:", event.data);
+        //console.log("update:", event.data);
         if((data.winner || data.winner === null) && data.board){ // true apenas quando o jogo acabou e nao foi por abandono (pode ter sido por empate ou remocao de pecas)
             jogo.fase = 2; GAMEID = null; jogo_online = false;
             jogo.winner = data.winner === null ? "draw" : data.winner;
