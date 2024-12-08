@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 menu_jogo.style.display = 'none';
                 overlayInfo.style.display = 'none';///
                 menu_inicial.style.display = 'block';
+                eventSource.close();
             }
         }
         else{ // podemos voltar ao menu inicial sem problemas
