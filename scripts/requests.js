@@ -13,49 +13,27 @@ async function request(comand,args) {
     // logica para cada tipo de comand
     switch (comand){
         case "register":
-            console.log("request:", comand,"| response:", body_resp);
+            //console.log("request:", comand,"| response:", body_resp);
             return true;
         case "join":
             GAMEID = body_resp.game; // guardar o id do jogo
-            console.log("request:", comand,"| response:", body_resp);
+            //console.log("request:", comand,"| response:", body_resp);
             return true;
         case "leave":
-            console.log("request:", comand,"| response:", body_resp);
+            //console.log("request:", comand,"| response:", body_resp);
             break;
         case "notify":
-            console.log("request:", comand,"| response:", body_resp);
-            break;
+            //console.log("request:", comand,"| response:", body_resp);
+            return true;
         case "ranking":
-            console.log("request:", comand,"| response:", body_resp);
+            //console.log("request:", comand,"| response:", body_resp);
             return body_resp.ranking;
     }
-
-
-
 }
 
 
 
-
-
-// async function listenForUpdates() {
-
-//     const eventSource = new EventSource(`${BASE_URL}/update?group=2&game=${GAMEID}`);
-//     eventSource.onmessage = (event) => {
-//         console.log("Game Update:", event.data);
-//         alert("Game Update: " + event.data);
-//     };  
-//     eventSource.onerror = (err) => {
-//         console.error("Error in SSE:", err);
-//         eventSource.close();
-//     };
-//     // eventSource.close()
-// }
-
-
-
 // funcoes para testar
-
 let i = 0;
 let j = 0;
 
@@ -64,7 +42,7 @@ function makereg(){
 }
 
 function makejoin(){
-    request("join", {"group": "2", "nick": USERNAME, "password": PASSWORD, "size": "3"});
+    request("join", {"group": GROUP, "nick": USERNAME, "password": PASSWORD, "size": "3"});
 }
 
 function makeleave(){
@@ -76,7 +54,7 @@ function makenotify(){
 }
 
 function makeranking(){
-    request("ranking", {"group": "2", "size": "3"});
+    request("ranking", {"group": GROUP, "size": "3"});
 }
 
 
@@ -104,7 +82,7 @@ button_start_online_game.onclick = async function(){
     }else{ // trocar para o menu do tabuleiro e iniciar jogo
         let game_size = document.querySelector('select[name="size"]').value;
         
-        let state = await request("join", {"group": "2", "nick": USERNAME, "password": PASSWORD, "size": game_size})
+        let state = await request("join", {"group": GROUP, "nick": USERNAME, "password": PASSWORD, "size": game_size})
         if (state){ 
             jogo_online = true;
             esperar_adversario();
@@ -115,9 +93,10 @@ button_start_online_game.onclick = async function(){
 }
 
 // LEAVE
-// feito - esta em mudar_menu quando o utilizador tenta retornar ao menu principal durante o jogo
+// feito - esta em mudar_menu.js quando o utilizador tenta retornar ao menu principal durante o jogo
 
 // NOTIFY
+// feito - em jogo_online.js na func main_online_game()
 
 // UPDATE -> obtem o estado atual do jogo {board,turn,...} || quando o jogo acaba recebe {"winner": nick} || quando um jogador faz um move recebe 
 function update(){
@@ -152,3 +131,4 @@ function esperar_adversario(){
 
 
 // RANKING
+// feito - em ranking.js na func loadRanking()
