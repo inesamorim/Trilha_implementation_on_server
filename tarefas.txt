@@ -51,3 +51,4 @@ Opcionalmente, podem implementar o algoritmo Minimax para jogar de forma mais in
 [x] quando AI a jogar tornar mais obvio -> marcar a peça q foi jogada, a sua posição nova e a anterior
 [x] diz quem está a jogar no centro
 -> quando o jogo acaba aparecer temporáriamente uma placa a dizer quem ganhou
+-> alterar as configurações
