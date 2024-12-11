@@ -1,8 +1,10 @@
 const http = require('http'); //import do módulo http
+const fs = require('fs');
 
 const port = 3000;
 
 const users = {}; 
+const RANKING_FILE = './ranking.json';
 const waitingPlayers = {};
 
 //Registo
@@ -41,6 +43,24 @@ function handleRegister(req, res, body){
         res.end(JSON.stringify({ error: 'Formato inválido de dados.' }));
     }
 }
+
+//Ranking
+
+// ler o ranking
+const readRankingfFromFile = () => {
+    if (fs.existsSync(RANKING_FILE)){
+        const data = fs.readFileSync(RANKING_FILE);
+        return JSON.parse(data);
+    }
+    return {};
+};
+
+//escrever o ranking
+const writeRankingToFile = (ranking) => {
+    fs.write
+}
+
+
 
 //Join
 function handleJoin(req, res, body){
