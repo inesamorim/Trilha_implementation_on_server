@@ -2,15 +2,14 @@ const http = require('http'); //import do módulo http
 const { handleRegister } = require('./modulos/register');
 const { handleRanking } = require('./modulos/ranking');
 const { handleJoin } = require('./modulos/join');
-const { handleNotify } = require('./modulos/notify');
 const { handleUpdate } = require('./modulos/update');
+const { handleNotify } = require('./modulos/notify');
 const { handleLeave } = require('./modulos/leave');
-
 
 const port = 8102;
 const url = 'http://localhost:8102';
 
-//const users = {}; 
+//const users = {};
 
 
 
@@ -32,7 +31,7 @@ const server = http.createServer((req, res) => {
     if (req.method == 'POST' && req.url == '/join') {
         let body = '';
         req.on('data', chunk => {
-            console.log('Chunk recebido:', chunk.toString()); 
+            console.log('Chunk recebido:', chunk.toString());
             body += chunk.toString();
         });
 
@@ -42,7 +41,7 @@ const server = http.createServer((req, res) => {
     } else if (req.method == 'POST' && req.url == '/register') {
         let body = '';
         req.on('data', chunk => {
-            console.log('Chunk recebido:', chunk.toString()); 
+            console.log('Chunk recebido:', chunk.toString());
             body += chunk.toString();
         });
 
@@ -52,7 +51,7 @@ const server = http.createServer((req, res) => {
     } else if (req.method == 'POST' && req.url == '/ranking') {
         let body = '';
         req.on('data', chunk => {
-            console.log('Chunk recebido:', chunk.toString()); 
+            console.log('Chunk recebido:', chunk.toString());
             body += chunk.toString();
         });
 
@@ -62,7 +61,7 @@ const server = http.createServer((req, res) => {
     } else if (req.method == 'POST' && req.url == '/notify'){
         let body = '';
         req.on('data', chunk => {
-            console.log('Chunk recebido:', chunk.toString()); 
+            console.log('Chunk recebido:', chunk.toString());
             body += chunk.toString();
         });
 
@@ -74,7 +73,7 @@ const server = http.createServer((req, res) => {
 
         let body = '';
         req.on('data', chunk => {
-            console.log('Chunk recebido:', chunk.toString()); 
+            console.log('Chunk recebido:', chunk.toString());
             body += chunk.toString();
         });
 
@@ -84,7 +83,7 @@ const server = http.createServer((req, res) => {
     } else if(req.method == 'POST' && req.url == '/leave'){
         let body = '';
         req.on('data', chunk => {
-            console.log('Chunk recebido:', chunk.toString()); 
+            console.log('Chunk recebido:', chunk.toString());
             body += chunk.toString();
         });
 
@@ -101,5 +100,3 @@ const server = http.createServer((req, res) => {
 server.listen(port, () => {
     console.log("Server listening in http://localhost:8102");
 });
-
-

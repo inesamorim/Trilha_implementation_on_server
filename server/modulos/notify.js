@@ -21,10 +21,10 @@ function encryptPassword(password) {
 
 function handleNotify(req, res, body) {
     try {
-        let { nick, password, game, move } = JSON.parse(body);
+        let { nick, password, game, cell } = JSON.parse(body);
 
         // Verifica se todos os argumentos foram fornecidos
-        if (!nick || !password || !game || !move) {
+        if (!nick || !password || !game || !cell) {
             res.writeHead(400, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Todos os argumentos são obrigatórios.' }));
             return;
@@ -34,7 +34,7 @@ function handleNotify(req, res, body) {
             typeof nick !== 'string' ||
             typeof password !== 'string' ||
             typeof game !== 'string' ||
-            typeof move !== 'object'
+            typeof cell !== 'object'
         ) {
             res.writeHead(400, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Argumentos inválidos.' }));
@@ -64,49 +64,69 @@ function handleNotify(req, res, body) {
         const jogo = currentGame['jogo'];
 
         if (
-            typeof move.square !== 'number' ||
-            typeof move.position !== 'number' ||
-            move.square < 0 || move.square >= currentGame['size'] ||
-            move.position < 0 || move.position >= 8
+            typeof cell.square !== 'number' ||
+            typeof cell.position !== 'number' ||
+            cell.square < 0 || cell.square >= currentGame['size'] ||
+            cell.position < 0 || cell.position >= 8
         ) {
             res.writeHead(400, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Argumentos inválidos.' }));
             return;
         }
-
+        
+        const turn = jogo.turn == 0 ? currentGame['player_1'] : currentGame['player_2'];
         // Verifica se é a vez do jogador
-        if (jogo.turn !== 'P1') {
+        if (turn !== nick) {
             res.writeHead(403, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Não é a sua vez de jogar.' }));
             return;
         }
 
         // Verifica se a jogada é válida (implementação das regras específicas)
-        const jogadas = jogo.jogadas_possiveis();
-        move = [move.square, move.position];
-        //let jogada_escolhida = 0;
+        let jogadas = jogo.jogadas_possiveis();
+        let move = [cell.square, cell.position];
+        //console.log('Move:', move);
+        //console.log('Jogadas possíveis:', jogadas);
+        let jogada_escolhida = null;
         if(!jogo.fase){
-            if(!jogadas.includes([move[0],move[1]])){
+            console.log('Fase 1');
+            for(let i = 0; i < jogadas.length; i++){
+                //console.log('Jogada possível:', jogadas[i][0], jogadas[i][1]);
+                //console.log(move[0] == jogadas[i][0]);
+                //console.log(move[1] == jogadas[i][1]);
+                if(jogadas[i][0] == move[0] && jogadas[i][1] == move[1]){
+                    jogada_escolhida = i;
+                    break;
+                }
+            }
+            //console.log('Jogada escolhida:', jogada_escolhida);
+            if(jogada_escolhida == null){
                 res.writeHead(400, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Jogada inválida.' }));
                 return;
             }
             else{
-                res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: 'Jogada Válida' }));
-                player_move(jogo, move[0], move[1], game.flags);
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                //res.end(JSON.stringify({}));
+                player_move(jogo, move[0], move[1], currentGame.flags);
             }
         }
         else{
-            if(!game['flags'].mover_peca){
+            jogadas_possiveis = jogo.jogadas_possiveis_dada_peca(move[0], move[1]);
+            console.log(jogo.board);
+            console.log('Fase 2');
+            console.log(currentGame['flags']);
+            if(!currentGame['flags'].mover_peca){
+                console.log(move);
+                console.log(jogadas);
                 if(move !== jogadas[0][0]){
                     res.writeHead(400, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: 'Jogada inválida.' }));
                     return;
                 } else {
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: 'Jogada Válida' }));
-                    player_move(jogo, move[0], move[1], game.flags);
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    //res.end(JSON.stringify({}));
+                    player_move(jogo, move[0], move[1], currentGame.flags);
                 }
             } else {
                 if(jogadas[0].slice(1).includes(move)){
@@ -114,17 +134,18 @@ function handleNotify(req, res, body) {
                     res.end(JSON.stringify({ error: 'Jogada inválida.' }));
                     return;
                 } else {
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: 'Jogada Válida' }));
-                    player_move(jogo, move[0], move[1], game.flags);
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    //res.end(JSON.stringify({}));
+                    player_move(jogo, move[0], move[1], currentGame.flags);
                 }
             }
         }
 
+        console.log('Move realizado com sucesso');
         // Chamada à função sendUpdate
         move = {'square': move[0], 'position': move[1]};
-        sendUpdate(game, move);
-
+        sendUpdate(currentGame, move);
+        res.end(JSON.stringify({}));
         
     } catch (err) {
         // Lida com erros de parse ou outros erros
@@ -164,7 +185,7 @@ function sendUpdate(game, move) {
             response.step = "from";
         }
     }
-    
+
     const players = {};
     players[game.player_1] = 'blue'
     players[game.player_2] =  'red';
@@ -172,9 +193,6 @@ function sendUpdate(game, move) {
 
     const turn = game.jogo.turn == 0 ? game.player_1 : game.player_2;
     response.turn = turn;
-
-    const winner = game.jogo.winner;
-    response.winner = winner;
 
     game.stream_1.write(
         `data: ${JSON.stringify(response)}\n\n`

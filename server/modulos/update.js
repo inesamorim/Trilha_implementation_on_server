@@ -45,13 +45,14 @@ function handleUpdate(req, res) {
         });
 
 
-        if(currentGame['stream_1']){
+        if(currentGame['player_2'] == nick){
+            console.log("stream 2");
             currentGame['stream_2'] = res;
             sendUpdate(currentGame);
         } else {
+            console.log("stream 1");
             currentGame['stream_1'] = res;
         }
-        
         
 
         // Envia atualizações do jogo periodicamente
