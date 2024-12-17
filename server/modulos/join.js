@@ -88,7 +88,8 @@ function handleJoin(req, res, body) {
                                 'jogo': null,  
                                 'flags': flags ,
                                 'stream_1': null,
-                                'stream_2': null
+                                'stream_2': null,
+                                'group': group
             }
             waitingPlayers[size].push({ group, nick, game_hash });
             res.writeHead(200, { 'Content-Type': 'application/json' });

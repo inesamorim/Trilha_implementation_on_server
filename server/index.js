@@ -4,6 +4,8 @@ const { handleRanking } = require('./modulos/ranking');
 const { handleJoin } = require('./modulos/join');
 const { handleNotify } = require('./modulos/notify');
 const { handleUpdate } = require('./modulos/update');
+const { handleLeave } = require('./modulos/leave');
+
 
 const port = 8102;
 const url = 'http://localhost:8102';
@@ -78,6 +80,16 @@ const server = http.createServer((req, res) => {
 
         req.on('end', () => {
             handleUpdate(req, res, body);
+        });
+    } else if(req.method == 'POST' && req.url == '/leave'){
+        let body = '';
+        req.on('data', chunk => {
+            console.log('Chunk recebido:', chunk.toString()); 
+            body += chunk.toString();
+        });
+
+        req.on('end', () => {
+            handleLeave(req, res, body);
         });
     }
     else {
