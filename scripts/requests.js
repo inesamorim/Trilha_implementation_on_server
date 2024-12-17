@@ -26,7 +26,7 @@ async function request(comand,args) {
             //console.log("request:", comand,"| response:", body_resp);
             return true;
         case "ranking":
-            //console.log("request:", comand,"| response:", body_resp);
+            console.log("request:", comand,"| response:", body_resp);
             return body_resp.ranking;
     }
 }
@@ -82,7 +82,7 @@ button_start_online_game.onclick = async function(){
     }else{ // trocar para o menu do tabuleiro e iniciar jogo
         let game_size = document.querySelector('select[name="size"]').value;
         
-        let state = await request("join", {"group": GROUP, "nick": USERNAME, "password": PASSWORD, "size": game_size})
+        let state = await request("join", {"group": GROUP, "nick": USERNAME, "password": PASSWORD, "size": Number.parseInt(game_size)})
         if (state){ 
             jogo_online = true;
             esperar_adversario();

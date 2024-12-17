@@ -1,5 +1,11 @@
 const fs = require('fs');
-const FILE_PATH = './ranking.json';
+const crypto = require('crypto'); 
+const { trilha, player_move } = require('../jogo');
+const FILE_PATH = './players.json';
+//const WAITING_PATH = './waitingPlayers.json';
+const waitingPlayers = {};
+const games = {};
+
 
 const readPlayersFromFile = () => {
     if (fs.existsSync(FILE_PATH)) {
@@ -8,14 +14,27 @@ const readPlayersFromFile = () => {
     return {};
 };
 
+
+function encryptPassword(password) {
+    return crypto.createHash('md5').update(password).digest('hex');
+}
+
+function generateGameHash(username, boardSize) {
+    // Get the plaintext to use for the hash (Uses the username, board size and current date)
+    const plainText = username + boardSize + Date.now().toString();
+    // Compute and return the game hash
+    return crypto.createHash("sha256").update(plainText).digest("hex");
+  }
+
 //Join
-function handleJoin(req, res, body){
+function handleJoin(req, res, body) {
     try {
-        const {group, nick, password, size} = JSON.parse(body);
+        const { group, nick, password, size } = JSON.parse(body);
         const users = readPlayersFromFile();
+        //const waitingPlayers = readWaitingPlayers(); // Carregar lista de espera do arquivo
 
         if (
-            typeof group !== 'string' ||
+            typeof group !== 'number' ||
             typeof nick !== 'string' ||
             typeof password !== 'string' ||
             typeof size !== 'number' ||
@@ -26,7 +45,7 @@ function handleJoin(req, res, body){
             return;
         }
 
-        if (!users[nick] || users[nick] !== password) {
+        if (!users[nick] || users[nick] !== encryptPassword(password)) {
             res.writeHead(401, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Autenticação falhou.' }));
             return;
@@ -38,30 +57,54 @@ function handleJoin(req, res, body){
         }
 
         if (waitingPlayers[size].length > 0) {
-            //encontrar jogador
-            const opponent = waitingPlayers[size].shift();
+            const opponent = waitingPlayers[size].shift(); //pop
+            games[opponent.game_hash].player_2 = nick;
+            const jogo = new trilha(size, 'P1', opponent.nick, 0, nick, 0);
+            //console.log(jogo);
+            games[opponent.game_hash].jogo = jogo;
+
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(
                 JSON.stringify({
-                    success: 'Emparelhado com outro jogador.',
-                    opponent: opponent.nick,
+                    'game': opponent.game_hash
                 })
             );
-
             console.log(`Notificação: ${opponent.nick} foi emparelhado com ${nick}`);
-        } else {
-            //adicionar jogador à lista de espera
-            waitingPlayers[size].push({group, nick});
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ success: 'Aguardando emparelhamento.' }));
-        }
-    }
 
-    catch (err) {
-        // Erro de parse ou outro erro interno
+           
+            
+        } else {
+            const game_hash = generateGameHash(nick, size);
+            
+
+            const flags = {
+                eliminar_peca: false,
+                mover_peca: false
+            };
+
+            games[game_hash] = {'player_1': nick,
+                                'player_2': null,
+                                'size': size,
+                                'jogo': null,  
+                                'flags': flags ,
+                                'stream_1': null,
+                                'stream_2': null
+            }
+            waitingPlayers[size].push({ group, nick, game_hash });
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ 'game': game_hash }));
+            
+        }
+
+        // Salvar lista de espera
+        //writeWaitingPlayers(waitingPlayers); // Atualizar o arquivo de espera
+    } catch (err) {
+        console.log(err);
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Formato inválido de dados.' }));
     }
 }
 
-module.exports = { handleJoin };
+
+module.exports.handleJoin = handleJoin;
+module.exports.games = games;
