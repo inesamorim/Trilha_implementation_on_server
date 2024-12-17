@@ -582,6 +582,14 @@ function player_move(game,peca_div,flags){
         if (game.is_terminal_move()){
             document.querySelector('.player_turn').textContent = "Jogo terminado";
             document.querySelector('.game_fase').textContent = `${game.player_info[game.turn]} ganhou`;
+            menu_regras.style.display = 'none';
+            menu_config.style.display = 'none';
+            menu_jogo.style.display = 'none';
+            end_game.style.display = 'block';
+            menu_inicial.style.display = 'none';
+            
+            // Start the confetti animation
+            startConfetti();
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
             document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
@@ -640,12 +648,10 @@ function player_move(game,peca_div,flags){
             if (game.pos_validas.length == 0) return; // caso nao existam movimentos para a peca
 
 
-            //////////2////////
             game.pos_validas.forEach(([sq, pos]) => {
                 let cell = document.querySelector(`[data-index="${sq},${pos}"]`);
                 if (cell) cell.classList.add('poss_vacate');
             })
-            //////////2////////
 
             // falta desenhar os locais validos para mover
             game.peca_para_mover=[square,position];
@@ -662,7 +668,7 @@ function player_move(game,peca_div,flags){
                     let cell = document.querySelector(`[data-index="${sq},${pos}"]`);
                     if (cell) cell.classList.add('poss_vacate');
                 });
-                ////////////
+
                 if (game.pos_validas.length == 0) flags.mover_peca = false;
                 return;
             }
@@ -686,18 +692,6 @@ function player_move(game,peca_div,flags){
             peca_div.classList.add(nome_peca_escolhida); // mover no html para o novo local
             game.mover_peca(square,position); // mover no objeto
 
-            ////////2/////////
-            /*
-            // dar uppdate das peças na página
-            let [oldSquare, oldPosition] = game.peca_para_mover;
-            let oldCell = document.querySelector(`[data-index="${oldSquare},${oldPosition}"]`);
-            let newCell = document.querySelector(`[data-index="${square},${position}"]`);
-
-            if (oldCell) oldCell.classList.remove('piece_1', 'piece_2'); // Remove piece class
-            if (newCell) newCell.classList.add(peca_valida_escolher); // Add piece class
-
-             */
-            ////////2/////////
 
             flags.mover_peca = false;
 
@@ -855,6 +849,12 @@ async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
         if (game.is_terminal_move()){
             document.querySelector('.player_turn').textContent = "Jogo terminado";
             document.querySelector('.game_fase').textContent = `${CPU} ganhou`;
+            menu_regras.style.display = 'none';
+            menu_config.style.display = 'none';
+            menu_jogo.style.display = 'none';
+            end_game.style.display = 'block';
+            menu_inicial.style.display = 'none';
+
         }else{
             game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
             document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez

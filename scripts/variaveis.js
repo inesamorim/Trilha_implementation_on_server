@@ -34,6 +34,7 @@ const menu_regras = document.querySelector('.regras');
 const menu_config = document.querySelector('.configuracoes');
 const menu_jogo = document.querySelector('.jogo');
 const overlayInfo = document.querySelector(".overlay-title");///
+const end_game = document.querySelector('.f_jogo');
 
 
 // botoes

@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 jogo.winner = jogo.player_info[1]; // adversario ganha
 
                 menu_jogo.style.display = 'none';
-                overlayInfo.style.display = 'none';///
+                end_game.style.display = 'none';///
                 menu_inicial.style.display = 'block';
             }
         }else if(jogo_online){ // vai abandonar a procura de jogo
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 GAMEID = null;
                 jogo_online = false;
                 menu_jogo.style.display = 'none';
-                overlayInfo.style.display = 'none';///
+                end_game.style.display = 'none';///
                 menu_inicial.style.display = 'block';
                 eventSource.close();
             }
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
             menu_regras.style.display = 'none';
             menu_config.style.display = 'none';
             menu_jogo.style.display = 'none';
-            overlayInfo.style.display = 'none';
+            end_game.style.display = 'none';
             menu_inicial.style.display = 'block';
         }
     }});

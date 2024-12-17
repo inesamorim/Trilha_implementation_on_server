@@ -1177,3 +1177,119 @@ body {
 
  }
 }
+
+.f_jogo{
+  display: none;/*flex*/
+  flex-direction: row;
+  color: azure;
+
+  
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /*height: 100vh;  Optional to ensure visibility */
+  margin-top: 50px; /* Adjust value as needed */
+
+
+  .info{
+    align-items: center;
+    text-align: center;
+ 
+
+    font-family: Arial, Helvetica, sans-serif;
+ 
+    .inf_topic{
+      color: pink;
+    }
+ 
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: center; 
+      align-items: center;  
+      
+      stroke: transparent;
+ 
+      button{
+        width: 50%;
+        position: center;
+        background-color: rgb(153, 30, 81);
+        border-radius: 16px;
+        border-width: 4px 4px 4px;
+        border-color: rgb(153, 30, 81);
+        color: #FFFFFF;
+        cursor: pointer;
+        padding: 13px 16px;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        line-height: 20px;
+        margin-top: 10px;
+        left: 20px;
+      }
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+    
+      .close_ranking {
+        color: pink;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close_ranking:hover, .close_ranking:focus {
+        color: pink;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .ranking_title {
+        text-align: center;
+        color: lightcyan;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 50px;
+      }
+      .center {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+ 
+        table {
+        border-collapse: collapse;
+        width: 35%;
+        }
+        table th, table td {
+        color: lightcyan;
+        font-size: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid pink;
+        justify-content: center;
+        }
+      }
+    }
+  }
+ 
+}
+
+
+
+
+
+#confettiCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Allow clicks to pass through */
+  z-index: 999; /* Make sure it overlays other elements */
+}

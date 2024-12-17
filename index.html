@@ -9,6 +9,7 @@
         <script defer src="scripts/jogo_online.js"></script>
         <script defer src="scripts/rankings.js"></script>
         <script defer src="scripts/login.js"></script>
+        <script defer src="scripts/end_game.js"></script>
         <script defer src="scripts/jogo.js"></script>
         <script defer src="scripts/minimax.js"></script>
         <script defer src="scripts/heuristic.js"></script>
@@ -407,5 +408,41 @@
             </div>
 
         </div>
+
+        <div class="f_jogo">   
+            
+            <canvas id="confettiCanvas" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1000;"></canvas>
+
+            <div class="info">
+                
+                <div class="buttons">
+                    <button id="menu_inicial_desistir" class="go_menu_inicial">MENU INICIAL</button>
+                    <button id="rankingBtn" class="menu">Classificações</button>
+                </div>
+
+                <div id="ranking_page" class="modal">
+                    <span class="close_ranking">&times;</span>
+                    <h2 class="ranking_title">Tabela Classificativa</h2>
+                    <div class="center">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Posição</th>
+                                    <th>Jogador</th>
+                                    <th>Jogos</th>
+                                    <th>Vitórias</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ranking_table">
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--                    -->
+                    
+                 </div>
+            </div>
+
+        </div>
+
     </body>
 </html>
