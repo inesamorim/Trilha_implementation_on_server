@@ -109,3 +109,4 @@ function handleJoin(req, res, body) {
 
 module.exports.handleJoin = handleJoin;
 module.exports.games = games;
+module.exports.waitingPlayers = waitingPlayers;

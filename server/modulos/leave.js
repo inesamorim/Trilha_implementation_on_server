@@ -1,6 +1,6 @@
 const fs = require('fs');
 const crypto = require('crypto'); 
-const { games } = require('./join');
+const { games,waitingPlayers } = require('./join');
 const { trilha, player_move } = require('../jogo');
 const { updateRanking } = require('./ranking.js')
 
@@ -52,7 +52,7 @@ function handleLeave(req, res, body) {
         const game_data = games[game];
         delete games[game];
         const jogo = game_data.jogo;
-        if (jogo.player_info[1]){ // se exitir um nick para o p2 entao vai abandornar jogo
+        if (jogo){ // se exitir entao alguem vai ganhar
             if(nick == jogo.player_info[0]){ // p2 ganhou
                 jogo.winner = jogo.player_info[1];
             } else { // p1 ganhou
@@ -63,7 +63,12 @@ function handleLeave(req, res, body) {
             res.end(JSON.stringify({sucess: 'Abandonou a procura', "winner": jogo.winner}));
             
         } else { // se nao entao vai abandonar a procura
-            jogo.winner = null;
+            
+            // remover da fila de espera 
+            let index = waitingPlayers[game_data.size].findIndex(player => player.game_hash === game);
+            if (index !== -1) {
+                waitingPlayers[game_data.size].splice(index, 1);
+            }
             res.writeHead(200, {'COntent-Type': 'application/json'});
             res.end(JSON.stringify({sucess: 'Abandonou a procura', "winner": null}));
         }
