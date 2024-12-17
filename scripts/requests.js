@@ -6,7 +6,7 @@ async function request(comand,args) {
         body: JSON.stringify(args)
     });
     if (!response.ok) {
-        console.log(response.json());
+        console.log(await response.json());
         throw new Error(`HTTP error! status: ${response.status}`);
     }
     let body_resp = await response.json()

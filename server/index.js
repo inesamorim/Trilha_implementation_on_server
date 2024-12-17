@@ -2,8 +2,8 @@ const http = require('http'); //import do módulo http
 const { handleRegister } = require('./modulos/register');
 const { handleRanking } = require('./modulos/ranking');
 const { handleJoin } = require('./modulos/join');
-const { handleNotify } = require('./modulos/notify');
 const { handleUpdate } = require('./modulos/update');
+const { handleNotify } = require('./modulos/notify');
 
 const port = 8102;
 const url = 'http://localhost:8102';

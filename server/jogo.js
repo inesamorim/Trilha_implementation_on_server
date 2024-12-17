@@ -60,6 +60,7 @@ class trilha{
         }
 
         else if ( this.pieces[this.turn] > 3 ){ // colocar em posicao adjacente
+            //console.log(this.board);
             let n = 0;
             possiveis = []; // [ [ [pos_peca_escolhida], [pos_valida_1],[pos_valida_2] ], [ [pos_peca_escolhida], [pos_valida_1],[pos_valida_2] ], ... ]
             for (let i=0; i<this.board.length;i++){
@@ -590,16 +591,18 @@ function player_move(game,square, position, flags){
 
     // dividir em 2 fases, colocar e mover as pecas
     if( !game.fase ){ //colocar
-
         if(game.board[square][position] != 'empty') return; // ignorar caso seja escolhido uma celula com peca
-
         game.colocar_peca(square,position);
         // editar a classe da div de forma a representar a nova cor
 
         // editar a representacao da pecas disponiveis
         //const container = game.turn == 0 ? document.querySelector('.player_1_pieces > .pecas_por_colocar') : document.querySelector('.player_2_pieces > .pecas_por_colocar');
 
+        
         game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
+        if (game.pieces_por_colocar[game.turn] == 0){
+            game.fase = 1;
+        }
         //document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez // alternar o texto a indicar a vez
         
         // analizar se é para trocar de fase
