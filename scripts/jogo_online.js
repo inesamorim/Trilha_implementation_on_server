@@ -43,7 +43,8 @@ async function main_online_game(game_data){
                 cell.classList.remove('poss_vacate','selected','old_position','new_position');
             });
             let sq = data.cell.square;
-            let pos = map_server_client[data.cell.position];
+            // para o servidor do prof temos de 'mapear' a posicao para correponder a sua implementacao
+            let pos = BASE_URL == "http://twserver.alunos.dcc.fc.up.pt:8008" ? map_server_client[data.cell.position]: data.cell.position;
             let peca_div = document.querySelector(`[data-index="${sq},${pos}"]`);
 
             // vitoria por num de pecas
@@ -80,7 +81,8 @@ async function main_online_game(game_data){
             eventSource.close();
         }else if (data.cell){ // atualizar perante uma jogada
             let sq = data.cell.square;
-            let pos = map_server_client[data.cell.position];
+            // para o servidor do prof temos de 'mapear' a posicao para correponder a sua implementacao
+            let pos = BASE_URL == "http://twserver.alunos.dcc.fc.up.pt:8008" ? map_server_client[data.cell.position] : data.cell.position ;
             let peca_div = document.querySelector(`[data-index="${sq},${pos}"]`);
 
             if (jogo.fase == 0){ // colocar uma peca
@@ -171,7 +173,8 @@ async function main_online_game(game_data){
     document.querySelectorAll('div[data-index]').forEach((div) => {
         div.addEventListener('click', async (event) => {
             let [square, position] = div.getAttribute('data-index').split(',').map(Number); // obter a posicao da celula escolhida
-            position = map_client_server[position];
+            // para o servidor do prof temos de 'mapear' a posicao para correponder a sua implementacao
+            position = BASE_URL == "http://twserver.alunos.dcc.fc.up.pt:8008" ? map_client_server[position] : position;
 
             if (jogo.fase != 2 && jogo.player_info[jogo.turn] == USERNAME){ // jogo nao acabou e vez correta de jogar
                 await request("notify", {"nick": USERNAME, "password": PASSWORD, "game": GAMEID, "cell": {"square": square, "position": position}}); 

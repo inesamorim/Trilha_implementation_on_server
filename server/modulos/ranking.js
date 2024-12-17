@@ -49,4 +49,42 @@ function handleRanking(req, res, body) {
     res.end(JSON.stringify({ ranking: sortedRanking }));
 }
 
-module.exports = { handleRanking };
+function updateRanking(game_data){
+    const rankingData = readRankingFromFile();
+
+    const group = rankingData[game_data.group];
+    if (!group) {
+      console.error(`Group ${game_data.group} does not exist.`);
+      return;
+    }
+  
+    const boardSize = group[game_data.jogo.size_board];
+    if (!boardSize) {
+      console.error(`Board size ${game_data.jogo.size_board} does not exist.`);
+      return;
+    }
+  
+    // Find the player by nick
+    let player1 = boardSize.find(player => player.nick === game_data.jogo.player_info[0]);
+    if (!player1) {
+        console.error(`Player ${nick} does not exist.`);
+        return;
+    }
+    let player2 = boardSize.find(player => player.nick === game_data.jogo.player_info[1]);
+    if (!player2) {
+      console.error(`Player ${nick} does not exist.`);
+      return;
+    }
+    
+    player1.games++; player2.games++;
+    if (game_data.jogo.winner == player1.nick){
+        player1.victories++; 
+    }else{
+        player2.victories++;
+    }
+
+
+    writeRankingToFile(rankingData);
+}
+
+module.exports = { handleRanking, updateRanking };
