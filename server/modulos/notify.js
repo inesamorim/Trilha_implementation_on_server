@@ -164,12 +164,13 @@ function sendUpdate(game, move) {
             response.step = "from";
         }
     }
-    const player_1 = game['player_1'];
-    const player_2 = game['player_2'];
-    const players = {player_1: 'blue', player_2: 'red'};
+    
+    const players = {};
+    players[game.player_1] = 'blue'
+    players[game.player_2] =  'red';
     response.players = players;
 
-    const turn = game.jogo.turn;
+    const turn = game.jogo.turn == 0 ? game.player_1 : game.player_2;
     response.turn = turn;
 
     const winner = game.jogo.winner;

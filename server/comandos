@@ -1,1 +1,0 @@
-curl -X POST http://localhost:8102/notify -H "Content-Type: application/json" -d '{"nick": "ines", "password":"1234", "game":"c0c5221581fd8beeeb0636f67b9020f41dcc898eb8ec22fe2b15d0046eabece4", "move": {"square": 0, "position": 0}}' 
