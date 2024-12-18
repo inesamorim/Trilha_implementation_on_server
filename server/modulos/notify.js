@@ -91,9 +91,6 @@ function handleNotify(req, res, body) {
         if(!jogo.fase){
             console.log('Fase 1');
             for(let i = 0; i < jogadas.length; i++){
-                //console.log('Jogada possível:', jogadas[i][0], jogadas[i][1]);
-                //console.log(move[0] == jogadas[i][0]);
-                //console.log(move[1] == jogadas[i][1]);
                 if(jogadas[i][0] == move[0] && jogadas[i][1] == move[1]){
                     jogada_escolhida = i;
                     break;
@@ -112,33 +109,68 @@ function handleNotify(req, res, body) {
             }
         }
         else{
-            jogadas_possiveis = jogo.jogadas_possiveis_dada_peca(move[0], move[1]);
-            console.log(jogo.board);
+            //console.log(jogo.board);
             console.log('Fase 2');
             console.log(currentGame['flags']);
+            console.log(move);
+            console.log(jogadas);
             if(!currentGame['flags'].mover_peca){
-                console.log(move);
-                console.log(jogadas);
-                if(move !== jogadas[0][0]){
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ error: 'Jogada inválida.' }));
-                    return;
-                } else {
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    //res.end(JSON.stringify({}));
+                if(currentGame['flags'].eliminar_peca){
+                    console.log('Fase 2 - Eliminar peça');
                     player_move(jogo, move[0], move[1], currentGame.flags);
                 }
-            } else {
-                if(jogadas[0].slice(1).includes(move)){
+                else{
+                    console.log('Fase 2 - Escolher peça');
+                    for(let i = 0; i < jogadas.length; i++){
+                        for(let j=0; j<jogadas[i].length; j++){
+                            if(jogadas[i][j][0] == move[0] && jogadas[i][j][1] == move[1]){
+                                res.writeHead(200, { 'Content-Type': 'application/json' });
+                                console.log('Jogada Válida.');
+                                //res.end(JSON.stringify({}));
+                                player_move(jogo, move[0], move[1], currentGame.flags);
+                                console.log('foo');
+                                jogada_escolhida = i;
+                                break;
+                            }
+                        }
+                    }
+                    if(jogada_escolhida == null){
+                        res.writeHead(400, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ error: 'Jogada inválida.' }));
+                        return;
+                    }
+                }
+                
+            }
+            else{
+                console.log('Fase 2 - Mover peça');
+                if(currentGame['flags'].eliminar_peca){
+                    console.log('Fase 2 - Eliminar peça');
+                    player_move(jogo, move[0], move[1], currentGame.flags);
+                }
+                else {
+                    for(let i = 0; i < jogadas.length; i++){
+                        for(let j=0; j<jogadas[i].length; j++){
+                            if(jogadas[i][j][0] == move[0] && jogadas[i][j][1] == move[1]){
+                                //res.writeHead(200, { 'Content-Type': 'application/json' });
+                                console.log('Jogada Válida.');
+                                //res.end(JSON.stringify({}));
+                                player_move(jogo, move[0], move[1], currentGame.flags);
+                                console.log('should update flags', currentGame.flags);
+                                jogada_escolhida = i;
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                if(jogada_escolhida == null){
                     res.writeHead(400, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: 'Jogada inválida.' }));
                     return;
-                } else {
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    //res.end(JSON.stringify({}));
-                    player_move(jogo, move[0], move[1], currentGame.flags);
                 }
             }
+            
         }
 
         console.log('Move realizado com sucesso');
@@ -149,9 +181,10 @@ function handleNotify(req, res, body) {
         
     } catch (err) {
         // Lida com erros de parse ou outros erros
+        console.log(err);
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Erro no processamento do pedido.' }));
-        console.log(err);
+       
     }
 }
 
@@ -177,7 +210,7 @@ function sendUpdate(game, move) {
     const phase = game.jogo.fase == 0 ? 'drop' : 'move';
     response.phase = phase;
     if (phase === "move") {
-        if (game.flags.remover_peca) {
+        if (game.flags.eliminar_peca) {
             response.step = "take";
         } else if (game.flags.mover_peca) {
             response.step = "to";
@@ -193,6 +226,8 @@ function sendUpdate(game, move) {
 
     const turn = game.jogo.turn == 0 ? game.player_1 : game.player_2;
     response.turn = turn;
+
+    //console.log(response);
 
     game.stream_1.write(
         `data: ${JSON.stringify(response)}\n\n`

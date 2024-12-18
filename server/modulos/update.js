@@ -67,7 +67,7 @@ function handleUpdate(req, res) {
                 res.write(`event: end\ndata: Jogo terminado\n O jogador ${jogo.winner} ganhou\n`);
                 res.end();
             }
-        }, 60*1000*2);
+        }, 60*1000*10);
 
         // Lida com a desconexão do cliente
         /*req.on('close', () => {

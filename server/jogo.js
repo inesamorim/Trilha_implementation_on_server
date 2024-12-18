@@ -633,11 +633,11 @@ function player_move(game,square, position, flags){
              */
 
             //alterar a cor da border
-            peca_div.classList.add('selected');
+            //peca_div.classList.add('selected');
 
             game.pos_validas = game.jogadas_possiveis_dada_peca(square,position);
+            console.log(game.pos_validas);
             if (game.pos_validas.length == 0) return; // caso nao existam movimentos para a peca
-
 
             //////////2////////
             /*game.pos_validas.forEach(([sq, pos]) => {
@@ -648,8 +648,9 @@ function player_move(game,square, position, flags){
 
             // falta desenhar os locais validos para mover
             game.peca_para_mover=[square,position];
-            flags.mover_peca = true;
 
+            flags.mover_peca = true;
+            return;
 
         }else{ // mover a pecax
             if (peca_valida_escolher == game.board[square][position]){ // para o caso de escolher a peca errada para mover
@@ -699,9 +700,9 @@ function player_move(game,square, position, flags){
             ////////2/////////
 
             flags.mover_peca = false;
-
             if (game.check_moinho(square,position)){
                 flags.eliminar_peca = true;
+                console.log('é para eliminar uma peca');
                 //document.querySelector('.game_fase').textContent = 'Eliminar Peça';
                 // talvez adicionar algo no ecra para indicar que e para eliminar uma peca
             }else{
