@@ -149,17 +149,24 @@ function handleNotify(req, res, body) {
                     player_move(jogo, move[0], move[1], currentGame.flags);
                 }
                 else {
-                    for(let i = 0; i < jogadas.length; i++){
-                        for(let j=0; j<jogadas[i].length; j++){
-                            if(jogadas[i][j][0] == move[0] && jogadas[i][j][1] == move[1]){
-                                //res.writeHead(200, { 'Content-Type': 'application/json' });
-                                console.log('Jogada Válida.');
-                                //res.end(JSON.stringify({}));
-                                player_move(jogo, move[0], move[1], currentGame.flags);
-                                console.log('should update flags', currentGame.flags);
-                                jogada_escolhida = i;
-                                break;
+                    if (jogo.pieces[jogo.turn] > 3){ //quando jogador tem +3 pecas
+                        for(let i = 0; i < jogadas.length; i++){
+                            for(let j=0; j<jogadas[i].length; j++){
+                                if(jogadas[i][j][0] == move[0] && jogadas[i][j][1] == move[1]){
+                                    console.log('Jogada Válida.');
+                                    player_move(jogo, move[0], move[1], currentGame.flags);
+                                    console.log('should update flags', currentGame.flags);
+                                    jogada_escolhida = i;
+                                    break;
+                                }
                             }
+                        }
+                    }else { // quando tem 3 pecas
+                        if (jogo.board[move[0]][move[1]] == "empty"){
+                            console.log('Jogada Válida.');
+                            player_move(jogo, move[0], move[1], currentGame.flags);
+                            console.log('should update flags', currentGame.flags);
+                            jogada_escolhida = true;
                         }
                     }
                 }
@@ -228,6 +235,10 @@ function sendUpdate(game, move) {
     response.turn = turn;
 
     //console.log(response);
+
+    if (game.jogo.fase == 2){
+        response.winner = game.jogo.winner;
+    }
 
     game.stream_1.write(
         `data: ${JSON.stringify(response)}\n\n`
