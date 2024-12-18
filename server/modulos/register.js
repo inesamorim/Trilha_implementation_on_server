@@ -17,10 +17,6 @@ function encryptPassword(password) {
     return crypto.createHash('md5').update(password).digest('hex');
 }
 
-function verifyPassword(plainPassword, storedHash) {
-    const hashedPassword = crypto.createHash('mda').update(plainPassword).digest('hex');
-    return hashedPassword === storedHash;
-}
 
 //Registo
 function handleRegister(req, res, body){

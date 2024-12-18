@@ -64,7 +64,6 @@ function updateRanking(game_data){
       return;
     }
   
-    // Find the player by nick
     let player1 = boardSize.find(player => player.nick === game_data.jogo.player_info[0]);
     if (!player1) {
         let newPlayerNick1 = game_data.jogo.player_info[0];

@@ -1,8 +1,7 @@
 const fs = require('fs');
 const crypto = require('crypto'); 
-const { trilha, player_move } = require('../jogo');
+const { trilha } = require('../jogo');
 const FILE_PATH = './players.json';
-//const WAITING_PATH = './waitingPlayers.json';
 const waitingPlayers = {};
 const games = {};
 
@@ -31,7 +30,6 @@ function handleJoin(req, res, body) {
     try {
         const { group, nick, password, size } = JSON.parse(body);
         const users = readPlayersFromFile();
-        //const waitingPlayers = readWaitingPlayers(); // Carregar lista de espera do arquivo
 
         if (
             typeof group !== 'number' ||
@@ -60,7 +58,6 @@ function handleJoin(req, res, body) {
             const opponent = waitingPlayers[size].shift(); //pop
             games[opponent.game_hash].player_2 = nick;
             const jogo = new trilha(size, 'P1', opponent.nick, 0, nick, 0);
-            //console.log(jogo);
             games[opponent.game_hash].jogo = jogo;
 
             res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -97,8 +94,7 @@ function handleJoin(req, res, body) {
             
         }
 
-        // Salvar lista de espera
-        //writeWaitingPlayers(waitingPlayers); // Atualizar o arquivo de espera
+
     } catch (err) {
         console.log(err);
         res.writeHead(400, { 'Content-Type': 'application/json' });

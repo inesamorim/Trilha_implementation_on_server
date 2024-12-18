@@ -9,14 +9,9 @@ const { handleLeave } = require('./modulos/leave');
 const port = 8102;
 const url = 'http://localhost:8102';
 
-//const users = {};
-
-
 
 const server = http.createServer((req, res) => {
     console.log(`Request received: ${req.method} ${req.url}`);
-    //console.log(req.url.startsWith('/update'), req.method === 'GET');
-    //const url = new URL(req.url, 'http://${req.headers.host}');
 
     res.setHeader('Access-Control-Allow-Origin', '*'); // Permite qualquer origem
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'); // Métodos permitidos

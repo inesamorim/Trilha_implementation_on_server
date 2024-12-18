@@ -2,7 +2,6 @@ const fs = require('fs');
 const { games } = require('./join');
 
 function handleUpdate(req, res) {
-    console.log("Handling update");
     try {
         const urlParams = new URL(req.url, `http://${req.headers.host}`).searchParams;
         const game = urlParams.get('game');
@@ -12,7 +11,6 @@ function handleUpdate(req, res) {
         if (!game || !nick) {
             res.writeHead(400, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Os parâmetros game e nick são obrigatórios.' }));
-            console.log("faltam parametros")
             return;
         }
 
@@ -22,7 +20,6 @@ function handleUpdate(req, res) {
         ) {
             res.writeHead(400, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Argumentos inválidos.' }));
-            console.log("parametros invalidos")
             return;
         }
 
@@ -30,7 +27,6 @@ function handleUpdate(req, res) {
         if (!games[game]) {
             res.writeHead(404, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Jogo não encontrado.' }));
-            console.log("jogo n existe")
             return;
         }
 
@@ -46,18 +42,15 @@ function handleUpdate(req, res) {
 
 
         if(currentGame['player_2'] == nick){
-            console.log("stream 2");
             currentGame['stream_2'] = res;
             sendUpdate(currentGame);
         } else {
-            console.log("stream 1");
             currentGame['stream_1'] = res;
         }
         
 
         // Envia atualizações do jogo periodicamente
         const interval = setInterval(() => {
-            console.log("timeout");
             res.write(`data: ${JSON.stringify({ gameState: currentGame })}\n\n`);
 
             // Fecha o EventSource quando o jogo termina
@@ -69,11 +62,7 @@ function handleUpdate(req, res) {
             }
         }, 60*1000*10);
 
-        // Lida com a desconexão do cliente
-        /*req.on('close', () => {
-            clearInterval(interval);
-            res.end();
-        });*/
+
     } catch (err) {
         // Lida com erros no servidor
         console.log(err);
@@ -127,7 +116,6 @@ function sendUpdate(game) {
         `data: ${JSON.stringify(response)}\n\n`
     )
 
-    //console.log(response);
 }
 
 module.exports = { handleUpdate };

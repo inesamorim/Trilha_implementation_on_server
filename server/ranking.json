@@ -1,1 +1,17 @@
-{}
+{
+    "2": {
+        "3": [
+            { "nick": "ines", "games": 21, "victories": 15 },
+            { "nick": "daniela", "games" :21, "victories": 10 },
+            { "nick": "joao", "games": 10, "victories": 6 }
+        ],
+        "4": [
+            { "nick": "joao", "games": 15,"victories": 11 },
+            { "nick": "daniela", "games": 15,"victories": 4}
+        ],
+        "5": [
+            { "nick": "ines", "games": 7,"victories": 4 },
+            { "nick": "daniela", "games": 7,"victories": 3}
+        ]
+    }
+}

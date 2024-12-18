@@ -1,10 +1,7 @@
 const fs = require('fs');
 const crypto = require('crypto');
-const http = require('http');
 const { games } = require('./join');
-const { type } = require('os');
-const { trilha, player_move } = require('../jogo');
-//const { jogo } = require('../jogo');
+const { player_move } = require('../jogo');
 const FILE_PATH = './players.json';
 
 
@@ -41,9 +38,7 @@ function handleNotify(req, res, body) {
             return;
         }
         
-        const users = readPlayersFromFile();
-        const encrypted = encryptPassword(password);
-        
+        const users = readPlayersFromFile();        
         
         // Verifica se o jogador está autenticado
         if (!users[nick] || users[nick] !== encryptPassword(password)) {
@@ -85,8 +80,6 @@ function handleNotify(req, res, body) {
         // Verifica se a jogada é válida (implementação das regras específicas)
         let jogadas = jogo.jogadas_possiveis();
         let move = [cell.square, cell.position];
-        //console.log('Move:', move);
-        //console.log('Jogadas possíveis:', jogadas);
         let jogada_escolhida = null;
         if(!jogo.fase){
             console.log('Fase 1');
@@ -96,7 +89,6 @@ function handleNotify(req, res, body) {
                     break;
                 }
             }
-            //console.log('Jogada escolhida:', jogada_escolhida);
             if(jogada_escolhida == null){
                 res.writeHead(400, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Jogada inválida.' }));
@@ -104,12 +96,10 @@ function handleNotify(req, res, body) {
             }
             else{
                 res.writeHead(200, { 'Content-Type': 'application/json' });
-                //res.end(JSON.stringify({}));
                 player_move(jogo, move[0], move[1], currentGame.flags);
             }
         }
         else{
-            //console.log(jogo.board);
             console.log('Fase 2');
             console.log(currentGame['flags']);
             console.log(move);
@@ -234,7 +224,6 @@ function sendUpdate(game, move) {
     const turn = game.jogo.turn == 0 ? game.player_1 : game.player_2;
     response.turn = turn;
 
-    //console.log(response);
 
     if (game.jogo.fase == 2){
         response.winner = game.jogo.winner;
@@ -247,14 +236,5 @@ function sendUpdate(game, move) {
         `data: ${JSON.stringify(response)}\n\n`
     )
 }
-
-/*games[game_hash] = {'player_1': nick,
-                        'player_2': opponent.nick,
-                        'size': size,
-                        'jogo': jogo,  
-                        'flags': flags ,
-                        'stream_1': null,
-                        'stream_2': null
-            }*/
 
 module.exports = { handleNotify };

@@ -2,9 +2,10 @@
 // requests
 var USERNAME = "utilizador";
 var PASSWORD = "123456";
+
 // const BASE_URL = "http://twserver.alunos.dcc.fc.up.pt:8008";
-// const BASE_URL = "http://localhost:8102";
 const BASE_URL = "http://twserver.alunos.dcc.fc.up.pt:8102";
+
 var GAMEID;
 var LOGGED = false;
 var jogo_online = false;

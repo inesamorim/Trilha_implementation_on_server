@@ -60,7 +60,6 @@ class trilha{
         }
 
         else if ( this.pieces[this.turn] > 3 ){ // colocar em posicao adjacente
-            //console.log(this.board);
             let n = 0;
             possiveis = []; // [ [ [pos_peca_escolhida], [pos_valida_1],[pos_valida_2] ], [ [pos_peca_escolhida], [pos_valida_1],[pos_valida_2] ], ... ]
             for (let i=0; i<this.board.length;i++){
@@ -142,10 +141,8 @@ class trilha{
             }
             for(let i = 0; i<nossas.length; i++){
                 possiveis.push([nossas[i],vazias]);
-
             }
         }
-
         return possiveis;
     }
 
@@ -352,217 +349,6 @@ class trilha{
 }
 
 
-async function main_local_game(){ // usado para criar o jogo e apresentar no html
-
-    //const BoardSize = document.querySelector('select[name="size"]').value;
-    //const P1 = document.querySelector('select[name="p1"]').value;
-    //const P2 = document.querySelector('select[name="p2"]').value;
-    let Dific_P1;
-    let Dific_P2;
-    try{
-        //Dific_P1 = document.querySelector('select[name="difficulty"]').value;
-    }catch (error) {
-        Dific_P1 = 0;
-    }
-    try{
-        //Dific_P2 = document.querySelector('select[name="difficulty2"]').value;
-    }catch (error) {
-        Dific_P2 = 0;
-    }
-
-    //let startPlayer = document.querySelector('select[name="start"]').value;
-
-
-    if (startPlayer == 'random'){
-        startPlayer = Math.random() < 0.5 ? "P1" : "P2";
-    }
-
-    //document.querySelector('.player_turn').textContent = startPlayer; //alterar
-    //document.querySelector('.game_fase').textContent = "Colocar Peças";
-
-    jogo = new trilha(BoardSize,startPlayer,P1,Dific_P1,P2,Dific_P2);
-
-    gerar_board(BoardSize,board_structurs[BoardSize-3]);
-    gerar_player_info(BoardSize);
-
-    if(P1 != 'random' && P1 != 'AI'){ // player vs player || player vs AI
-        await start_game(jogo);
-    }
-    else{ // jogo AI vs AI
-        await AIduel(jogo);
-    }
-
-    return jogo;
-}
-
-
-/*function gerar_player_info(n){
-
-    for (let i = 0; i<2; i++){
-        let container =  i%2 === 0 ? document.querySelector('.player_1_pieces') : document.querySelector('.player_2_pieces');
-        container.innerHTML = '';
-        // player name quando criarmos o loggin podemos formatar para aparecer o nome do player
-        let cell_player = document.createElement('div');
-        let h2 = document.createElement('h2');
-        h2.classList.add("player_name");
-        h2.textContent = jogo.player_info[i]; // <---- alterar aqui
-        cell_player.appendChild(h2)
-        container.appendChild(cell_player);
-
-        let h3 = document.createElement('h3');
-        h3.textContent = 'Peças Disponíveis:';
-        container.appendChild(h3)
-
-        // add pecas
-        let cell_pecas = document.createElement('div');
-        cell_pecas.classList.add("pecas_por_colocar");
-
-        for (let j = 0; j<n*3;j++){
-            let cell_peca = document.createElement('div');
-            cell_peca.classList.add("peca");
-            cell_pecas.appendChild(cell_peca);
-        }
-        container.appendChild(cell_pecas);
-
-        let h3_1 = document.createElement('h3');
-        h3_1.textContent = 'Peças Eliminadas:';
-        container.appendChild(h3_1)
-
-        let cell_eliminadas = document.createElement('div'); // div para mostrar os peças eliminadas
-        cell_eliminadas.classList.add('pecas_eliminadas');
-        container.appendChild(cell_eliminadas);
-    }
-}
-
-function gerar_board(n,structure) {
-    // com o exemplo de como o prof fez o tabuleiro dele nos slides, n quadrados tem n*4+1 celulas por linha numa matriz quadrada
-    const gridSize = n * 4 + 1;
-
-
-    // a div on vamos colocar o tabuleiro
-    const container = document.getElementById('tabu');
-    container.innerHTML = ''; // limpar a div caso tenha algo
-    container.style.display = 'grid';
-    container.style.gridTemplateColumns = `repeat(${gridSize}, 30px)`;
-    container.style.gridTemplateRows = `repeat(${gridSize}, 30px)`;
-
-
-    // gerar o tabuleiro dinamicamente em funcao do num que quadrados
-
-    let piece_id = 0;
-    for (let row = 0; row < gridSize; row++){
-
-        for (let col = 0; col < gridSize; col++) {
-            const cell = document.createElement('div');
-
-            // Determine the pattern for concentric squares
-            const layer = Math.min(row, col, gridSize - row - 1, gridSize - col - 1);
-
-            // Determine if this is an "O" position (end or midpoint)
-            const isEdgeRow = (row === layer || row === gridSize - layer - 1);
-            const isEdgeCol = (col === layer || col === gridSize - layer - 1);
-            const isMidRow = row === Math.floor((gridSize - 1) / 2);
-            const isMidCol = col === Math.floor((gridSize - 1) / 2);
-
-            if (layer % 2 === 0 && layer / 2 < n) {
-                // Determine positions for circles "O" at midpoints and edges of each face
-                if (
-                    (isEdgeRow && (col === layer || col === gridSize - layer - 1 || col === Math.floor((gridSize - 1) / 2))) ||
-                    (isEdgeCol && (row === layer || row === gridSize - layer - 1 || row === Math.floor((gridSize - 1) / 2)))
-                ) {
-                    cell.classList.add('cell');
-                    cell.setAttribute('data-index', structure[piece_id++]);
-                } else if (isEdgeRow) {
-                    cell.classList.add('hrule');
-                } else if (isEdgeCol) {
-                    cell.classList.add('vrule');
-                }
-            }
-            else{
-                if(isMidCol && layer/2 +1 < n){
-                    cell.classList.add('vrule');
-                } else if (isMidRow && layer/2+1 < n){
-                    cell.classList.add('hrule');
-                }
-            }
-
-            container.appendChild(cell);
-        }
-
-    }
-} */
-
-
-/*async function start_game(game){
-
-    if (game.player_info[game.turn] == 'AI' || game.player_info[game.turn] == 'random'){ // caso seja o CPU a comecar
-        CPU_move(game,game.player_info[game.turn]);
-    }
-
-    const flags = {
-        eliminar_peca: false,
-        mover_peca: false
-      };
-
-    document.querySelectorAll('div[data-index]').forEach((div) => {
-        div.addEventListener('click', async (event) => {
-
-            if (game.fase != 2){
-                if (game.player_info[game.turn] != 'AI' || game.player_info[game.turn] != 'random'){ // player a jogar
-                    player_move(game,div,flags);
-
-                    if (game.fase){ // se nao esta mover entao vamos escolher uma peca e caso nao existam jogadas é empate
-                        if(game.jogadas_possiveis().length == 0 || game.jogadas_para_empatar == 0){ // verificar se existem jogadas possiveis para o prox caso nao entao é empate
-                            game.winner = 'draw';
-                            game.fase = 2;
-                            document.querySelector('.player_turn').textContent = "Jogo terminado";
-                            document.querySelector('.game_fase').textContent = "Empate";
-                        }
-                    }
-                }
-                
-                if (game.player_info[game.turn] == 'AI' || game.player_info[game.turn] == 'random'){ // tem de ser um if novo pois caso o player tenha de escolher uma peca para mover ou eliminar o cpu ainda nao pode jogar
-                    await CPU_move(game,game.player_info[game.turn]);
-
-                    if (game.fase){
-                        if(game.jogadas_possiveis().length == 0 || game.jogadas_para_empatar == 0){ // verificar se existem jogadas possiveis para o prox caso nao entao é empate
-                            game.winner = 'draw';
-                            game.fase = 2;
-                            document.querySelector('.player_turn').textContent = "Jogo terminado";
-                            document.querySelector('.game_fase').textContent = "Empate";
-                        }
-                    }
-                }
-
-                
-
-            }
-
-
-
-
-        });
-      });
-}*/
-
-/*
-
-async function AIduel(game) { // funcao para jogar AI vs AI ate o jogo acabar
-
-    while (game.fase != 2){       
-        await CPU_move(game,game.player_info[game.turn]);
-        if (game.fase){
-            if(game.jogadas_possiveis().length == 0 || game.jogadas_para_empatar == 0){ // verificar se existem jogadas possiveis para o prox caso nao entao é empate
-                game.winner = 'draw';
-                game.fase = 2;
-                document.querySelector('.player_turn').textContent = "Jogo terminado";
-                document.querySelector('.game_fase').textContent = "Empate";
-            }
-        }
-    }
-}
-*/
-
 function player_move(game,square, position, flags){
     if (flags.eliminar_peca){
         let peca_a_eliminar = game.turn == 0 ? 'piece_2' : 'piece_1';
@@ -571,20 +357,8 @@ function player_move(game,square, position, flags){
         game.remover_peca(square,position);
         flags.eliminar_peca = false;
 
-        // adicina no html na div de pecas eliminadas uma nova peca
-        //let cell_pecas = game.turn == 0 ? document.querySelector('.player_2_pieces > .pecas_eliminadas') : document.querySelector('.player_1_pieces > .pecas_eliminadas');
-        //let cell_peca = document.createElement('div');
-        //cell_peca.classList.add("peca");
-        //cell_pecas.appendChild(cell_peca);
-        // retirar do html a peca na board
-
-        if (game.is_terminal_move()){
-            //document.querySelector('.player_turn').textContent = "Jogo terminado";
-            //document.querySelector('.game_fase').textContent = `${game.player_info[game.turn]} ganhou`;
-        }else{
-            game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            //document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
-            //document.querySelector('.game_fase').textContent = game.fase ? 'Mover peças': 'Colocar Peças';
+        if (!game.is_terminal_move()){
+            game.turn = game.turn == 1 ? 0 : 1;
             return;
         }
     }
@@ -593,62 +367,22 @@ function player_move(game,square, position, flags){
     if( !game.fase ){ //colocar
         if(game.board[square][position] != 'empty') return; // ignorar caso seja escolhido uma celula com peca
         game.colocar_peca(square,position);
-        // editar a classe da div de forma a representar a nova cor
-
-        // editar a representacao da pecas disponiveis
-        //const container = game.turn == 0 ? document.querySelector('.player_1_pieces > .pecas_por_colocar') : document.querySelector('.player_2_pieces > .pecas_por_colocar');
-
         
         game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
         if (game.pieces_por_colocar[game.turn] == 0){
             game.fase = 1;
         }
-        //document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez // alternar o texto a indicar a vez
-        
-        // analizar se é para trocar de fase
-        /*if (document.querySelector('.player_1_pieces > .pecas_por_colocar').childElementCount == 0
-        && document.querySelector('.player_2_pieces > .pecas_por_colocar').childElementCount == 0){
-            game.fase = 1;
-            document.querySelector('.game_fase').textContent = 'Mover peças';
-        }*/
     }
     else if(game.fase == 1){ // mover a peca
-
-        // Limpar as funções 
-        /*document.querySelectorAll('.jogo .cell').forEach(cell => {
-            cell.classList.remove('poss_vacate','selected','old_position','new_position');
-        });*/
-
         // escolher
         let peca_valida_escolher = game.turn == 0 ? 'piece_1' : 'piece_2';
         if(!flags.mover_peca){ // escolher a peca para mover
             if (game.board[square][position] != peca_valida_escolher) return; // true se escolher celula que nao seja a sua
 
-            // se já foi selecionada
-            /*
-            if (peca_div.classList.contains('selected')) {
-                flags.mover_peca = false;
-                return;
-            }
-             */
-
-            //alterar a cor da border
-            //peca_div.classList.add('selected');
-
             game.pos_validas = game.jogadas_possiveis_dada_peca(square,position);
-            console.log(game.pos_validas);
             if (game.pos_validas.length == 0) return; // caso nao existam movimentos para a peca
 
-            //////////2////////
-            /*game.pos_validas.forEach(([sq, pos]) => {
-                let cell = document.querySelector(`[data-index="${sq},${pos}"]`);
-                if (cell) cell.classList.add('poss_vacate');
-            })*/
-            //////////2////////
-
-            // falta desenhar os locais validos para mover
             game.peca_para_mover=[square,position];
-
             flags.mover_peca = true;
             return;
 
@@ -657,12 +391,6 @@ function player_move(game,square, position, flags){
                 game.peca_para_mover = [square,position];
                 game.pos_validas = game.jogadas_possiveis_dada_peca(square,position);
 
-                //peca_div.classList.add('selected');
-                /*game.pos_validas.forEach(([sq, pos]) => {
-                    let cell = document.querySelector(`[data-index="${sq},${pos}"]`);
-                    if (cell) cell.classList.add('poss_vacate');
-                });*/
-                ////////////
                 if (game.pos_validas.length == 0) flags.mover_peca = false;
                 return;
             }
@@ -678,194 +406,18 @@ function player_move(game,square, position, flags){
 
             if (game.pieces[0] == 3 && game.pieces[1] == 3) game.jogadas_para_empatar--; // se chegar aqui significa que vai gastar uma jogada caso esteja 3pecas vs 3pecas
 
-            //let div_peca_escolhida = document.querySelector(`[data-index="${game.peca_para_mover[0]},${game.peca_para_mover[1]}"]`);
-            //let nome_peca_escolhida = div_peca_escolhida.classList[1];
-
-
-            //div_peca_escolhida.classList.remove(nome_peca_escolhida); //eliminar no html do local atual
-            //peca_div.classList.add(nome_peca_escolhida); // mover no html para o novo local
             game.mover_peca(square,position); // mover no objeto
-
-            ////////2/////////
-            /*
-            // dar uppdate das peças na página
-            let [oldSquare, oldPosition] = game.peca_para_mover;
-            let oldCell = document.querySelector(`[data-index="${oldSquare},${oldPosition}"]`);
-            let newCell = document.querySelector(`[data-index="${square},${position}"]`);
-
-            if (oldCell) oldCell.classList.remove('piece_1', 'piece_2'); // Remove piece class
-            if (newCell) newCell.classList.add(peca_valida_escolher); // Add piece class
-
-             */
-            ////////2/////////
 
             flags.mover_peca = false;
             if (game.check_moinho(square,position)){
                 flags.eliminar_peca = true;
-                console.log('é para eliminar uma peca');
-                //document.querySelector('.game_fase').textContent = 'Eliminar Peça';
-                // talvez adicionar algo no ecra para indicar que e para eliminar uma peca
             }else{
                 game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-                //document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
             }
         }
     }
-    else{ // jogo terminou
-
-    }
 }
 
-
-/*async function CPU_move(game,CPU){ // CPU toma a string random ou AI (minimax)
-
-    await new Promise((r)=>setTimeout(r, 600));
-
-    if( !game.fase ){ //colocar
-
-        let square, position;
-        if(CPU == 'AI'){ //minimax
-            const celulas_validas = executeMinimaxMove(evaluateBoard, game.dificuldade[game.turn])(game); // receber a posicao para colocar
-            square = celulas_validas[0][0];
-            position = celulas_validas[0][1];
-        }else{ //random
-            const celulas_validas = game.jogadas_possiveis();
-            const index_celulas_validas = Math.floor(Math.random() * celulas_validas.length);
-            square = celulas_validas[index_celulas_validas][0];
-            position = celulas_validas[index_celulas_validas][1];
-        }
-
-        game.colocar_peca(square,position);
-        let div_peca_escolhida = document.querySelector(`[data-index="${square},${position}"]`);
-        div_peca_escolhida.classList.add(game.board[square][position]);
-        const container = game.turn == 0 ? document.querySelector('.player_1_pieces > .pecas_por_colocar') : document.querySelector('.player_2_pieces > .pecas_por_colocar');
-        container.removeChild(container.lastChild);
-
-         // analizar se é para trocar de fase
-        if (document.querySelector('.player_1_pieces > .pecas_por_colocar').childElementCount == 0
-        && document.querySelector('.player_2_pieces > .pecas_por_colocar').childElementCount == 0){
-            game.fase = 1;
-            document.querySelector('.game_fase').textContent = 'Mover peças';
-        }
-
-        game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-        document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
-    }
-    else if(game.fase == 1){ // mover a peca
-
-        let antiga =[], nova=[]; // antiga=[sq,pos] e nova=[sq,pos]
-        if(CPU == 'AI'){ //minimax
-            const celulas_validas = executeMinimaxMove(evaluateBoard, game.dificuldade[game.turn])(game); // receber a posicao para colocar
-            nova = celulas_validas[0];
-            antiga = celulas_validas[1];
-            game.peca_para_mover = [antiga[0], antiga[1]];
-
-        }else{ //random
-            const celulas_validas = game.jogadas_possiveis();
-            if(game.pieces[game.turn] > 3){ // [ [ [pos_peca_escolhida], [pos_valida_1],[pos_valida_2] ], [ [pos_peca_escolhida], [pos_valida_1],[pos_valida_2] ], ... ]
-
-                const index_celulas_validas = Math.floor(Math.random() * celulas_validas.length);
-                antiga[0]=celulas_validas[index_celulas_validas][0][0];
-                antiga[1]=celulas_validas[index_celulas_validas][0][1];
-                const index_nova_cell = Math.floor(Math.random() * ((celulas_validas[index_celulas_validas].length-1)))+1;
-                nova[0]=celulas_validas[index_celulas_validas][index_nova_cell][0];
-                nova[1]=celulas_validas[index_celulas_validas][index_nova_cell][1];
-            }else{              // [ [pos das nossas pecas], [pos de celulas vazias]]
-                   // formato novo [ [[peça nossa],[casas vazias]], [[peça nossa],[casas vazias]], [[peça nossa],[casas vazias]]]
-                const index_peca = Math.floor(Math.random() * 3); // returna um indice 0 , 1 ou 2 para escolher qual peca mover
-                const index_celula = Math.floor(Math.random() * celulas_validas[index_peca][1].length);
-                antiga[0]=celulas_validas[index_peca][0][0];
-                antiga[1]=celulas_validas[index_peca][0][1];
-                nova[0]=celulas_validas[index_peca][1][index_celula][0];
-                nova[1]=celulas_validas[index_peca][1][index_celula][1];
-            }
-
-            game.peca_para_mover = [antiga[0],antiga[1]];
-        }
-
-        /**/
-        // Limpar as funções 
-        /*
-        document.querySelectorAll('.jogo .cell').forEach(cell => {
-            cell.classList.remove('old_position','new_position');
-        });
-        
-
-        if(antiga != [-1,-1] && nova != [-1,-1]){
-            if (game.pieces[0] == 3 && game.pieces[1] == 3) game.jogadas_para_empatar--; // se chegar aqui significa que vai gastar uma jogada caso esteja 3pecas vs 3pecas
-
-            let div_peca_escolhida = document.querySelector(`[data-index="${antiga[0]},${antiga[1]}"]`);
-            let nome_peca_escolhida = div_peca_escolhida.classList[1];
-            let div_nova_posicao = document.querySelector(`[data-index="${nova[0]},${nova[1]}"]`);
-
-            ////
-            div_peca_escolhida.classList.add('old_position');
-            div_peca_escolhida.classList.remove(nome_peca_escolhida); //eliminar no html do local atual
-            div_nova_posicao.classList.add(nome_peca_escolhida); // mover no html para o novo local
-            ///
-            div_nova_posicao.classList.add('new_position');
-
-            //criar time out para a old poss
-            setTimeout(() => {
-                div_peca_escolhida.classList.remove('old_position');
-            }, 3000);
-
-            game.mover_peca(nova[0],nova[1]); // mover no objeto
-            
-        }
-
-
-        if (game.check_moinho(nova[0],nova[1])){
-            game.remove_peca = true;
-            document.querySelector('.game_fase').textContent = 'Eliminar Peça';
-        }else{
-            game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
-        }
-    }
-
-    if (game.remove_peca){
-
-        // obter a posicao da peca a eliminar
-        let square, position;
-        if(CPU == 'AI'){ //minimax
-            const celulas_validas = executeMinimaxMove(evaluateBoard, game.dificuldade[game.turn])(game); // receber a posicao para colocar
-            square = celulas_validas[0][0];
-            position = celulas_validas[0][1];
-
-        }else{ //random
-            const celulas_validas = game.jogadas_remover();
-            const index_celulas_validas = Math.floor(Math.random() * celulas_validas.length);
-            square = celulas_validas[index_celulas_validas][0];
-            position = celulas_validas[index_celulas_validas][1];
-        }
-
-
-        game.remover_peca(square,position);
-        game.remove_peca = false;
-
-        // adicina no html na div de pecas eliminadas uma nova peca
-        let cell_pecas = game.turn == 0 ? document.querySelector('.player_2_pieces > .pecas_eliminadas') : document.querySelector('.player_1_pieces > .pecas_eliminadas');
-        let cell_peca = document.createElement('div');
-        cell_peca.classList.add("peca");
-        cell_pecas.appendChild(cell_peca);
-        // retirar do html a peca na board
-        let celula_remover = document.querySelector(`[data-index="${square},${position}"]`);
-        celula_remover.classList.remove(celula_remover.classList[1]);
-
-        if (game.is_terminal_move()){
-            document.querySelector('.player_turn').textContent = "Jogo terminado";
-            document.querySelector('.game_fase').textContent = `${CPU} ganhou`;
-        }else{
-            game.turn = game.turn == 1 ? 0 : 1; // alternar a vez
-            document.querySelector('.player_turn').textContent = `${game.player_info[game.turn]}`; // alternar o texto a indicar a vez
-            document.querySelector('.game_fase').textContent = game.fase ? 'Mover peças': 'Colocar Peças';
-            return;
-        }
-
-    }
-}
-*/
 
 module.exports.trilha = trilha;
 module.exports.player_move = player_move;

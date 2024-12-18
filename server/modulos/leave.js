@@ -1,11 +1,9 @@
 const fs = require('fs');
 const crypto = require('crypto'); 
 const { games,waitingPlayers } = require('./join');
-const { trilha, player_move } = require('../jogo');
 const { updateRanking } = require('./ranking.js')
 
 const FILE_PATH = './players.json';
-//const WAITING_PATH = './waitingPlayers.json';
 
 
 const readPlayersFromFile = () => {
@@ -59,9 +57,6 @@ function handleLeave(req, res, body) {
                 jogo.winner = jogo.player_info[0];
             }
             updateRanking(game_data);
-            // res.writeHead(200, {'COntent-Type': 'application/json'});
-            // res.end(JSON.stringify({sucess: 'Abandonou a procura', "winner": jogo.winner}));
-
             game_data.stream_1.write(
                 `data: ${JSON.stringify({"winner": jogo.winner})}\n\n`
             )
