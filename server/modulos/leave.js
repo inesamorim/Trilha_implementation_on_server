@@ -59,8 +59,15 @@ function handleLeave(req, res, body) {
                 jogo.winner = jogo.player_info[0];
             }
             updateRanking(game_data);
-            res.writeHead(200, {'COntent-Type': 'application/json'});
-            res.end(JSON.stringify({sucess: 'Abandonou a procura', "winner": jogo.winner}));
+            // res.writeHead(200, {'COntent-Type': 'application/json'});
+            // res.end(JSON.stringify({sucess: 'Abandonou a procura', "winner": jogo.winner}));
+
+            game_data.stream_1.write(
+                `data: ${JSON.stringify({"winner": jogo.winner})}\n\n`
+            )
+            game_data.stream_2.write(
+                `data: ${JSON.stringify({"winner": jogo.winner})}\n\n`
+            )
             
         } else { // se nao entao vai abandonar a procura
             
@@ -71,11 +78,11 @@ function handleLeave(req, res, body) {
             }
             res.writeHead(200, {'COntent-Type': 'application/json'});
             res.end(JSON.stringify({sucess: 'Abandonou a procura', "winner": null}));
+
+            
         }
-            
-            
-
-
+   
+           
 
     } catch (err) {
         console.log(err);
