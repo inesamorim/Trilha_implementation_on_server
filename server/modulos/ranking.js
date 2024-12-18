@@ -67,13 +67,15 @@ function updateRanking(game_data){
     // Find the player by nick
     let player1 = boardSize.find(player => player.nick === game_data.jogo.player_info[0]);
     if (!player1) {
-        console.error(`Player ${nick} does not exist.`);
-        return;
+        let newPlayerNick1 = game_data.jogo.player_info[0];
+        player1 = { nick: newPlayerNick1, games: 0, victories: 0 };
+        boardSize.push(player1);
     }
     let player2 = boardSize.find(player => player.nick === game_data.jogo.player_info[1]);
     if (!player2) {
-      console.error(`Player ${nick} does not exist.`);
-      return;
+        let newPlayerNick2 = game_data.jogo.player_info[1];
+        player2 = { nick: newPlayerNick2, games: 0, victories: 0 };
+        boardSize.push(player2);
     }
     
     player1.games++; player2.games++;
@@ -82,7 +84,6 @@ function updateRanking(game_data){
     }else{
         player2.victories++;
     }
-
 
     writeRankingToFile(rankingData);
 }
